@@ -5,7 +5,7 @@ Biblioteka ma za zadanie ułatwić proces komunikacji z usługą eWUŚ. Szczegó
 
 Użycie
 ------
-Poniższy kod pozwala na pobranie uprawnień osoby o wskazanym numerze PESEL 00000000000 przy założeniu, że konto skojarzone jest z 15-tym odziałem NFZ. 
+Poniższy kod pozwala na pobranie uprawnień osoby o numerze PESEL 00000000000, przy założeniu, że konto skojarzone jest z 15-tym odziałem NFZ. 
 
     require_once 'Ewus/Client.php';
     
