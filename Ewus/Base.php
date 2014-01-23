@@ -87,11 +87,10 @@ abstract class Base {
      * @return \SoapClient
      * @throws ServiceException
      */
-    public function getBrokerService($params = array()) {
+    public function getBrokerService() {
         if ($this->_brokerService===null) {
             try {
-                
-                $this->_brokerService = new \SoapClient($this->_brokerServiceUrl,$params);
+                $this->_brokerService = new \SoapClient($this->_brokerServiceUrl);
             } catch(Exception $e) {
                 throw new ServiceException('Usługa brokera eWUŚ nie jest dostępna.');
             }
