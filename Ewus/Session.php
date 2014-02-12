@@ -248,7 +248,7 @@ class Session extends Base {
      * @return CWUResponse
      * @throws InputException
      */
-    public function checkCWU($pesel, $flags = 31) {
+    public function checkCWU($pesel, $flags = 63) {
         $today = date('Y-m-d',time());
 
         $xml = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:com="http://xml.kamsoft.pl/ws/common" xmlns:brok="http://xml.kamsoft.pl/ws/broker">
