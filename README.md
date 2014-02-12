@@ -46,16 +46,16 @@ Array
 
 Identyfikatory tablicy odpowiadają stałym z klasy `Ewus\CWURESPONSE`:
 - FLAG_STATUS (1) - status ubezpieczenia, możliwe wartości: 
-	+ osoba ubezpieczona (1),
-	+ osoba nieubezpieczona (0),
-	+ status nieaktualny (-1).
+  + osoba ubezpieczona (1),
+  + osoba nieubezpieczona (0),
+  + status nieaktualny (-1).
 - FLAG_OPERATION_ID (2) - identyfikator operacji,
 - FLAG_RESPONSE (4) - całość odpowiedzi XML,
 - FLAG_PATIENT_NAME (8) - imię pacjenta,
 - FLAG_PATIENT_SURNAME (16) - nazwisko pacjenta,
 - FLAG_PROVIDER (32) - oddział NFZ.
     
-Metoda `checkCWU` umożliwia pobranie jedynie wybiórczych danych, dla przykładu, poniższy kod pobierze imię oraz nazwisko osoby o wskazanym pesel:
+Metoda `checkCWU` umożliwia pobranie jedynie wybiórczych danych, dla przykładu, poniższy kod pobierze imię oraz nazwisko osoby o wskazanym PESEL:
 
 ```php
 require_once 'Ewus/CWUResponse.php';
