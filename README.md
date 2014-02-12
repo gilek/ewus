@@ -9,7 +9,7 @@ W obecnej chwili funkcjonalność systemu w większości jest tożsama z usługa
 
 Wymagania
 ---------
-EWUS do prawidłowego działa wymaga interpretera PHP w wersji 5.3 (lub późniejszej) wraz z następującymi rozszerzeniami:
+Ewus do prawidłowego działa wymaga interpretera PHP w wersji 5.3 (lub późniejszej) wraz z następującymi rozszerzeniami:
 - [SOAP](http://www.php.net/manual/en/book.soap.php),
 - [DOM](http://pl1.php.net/manual/en/book.dom.php).
 
