@@ -31,7 +31,7 @@ Powyższy kod ma za zadanie:
 2.  Pobrać poświadczenia osoby o PESEL `XXXXXXXXXXX`.
 3.  Zwrócić kolekcję danych, które udało się pozyskać.
 
-Wynik przetwarzania będzie:
+Wynikiem przetwarzania będzie:
 ```php
 Array
 (
