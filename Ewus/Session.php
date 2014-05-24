@@ -194,7 +194,6 @@ class Session extends Base {
     /**
      * 
      * @param string $newPassword
-     * @param array $params
      * @return string
      * @throws ResponseException
      */
@@ -247,10 +246,9 @@ class Session extends Base {
      * @param integer $flags
      * @return CWUResponse
      * @throws InputException
+     * @throws Exception
      */
     public function checkCWU($pesel, $flags = 63) {
-        $today = date('Y-m-d',time());
-
         $xml = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:com="http://xml.kamsoft.pl/ws/common" xmlns:brok="http://xml.kamsoft.pl/ws/broker">
            <soapenv:Header>
               <com:session id="' . $this->getSessionId() . '" xmlns:ns1="http://xml.kamsoft.pl/ws/common"/>
@@ -293,11 +291,10 @@ class Session extends Base {
     
     /**
      * 
-     * @param DOMDocument $doc
+     * @param \DOMDocument $doc
      * @param integer $flags
      * @return CWUResponse
      * @throws ResponseException
-     * @throws CWUResponseException
      */
     public function getChckCWUData(\DOMDocument $doc,$flags) {        
         $xpath = new \DOMXpath($doc);
@@ -354,7 +351,7 @@ class Session extends Base {
             if ($status==='1') { 
                 $elements = $xpath->query("//odp:id_ow");
                 if ($elements->length !== 1)
-                    throw new CWUResponseException('Nie można pobrać informacji o identyfikatorze świadczeniodawcy.');
+                    throw new ResponseException('Nie można pobrać informacji o identyfikatorze świadczeniodawcy.');
             } 
             $response->setData(CWUResponse::FLAG_PROVIDER, $status==='1' ? $elements->item(0)->nodeValue : null);
         }           
