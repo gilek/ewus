@@ -12,15 +12,15 @@ require_once 'Session.php';
 require_once 'Exceptions.php';
 
 class Client extends Base {
-    
-/**
- * 
- * @param string $user
- * @param string $password
- * @param string $params
- * @return Session
- * @throws SessionException
- */
+
+    /**
+     *
+     * @param string $user
+     * @param string $password
+     * @param array $params
+     * @throws SessionException
+     * @return Session
+     */
     public function login($user,$password,$params=array()) {
         $xml = '<soapenv:Envelope xmlns:soapenv = "http://schemas.xmlsoap.org/soap/envelope/" xmlns:auth = "http://xml.kamsoft.pl/ws/kaas/login_types">
             <soapenv:Header/>
@@ -70,8 +70,9 @@ class Client extends Base {
         if (false === preg_match_all('/^\[([0-9]{3})\] (.*)$/',$message = $element->item(0)->nodeValue,$matches) || count($matches)!=3) {
             throw new SessionException('Nieprawidłowy format informacji zwrotnej.'); 
         }  
+        $session->setLogin($user);
         $session->setLoginMessage($matches[2][0]);
-        $session->setLoginMessageCode($matches[1][0]);        
+        $session->setLoginMessageCode($matches[1][0]);
         $session->setLoginParams($params); 
         
         return $session;

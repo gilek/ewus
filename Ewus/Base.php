@@ -13,7 +13,7 @@ abstract class Base {
     
     /**
      *
-     * @var SoapClient 
+     * @var \SoapClient
      */
     private $_authService;    
     
@@ -25,7 +25,7 @@ abstract class Base {
              
     /**
      *
-     * @var SoapClient 
+     * @var \SoapClient
      */
     private $_brokerService;
 
@@ -37,7 +37,7 @@ abstract class Base {
     
     /**
      *
-     * @var DOMDocument 
+     * @var \DOMDocument
      */
     protected $_lastDomReponse;    
     
@@ -67,9 +67,9 @@ abstract class Base {
     
     /**
      * 
-     * @param SoapClient $authService
+     * @param \SoapClient $authService
      */
-    public function setAuthService(SoapClient $authService) {
+    public function setAuthService(\SoapClient $authService) {
         $this->_authService = $authService;
     }
 
@@ -82,8 +82,7 @@ abstract class Base {
     }    
     
     /**
-     * 
-     * @param array $params
+     *
      * @return \SoapClient
      * @throws ServiceException
      */
@@ -104,6 +103,14 @@ abstract class Base {
      */
     public function getBrokerServiceUrl() {
         return $this->_brokerServiceUrl;
+    }
+
+    /**
+     *
+     * @param string $brokerServiceUrl
+     */
+    public function setBrokerServiceUrl($brokerServiceUrl) {
+        $this->_brokerServiceUrl = $brokerServiceUrl;
     }
 
     /**
@@ -138,7 +145,8 @@ abstract class Base {
             if ($com->length>=1) {
                 $exceptionType = $com->item(0)->getAttribute("xsi:type");
                 $exceptionName = '\\Ewus\\'.mb_substr($exceptionType,  mb_strpos($exceptionType, ':')+1);
-                
+
+                /** @var Exception $e */
                 $e = new $exceptionName;
 
                 $com = $xpath->query('//com:faultstring');
