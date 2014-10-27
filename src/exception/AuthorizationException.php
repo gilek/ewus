@@ -9,7 +9,7 @@
 
 namespace gilek\ewus\exception;
 
-class AuthorizationException extends gilek\ewus\exception\Exception
+class AuthorizationException extends Exception
 {
     
 }

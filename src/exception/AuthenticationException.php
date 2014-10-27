@@ -9,7 +9,7 @@
 
 namespace gilek\ewus\exception;
 
-class InputException extends Exception
+class AuthenticationException extends Exception
 {
     
 }

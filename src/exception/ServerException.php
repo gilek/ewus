@@ -9,7 +9,7 @@
 
 namespace gilek\ewus\exception;
 
-class ServerException extends gilek\ewus\exception\Exception
+class ServerException extends Exception
 {
     
 }

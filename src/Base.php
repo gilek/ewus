@@ -13,6 +13,7 @@ use gilek\ewus\exception\Exception;
 use gilek\ewus\exception\ServiceException;
 use gilek\ewus\exception\ResponseException;
 use gilek\ewus\exception\AuthorizationException;
+use gilek\ewus\exception\AuthenticationException;
 
 abstract class Base
 {
@@ -132,6 +133,7 @@ abstract class Base
      * @return boolean
      * @throws ResponseException
      * @throws AuthorizationException
+     * @throws AuthenticationException
      * @throws Exception
      */
     protected function _parseResponse($response)
