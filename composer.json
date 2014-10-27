@@ -1,0 +1,19 @@
+{
+    "name": "gilek/ewus",
+    "description": "Biblioteka do usprawnienia komunikacji z systemem eWUŚ.",
+    "keywords": ["ewus", "nfz", "biblioteka"],
+    "homepage": "https://github.com/gilek/Ewus",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Maciej Kłak",
+            "email": "klak.maciej@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "gilek\\ewus\\": "src/"
+        }
+    }
+}
