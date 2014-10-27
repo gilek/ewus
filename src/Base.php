@@ -160,7 +160,7 @@ abstract class Base
             $com = $xpath->query('//com:*');
             if ($com->length >= 1) {
                 $exceptionType = $com->item(0)->getAttribute("xsi:type");
-                $exceptionName = '\\Ewus\\' . mb_substr($exceptionType, mb_strpos($exceptionType, ':') + 1);
+                $exceptionName = '\\gilek\\ewus\\exception\\' . mb_substr($exceptionType, mb_strpos($exceptionType, ':') + 1);
 
                 /** @var Exception $e */
                 $e = new $exceptionName;
