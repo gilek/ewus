@@ -61,5 +61,5 @@ Metoda `checkCWU` umożliwia pobranie jedynie wybiórczych danych, dla przykład
 use gilek\ewus\CWUResponse;
 
 ...
-$response = $session->checkCWU('XXXXXXXXXXX',Ewus\CWUResponse::FLAG_PATIENT_NAME | Ewus\CWUResponse::FLAG_PATIENT_SURNAME);
+$response = $session->checkCWU('XXXXXXXXXXX',CWUResponse::FLAG_PATIENT_NAME | CWUResponse::FLAG_PATIENT_SURNAME);
 ```	
