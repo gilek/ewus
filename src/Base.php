@@ -12,6 +12,7 @@ namespace gilek\ewus;
 use gilek\ewus\exception\Exception;
 use gilek\ewus\exception\ServiceException;
 use gilek\ewus\exception\ResponseException;
+use gilek\ewus\exception\AuthorizationException;
 
 abstract class Base
 {
@@ -130,6 +131,7 @@ abstract class Base
      * @param string $response
      * @return boolean
      * @throws ResponseException
+     * @throws AuthorizationException
      * @throws Exception
      */
     protected function _parseResponse($response)

@@ -16,9 +16,9 @@ Ewus do prawidłowego działa wymaga interpretera PHP w wersji 5.3 (lub późnie
 Użycie
 ------
 ```php
-require_once 'Ewus/Client.php';
+use gilek\ewus\Client;
     
-$client = new Ewus\Client();
+$client = new Client();
 $session = $client->login('login', 'password', array('domain'=>15));
 $response = $session->checkCWU('XXXXXXXXXX');
 
@@ -58,7 +58,8 @@ Identyfikatory tablicy odpowiadają stałym z klasy `Ewus\CWURESPONSE`:
 Metoda `checkCWU` umożliwia pobranie jedynie wybiórczych danych, dla przykładu, poniższy kod pobierze imię oraz nazwisko osoby o wskazanym PESEL:
 
 ```php
-require_once 'Ewus/CWUResponse.php';
+use gilek\ewus\CWUResponse;
+
 ...
 $response = $session->checkCWU('XXXXXXXXXXX',Ewus\CWUResponse::FLAG_PATIENT_NAME | Ewus\CWUResponse::FLAG_PATIENT_SURNAME);
 ```	
