@@ -16,6 +16,7 @@ Ewus do prawidłowego działa wymaga interpretera PHP w wersji 5.3 (lub późnie
 Użycie
 ------
 ```php
+<?php
 use gilek\ewus\Client;
     
 $client = new Client();
@@ -23,6 +24,7 @@ $session = $client->login('login', 'password', array('domain'=>15));
 $response = $session->checkCWU('XXXXXXXXXX');
 
 print_r($response->getData());
+?>
 ```
 
 Powyższy kod ma za zadanie:
@@ -33,6 +35,7 @@ Powyższy kod ma za zadanie:
 
 Wynikiem przetwarzania będzie:
 ```php
+<?php
 Array
 (
     [1] => 1
@@ -42,6 +45,7 @@ Array
     [16] => XXXX
 	[32] => 15	
 )
+?>
 ```
 
 Identyfikatory tablicy odpowiadają stałym z klasy `Ewus\CWURESPONSE`:
@@ -58,8 +62,10 @@ Identyfikatory tablicy odpowiadają stałym z klasy `Ewus\CWURESPONSE`:
 Metoda `checkCWU` umożliwia pobranie jedynie wybiórczych danych, dla przykładu, poniższy kod pobierze imię oraz nazwisko osoby o wskazanym PESEL:
 
 ```php
+<?php
 use gilek\ewus\CWUResponse;
 
 ...
 $response = $session->checkCWU('XXXXXXXXXXX', CWUResponse::FLAG_PATIENT_NAME | CWUResponse::FLAG_PATIENT_SURNAME);
+?>
 ```	
