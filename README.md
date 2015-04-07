@@ -1,7 +1,7 @@
 Ewus
 ====
 Biblioteka Ewus została stworzona w celu ułatwienia komunikacji z systemem [eWUŚ](https://ewus.nfz.gov.pl/ap-ewus/).
-W obecnej chwili funkcjonalność systemu w większości jest tożsama z usługami eWUŚ dostępnymi w wersji [1.6](http://www.nfz.gov.pl/new/index.php?katnr=9&dzialnr=3&artnr=5844) tj.
+W obecnej chwili funkcjonalność systemu w większości jest tożsama z usługami eWUŚ dostępnymi w wersji [1.6](http://www.nfz.gov.pl/dla-swiadczeniodawcy/ewus/tworcy-oprogramowania/) tj.
 - logowanie,
 - wylogowywanie,
 - pobieranie poświadczenia,
