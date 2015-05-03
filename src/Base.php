@@ -3,8 +3,6 @@
 /*
  * @author Maciej "Gilek" Kłak
  * @copyright Copyright &copy; 2014 Maciej "Gilek" Kłak
- * @version 1.1a
- * @package ewus
  */
 
 namespace gilek\ewus;
@@ -137,7 +135,9 @@ abstract class Base
      * @throws Exception
      */
     protected function _parseResponse($response)
-    {
+    {           
+        //echo $response.PHP_EOL;
+        
         if (strlen($response) === 0) {
             throw new ResponseException('Brak odpowiedzi na żądanie.');
         }

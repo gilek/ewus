@@ -2,9 +2,7 @@
 
 /*
  * @author Maciej "Gilek" Kłak
- * @copyright Copyright &copy; 2014 Maciej "Gilek" Kłak
- * @version 1.1a
- * @package ewus
+ * @copyright Copyright &copy; 2015 Maciej "Gilek" Kłak
  */
 
 namespace gilek\ewus;
@@ -217,7 +215,7 @@ class Session extends Base
      * @throws ResponseException
      */
     public function changePassword($newPassword)
-    {
+    {        
         $xml = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:com="http://xml.kamsoft.pl/ws/common" xmlns:auth="http://xml.kamsoft.pl/ws/kaas/login_types">
             <soapenv:Header>
                <com:authToken id="' . $this->getToken() . '"/>
@@ -243,7 +241,6 @@ class Session extends Base
                 </auth:changePassword>
             </soapenv:Body>
         </soapenv:Envelope>';
-
 
         $service = $this->getAuthService();
         $response = $service->__doRequest($xml, $this->getAuthServiceUrl(), 'executeService', SOAP_1_1);

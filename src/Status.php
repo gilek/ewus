@@ -2,9 +2,7 @@
 
 /*
  * @author Maciej "Gilek" Kłak
- * @copyright Copyright &copy; 2014 Maciej "Gilek" Kłak
- * @version 1.1a
- * @package ewus
+ * @copyright Copyright &copy; 2015 Maciej "Gilek" Kłak
  */
 
 namespace gilek\ewus;

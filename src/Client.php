@@ -2,9 +2,7 @@
 
 /*
  * @author Maciej "Gilek" Kłak
- * @copyright Copyright &copy; 2014 Maciej "Gilek" Kłak
- * @version 1.1a
- * @package ewus
+ * @copyright Copyright &copy; 2015 Maciej "Gilek" Kłak
  */
 
 namespace gilek\ewus;
@@ -76,6 +74,7 @@ class Client extends Base
             throw new SessionException('Nieprawidłowy format informacji zwrotnej.');
         }
         $session->setLogin($user);
+        $session->setPassword($password);
         $session->setLoginMessage($matches[2][0]);
         $session->setLoginMessageCode($matches[1][0]);
         $session->setLoginParams($params);
