@@ -1,37 +1,29 @@
 <?php
 
-/*
- * @author Maciej "Gilek" Kłak
- * @copyright Copyright &copy; 2015 Maciej "Gilek" Kłak
- */
+namespace gilek\ewus\responses;
 
-namespace gilek\ewus;
-
-use gilek\ewus\exception\Exception;
-
-class Status
+class CheckPeselResponse extends Response
 {
+    const DATA_STATUS = 1;
 
-    /**
-     * 
-     */
+    const DATA_OPERATION_ID = 2;
+
+    const DATA_PATIENT_NAME = 3;
+
+    const DATA_PATIENT_SURNAME = 4;
+
+    const DATA_PROVIDER = 5;    
+    
     const STATUS_GOOD = 1;
 
-    /**
-     * 
-     */
     const STATUS_BAD = 0;
 
-    /**
-     * 
-     */
     const STATUS_OUT_OF_DATE = -1;
 
-    /**
-     * 
-     */
     const STATUS_NOT_EXIST = 99;
 
+    private $data = [];
+    
     /**
      * 
      * @param integer $status
@@ -55,6 +47,31 @@ class Status
             }
         }    
         return $data[$status];
+    }    
+    
+    /**
+     * 
+     * @param string $section
+     * @return mixed
+     */
+    function getData($section = null) {
+        return $section === null ? $this->data : $this->data[$section];
     }
 
+    /**
+     * 
+     * @param mixed $data
+     * @param string $section
+     */
+    function setData($data, $section = null) {
+        if($section === null) {
+            $this->data = $data;
+        } else {
+            $this->data[$section] = $data;
+        }
+    }
+
+
 }
+
+

@@ -1,85 +1,107 @@
 <?php
 
-/*
- * @author Maciej "Gilek" Kłak
- * @copyright Copyright &copy; 2015 Maciej "Gilek" Kłak
- */
-
 namespace gilek\ewus;
 
-use gilek\ewus\Session;
-use gilek\ewus\exception\SessionException;
+use gilek\ewus\drivers\Driver;
+use gilek\ewus\responses\Session;
+use gilek\ewus\services\ServiceManager;
+use gilek\ewus\operations\LoginOperation;
+use gilek\ewus\operations\Operation;
+use gilek\ewus\services\Service;
+use gilek\ewus\operations\CheckPeselOperation;
+use gilek\ewus\operations\LogoutOperation;
 
-class Client extends Base
-{
-
+class Client {
     /**
      *
-     * @param string $user
-     * @param string $password
-     * @param array $params
-     * @throws SessionException
+     * @var Driver
+     */
+    private $driver;
+    
+    /**
+     *
+     * @var Session 
+     */
+    private $session;
+        
+    /**
+     * 
+     * @param Driver $driver
+     */
+    public function __construct(Driver $driver) {
+        $this->driver = $driver;
+    }
+    
+    /**
+     * 
      * @return Session
      */
-    public function login($user, $password, $params = array())
-    {
-        $xml = '<soapenv:Envelope xmlns:soapenv = "http://schemas.xmlsoap.org/soap/envelope/" xmlns:auth = "http://xml.kamsoft.pl/ws/kaas/login_types">
-            <soapenv:Header/>
-            <soapenv:Body>
-                <auth:login>
-                    <auth:credentials>
-                        <auth:item>
-                            <auth:name>login</auth:name>
-                            <auth:value><auth:stringValue>' . $user . '</auth:stringValue></auth:value>
-                        </auth:item>';
-        foreach ($params as $key => $value) {
-            $xml.= '<auth:item>
-                            <auth:name>' . $key . '</auth:name>
-                            <auth:value><auth:stringValue>' . $value . '</auth:stringValue></auth:value>
-                        </auth:item>';
-        }
-        $xml .= '</auth:credentials>
-                    <auth:password>' . $password . '</auth:password>
-                </auth:login>
-            </soapenv:Body>
-        </soapenv:Envelope>';
-
-        $service = $this->getAuthService();
-        $response = $service->__doRequest($xml, $this->_authServiceUrl, 'executeService', SOAP_1_1);
-        $this->_parseResponse($response);
-
-        $xpath = new \DOMXpath($this->_lastDomReponse);
-        $xpath->registerNamespace('com', 'http://xml.kamsoft.pl/ws/common');
-        $xpath->registerNamespace('lt', 'http://xml.kamsoft.pl/ws/kaas/login_types');
-
-        $session = new Session();
-
-        $element = $xpath->query("//com:session");
-        if ($element->length === 0) {
-            throw new SessionException('Nie można pobrać informacji o identifikatorze sesji.');
-        }
-        $session->setSessionId($element->item(0)->getAttribute('id'));
-
-        $element = $xpath->query("//com:authToken");
-        if ($element->length === 0) {
-            throw new SessionException('Nie można pobrać informacji o tokenie.');
-        }
-        $session->setToken($element->item(0)->getAttribute('id'));
-
-        $element = $xpath->query("//lt:loginReturn");
-        if ($element->length === 0) {
-            throw new SessionException('Nie można pobrać informacji zwrotnej.');
-        }
-        if (false === preg_match_all('/^\[([0-9]{3})\] (.*)$/', $message = $element->item(0)->nodeValue, $matches) || count($matches) != 3) {
-            throw new SessionException('Nieprawidłowy format informacji zwrotnej.');
-        }
-        $session->setLogin($user);
-        $session->setPassword($password);
-        $session->setLoginMessage($matches[2][0]);
-        $session->setLoginMessageCode($matches[1][0]);
-        $session->setLoginParams($params);
-
-        return $session;
+    public function getSession() {
+        return $this->session;
     }
 
+    /**
+     * 
+     * @param Session $session
+     */
+    public function setSession(Session $session) {
+        $this->session = $session;
+    }
+
+    /**
+     * 
+     * @param string $login
+     * @param string $password
+     * @param array $params
+     * @return Response
+     */
+    public function login($login, $password, $params) {
+        $response = $this->doOperation(new LoginOperation($login, $password, $params), ServiceManager::get('auth'));
+        if ($response instanceof LoginResponse) {
+            $this->setSession($response);
+        }
+        return $response;
+        
+    }
+        
+    /**
+     * 
+     * @param string $pesel
+     * @return Response     
+     */    
+    public function checkPesel($pesel) {
+        return $this->doOperation(new CheckPeselOperation($pesel), ServiceManager::get('broker'));        
+    }
+    
+    /**
+     * 
+     * @return Response
+     */
+    public function logout() {
+        return $this->doOperation(new LogoutOperation(), ServiceManager::get('auth'));            
+    }
+    
+    /**
+     * 
+     * @param string $newPassword
+     * @return Response
+     */
+    public function changePassword($newPassword) {
+        return $this->doOperation(new ChangePasswordOperation($newPassword), ServiceManager::get('auth'));          
+    }
+    
+    /**
+     * 
+     * @param Operation $operation
+     * @param Service $service
+     * @return type
+     */
+    public function doOperation(Operation $operation, Service $service) {
+        if ($this->getSession() !== null) {
+            $operation->setSession($this->getSession());
+        }
+        $this->driver->setService($service);
+        $operation->setDriver($this->driver);
+        return $operation->run();
+    }
 }
