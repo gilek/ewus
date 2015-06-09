@@ -18,19 +18,20 @@ Użycie
 ```php
 <?php
 use gilek\ewus\Client;
-    
-$client = new Client();
-$client->login('login', 'password', array('domain'=>15));
-$client->checkPesel('XXXXXXXXXX');
+use gilek\ewus\drivers\SoapDriver;
 
-print_r($response->getData());
+$client = new Client(new SoapDriver());
+$client->login('login', 'haslo', array('domain'=>15));
+$r = $client->checkPesel('NNNNNNNNNNN');
+print_r($r->getData());
+$client->logout();
 ?>
 ```
 
 Powyższy kod ma za zadanie:
 
 1.  Zalogować użytkownika `login` do systemu eWUŚ (konto skojarzone jest z 15 oddziałem NFZ).
-2.  Pobrać poświadczenia osoby o PESEL `XXXXXXXXXXX`.
+2.  Pobrać poświadczenia osoby o PESEL `NNNNNNNNNNN`.
 3.  Zwrócić kolekcję danych, które udało się pozyskać.
 
 Wynikiem przetwarzania będzie:
@@ -40,32 +41,19 @@ Array
 (
     [1] => 1
     [2] => L1514M00202027294	
-    [4] => <?xml version="1.0" encoding="utf-8"?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">...</soapenv:Envelope>
-    [8] => XXXXXX
-    [16] => XXXX
-	[32] => 15	
+    [3] => imie
+    [4] => nazwisko
+    [5] => 15
 )
 ?>
 ```
 
-Identyfikatory tablicy odpowiadają stałym z klasy `Ewus\CWURESPONSE`:
-- FLAG_STATUS (1) - status ubezpieczenia, możliwe wartości: 
+Identyfikatory tablicy odpowiadają stałym z klasy `gilek\ewus\responses\CheckPeselResponse`:
+- DATA_STATUS (1) - status ubezpieczenia, możliwe wartości: 
   + osoba ubezpieczona (1),
   + osoba nieubezpieczona (0),
   + status nieaktualny (-1).
-- FLAG_OPERATION_ID (2) - identyfikator operacji,
-- FLAG_RESPONSE (4) - całość odpowiedzi XML,
-- FLAG_PATIENT_NAME (8) - imię pacjenta,
-- FLAG_PATIENT_SURNAME (16) - nazwisko pacjenta,
-- FLAG_PROVIDER (32) - oddział NFZ.
-    
-Metoda `checkCWU` umożliwia pobranie jedynie wybiórczych danych, dla przykładu, poniższy kod pobierze imię oraz nazwisko osoby o wskazanym PESEL:
-
-```php
-<?php
-use gilek\ewus\CWUResponse;
-
-...
-$response = $session->checkCWU('XXXXXXXXXXX', CWUResponse::FLAG_PATIENT_NAME | CWUResponse::FLAG_PATIENT_SURNAME);
-?>
-```	
+- DATA_OPERATION_ID (2) - identyfikator operacji,
+- DATA_PATIENT_NAME (3) - imię pacjenta,
+- DATA_PATIENT_SURNAME (4) - nazwisko pacjenta,
+- DATA_PROVIDER (5) - oddział NFZ.
