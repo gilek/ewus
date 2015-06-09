@@ -1,6 +1,6 @@
 <?php
 
-namespace gilek\ewus\responses\Session;
+namespace gilek\ewus\responses;
 
 interface Session {
     /**
@@ -11,18 +11,26 @@ interface Session {
     
     /**
      * 
-     * @param string $sessionId
-     */
-    public function setSessionId($sessionId);
-    
-    /**
-     * 
      * return string 
      */
     public function getToken();
+    
     /**
      * 
-     * @param string $token
+     * @return string
      */
-    public function setToken($token);
+    public function getLogin();
+    
+    /**
+     * 
+     * @return string
+     */
+    public function getPassword();
+    
+    /**
+     * 
+     * @return array
+     */
+    public function getLoginParams();    
+        
 }

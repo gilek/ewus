@@ -40,7 +40,7 @@ class SoapDriver implements Driver {
      * 
      * @inheritdoc
      */
-    function getService() {
+    public function getService() {
         return $this->service;
     }
 
@@ -48,7 +48,7 @@ class SoapDriver implements Driver {
      * 
      * @inheritdoc
      */
-    function setService(Service $service) {
+    public function setService(Service $service) {
         $this->service = $service;
     }
 

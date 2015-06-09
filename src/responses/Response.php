@@ -22,7 +22,7 @@ abstract class Response
      * 
      * @return string
      */
-    function getResponseXml() {
+    public function getResponseXml() {
         return $this->responseXml;
     }
 
@@ -30,7 +30,7 @@ abstract class Response
      * 
      * @param string $responseXml
      */
-    function setResponseXml($responseXml) {
+    public function setResponseXml($responseXml) {
         $this->responseXml = $responseXml;
     }
     
@@ -38,7 +38,7 @@ abstract class Response
      * 
      * @return Operation
      */
-    function getOperation() {
+    public function getOperation() {
         return $this->operation;
     }
 
@@ -46,7 +46,7 @@ abstract class Response
      * 
      * @param Operation $operation
      */
-    function setOperation(Operation $operation) {
+    public function setOperation(Operation $operation) {
         $this->operation = $operation;
     }
 }

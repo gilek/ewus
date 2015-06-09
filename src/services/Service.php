@@ -2,8 +2,11 @@
 
 namespace gilek\ewus\services;
 
-interface Service {
+interface Service 
+{
+    
     /**
+     * 
      * @return string
      */
     public function getUrl();

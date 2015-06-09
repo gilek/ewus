@@ -20,8 +20,8 @@ Użycie
 use gilek\ewus\Client;
     
 $client = new Client();
-$session = $client->login('login', 'password', array('domain'=>15));
-$response = $session->checkCWU('XXXXXXXXXX');
+$client->login('login', 'password', array('domain'=>15));
+$client->checkPesel('XXXXXXXXXX');
 
 print_r($response->getData());
 ?>

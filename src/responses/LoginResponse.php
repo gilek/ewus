@@ -40,7 +40,7 @@ class LoginResponse extends Response implements Session {
      * 
      * @inheritdoc
      */
-    function getToken() {
+    public function getToken() {
         return $this->token;
     }
 
@@ -56,23 +56,47 @@ class LoginResponse extends Response implements Session {
      * 
      * @inheritdoc
      */
-    function setToken($token) {
+    public function setToken($token) {
         $this->token = $token;
+    }
+    
+    /**
+     * 
+     * @inheritdoc
+     */
+    public function getLogin() {
+        return $this->getOperation()->getLogin();
+    }
+    
+    /**
+     * 
+     * @inheritdoc
+     */
+    public function getPassword() {
+        return $this->getOperation()->getPassword();
+    }
+    
+    /**
+     * 
+     * @inheritdoc
+     */
+    public function getLoginParams() {
+        return $this->getOperation()->getParams();
+    }    
+    
+    /**
+     * 
+     * @return string
+     */
+    public function getLoginMessage() {
+        return $this->loginMessage;
     }
     
     /**
      * 
      * @return string
      */
-    function getLoginMessage() {
-        return $this->loginMessage;
-    }
-
-    /**
-     * 
-     * @return string
-     */
-    function getLoginMessageCode() {
+    public function getLoginMessageCode() {
         return $this->loginMessageCode;
     }
 
@@ -80,7 +104,7 @@ class LoginResponse extends Response implements Session {
      * 
      * @param string $loginMessage
      */
-    function setLoginMessage($loginMessage) {
+    public function setLoginMessage($loginMessage) {
         $this->loginMessage = $loginMessage;
     }
 
@@ -88,7 +112,7 @@ class LoginResponse extends Response implements Session {
      * 
      * @param string $loginMessageCode
      */
-    function setLoginMessageCode($loginMessageCode) {
+    public function setLoginMessageCode($loginMessageCode) {
         $this->loginMessageCode = $loginMessageCode;
     }
 

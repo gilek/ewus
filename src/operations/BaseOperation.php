@@ -3,7 +3,7 @@
 namespace gilek\ewus\operations;
 
 use gilek\ewus\drivers\Driver;
-use gilek\ewus\exception\ResponseException;
+use gilek\ewus\exceptions\ResponseException;
 use gilek\ewus\responses\Session;
 
 abstract class BaseOperation implements Operation

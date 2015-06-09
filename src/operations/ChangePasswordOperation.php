@@ -16,7 +16,7 @@ class ChangePasswordOperation extends BaseOperation
      * 
      * @return string
      */
-    function getNewPassword() {
+    public function getNewPassword() {
         return $this->newPassword;
     }
 
@@ -24,7 +24,7 @@ class ChangePasswordOperation extends BaseOperation
      * 
      * @param string $newPassword
      */
-    function setNewPassword($newPassword) {
+    public function setNewPassword($newPassword) {
         $this->newPassword = $newPassword;
     }
 
@@ -41,32 +41,35 @@ class ChangePasswordOperation extends BaseOperation
      * @inheritdoc
      */
     public function makeRequestXml() {
-        $request = $this->getSession()->getRequest();
+        $session = $this->getSession();
         $xml = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:com="http://xml.kamsoft.pl/ws/common" xmlns:auth="http://xml.kamsoft.pl/ws/kaas/login_types">
             <soapenv:Header>
-               <com:authToken id="' . $this->getSession()->getToken() . '"/>
-               <com:session id="' . $this->getSession()->getSessionId() . '"/>               
+               <com:authToken id="' . $session->getToken() . '"/>
+               <com:session id="' . $session->getSessionId() . '"/>               
             </soapenv:Header>
             <soapenv:Body>
                 <auth:changePassword>
                     <auth:credentials>
                         <auth:item>
                             <auth:name>login</auth:name>
-                            <auth:value><auth:stringValue>' . $request->getLogin() . '</auth:stringValue></auth:value>
+                            <auth:value><auth:stringValue>' . $session->getLogin() . '</auth:stringValue></auth:value>
                         </auth:item>';
-        foreach ((array)$request->getParams() as $key => $value) {
+        foreach ((array)$session->getLoginParams() as $key => $value) {
             $xml.= '<auth:item>
                         <auth:name>' . $key . '</auth:name>
                         <auth:value><auth:stringValue>' . $value . '</auth:stringValue></auth:value>
                     </auth:item>';
         }
         $xml .= '</auth:credentials>
-                    <auth:oldPassword>' . $this->getPassword() . '</auth:oldPassword>
-                    <auth:newPassword>' . $this->newPassword . '</auth:newPassword>
-                    <auth:newPasswordRepeat>' . $this->newPassword . '</auth:newPasswordRepeat>
+                    <auth:oldPassword>' . $session->getPassword() . '</auth:oldPassword>
+                    <auth:newPassword>' . $this->getNewPassword() . '</auth:newPassword>
+                    <auth:newPasswordRepeat>' . $this->getNewPassword() . '</auth:newPasswordRepeat>
                 </auth:changePassword>
             </soapenv:Body>
-        </soapenv:Envelope>';        
+        </soapenv:Envelope>';     
+		
+        return $xml;
+		
     }
 
     /**

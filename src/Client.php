@@ -5,10 +5,11 @@ namespace gilek\ewus;
 use gilek\ewus\drivers\Driver;
 use gilek\ewus\responses\Session;
 use gilek\ewus\services\ServiceManager;
-use gilek\ewus\operations\LoginOperation;
-use gilek\ewus\operations\Operation;
 use gilek\ewus\services\Service;
+use gilek\ewus\operations\Operation;
+use gilek\ewus\operations\LoginOperation;
 use gilek\ewus\operations\CheckPeselOperation;
+use gilek\ewus\operations\ChangePasswordOperation;
 use gilek\ewus\operations\LogoutOperation;
 
 class Client {
@@ -57,7 +58,7 @@ class Client {
      */
     public function login($login, $password, $params) {
         $response = $this->doOperation(new LoginOperation($login, $password, $params), ServiceManager::get('auth'));
-        if ($response instanceof LoginResponse) {
+        if ($response instanceof Session) {
             $this->setSession($response);
         }
         return $response;
@@ -94,7 +95,7 @@ class Client {
      * 
      * @param Operation $operation
      * @param Service $service
-     * @return type
+     * @return Response
      */
     public function doOperation(Operation $operation, Service $service) {
         if ($this->getSession() !== null) {
