@@ -57,3 +57,11 @@ Identyfikatory tablicy odpowiadają stałym z klasy `gilek\ewus\responses\CheckP
 - DATA_PATIENT_NAME (3) - imię pacjenta,
 - DATA_PATIENT_SURNAME (4) - nazwisko pacjenta,
 - DATA_PROVIDER (5) - oddział NFZ.
+
+### Logowanie
+
+W zależności od oddziału NFZ oraz typu konta (lekarz czy świadczeniodawca) wymagane są odmienne parametry logowania. Więcej na ten temat można przeczytać w dokumentacji (link na początku strony). Poniższy przykład demonstruje logowanie lekarza należącego do 1 oddziału NFZ:
+
+```php
+$client->login('login', 'haslo', array('domain'=>'01', 'type'=> 'LEK', 'idntLek' => ID));
+```
