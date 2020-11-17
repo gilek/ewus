@@ -18,7 +18,7 @@ Użycie
 ```php
 <?php
 use gilek\ewus\Client;
-use gilek\ewus\drivers\SoapDriver;
+use gilek\ewus\Driver\SoapDriver;
 
 $client = new Client(new SoapDriver());
 $client->login('login', 'haslo', array('domain'=>15));

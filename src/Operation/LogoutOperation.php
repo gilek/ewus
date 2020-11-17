@@ -1,16 +1,20 @@
 <?php
+declare(strict_types=1);
 
-namespace gilek\ewus\operations;
+namespace Gilek\Ewus\Operation;
 
-use gilek\ewus\responses\LogoutResponse;
+use Gilek\Ewus\Response\LogoutResponse;
 
-class LogoutOperation extends BaseOperation {
+class LogoutOperation extends BaseOperation
+{
     
     /**
-     * 
-     * @inheritdoc
+     * {@inheritDoc}
      */
-    public function makeRequestXml() {
+    public function makeRequestXml()
+    {
+        // TODO omg
+
         return '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:com="http://xml.kamsoft.pl/ws/common" xmlns:auth="http://xml.kamsoft.pl/ws/kaas/login_types">
             <soapenv:Header>
                 <com:authToken id="' . $this->getSession()->getToken() . '"/>
@@ -23,10 +27,10 @@ class LogoutOperation extends BaseOperation {
     }
 
     /**
-     * 
-     * @inheritdoc
+     * {@inheritDoc}
      */    
-    public function makeResponse(\DOMDocument $xml) {
+    public function makeResponse(\DOMDocument $xml)
+    {
         return new LogoutResponse();  
     }
 }

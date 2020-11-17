@@ -1,30 +1,26 @@
 <?php
+declare(strict_types=1);
 
-namespace gilek\ewus\responses;
+namespace Gilek\Ewus\Response;
 
 class ChangePasswordResponse extends Response
 {
-    /**
-     *
-     * @var string 
-     */
+    /** @var string */
     private $message;
     
     /**
-     * 
      * @return string
      */
-    public function getMessage() {
+    public function getMessage(): string
+    {
         return $this->message;
     }
 
     /**
-     * 
      * @param string $message
      */
-    public function setMessage($message) {
+    public function setMessage(string $message): void
+    {
         $this->message = $message;
     }
-
-
 }

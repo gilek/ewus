@@ -1,90 +1,93 @@
 <?php
+declare(strict_types=1);
 
-namespace gilek\ewus\operations;
+namespace Gilek\Ewus\Operation;
 
-use gilek\ewus\drivers\Driver;
-use gilek\ewus\exceptions\ResponseException;
-use gilek\ewus\responses\Session;
+use DOMDocument;
+use DOMXpath;
+use Gilek\Ewus\Driver\DriverInterface;
+use Gilek\Ewus\Exception\ResponseException;
+use Gilek\Ewus\Response\Response;
+use Gilek\Ewus\Response\SessionInterface;
 
-abstract class BaseOperation implements Operation
+// TODO baseOperation is the evil
+abstract class BaseOperation implements OperationInterface
 {
-    /**
-     *
-     * @var Driver 
-     */
+    /** @var DriverInterface */
     private $driver;
     
-    /**
-     *
-     * @var Session 
-     */
+    /** @var SessionInterface */
     private $session;
 
     /**
-     * 
-     * @return Driver
+     * @return DriverInterface
      */
-    public function getDriver() {
+    public function getDriver(): DriverInterface
+    {
         return $this->driver;
     }
 
     /**
-     * 
-     * @return Session
+     * @return SessionInterface
      */
-    public function getSession() {
+    public function getSession(): SessionInterface
+    {
         return $this->session;
     }
 
     /**
-     * 
-     * @param Driver $driver
+     * @param DriverInterface $driver
      */
-    public function setDriver(Driver $driver) {
+    public function setDriver(DriverInterface $driver): void
+    {
         $this->driver = $driver;
     }
 
     /**
-     * 
-     * @param Session $session
+     * @param SessionInterface $session
      */
-    public function setSession(Session $session) {
+    public function setSession(SessionInterface $session): void
+    {
         $this->session = $session;
     }
 
     /**
-     * 
-     * @inheritdoc
+     * {@inheritDoc}
      */
-    public function run() {
+    public function run()
+    {
         $responseXml = $this->getDriver()->sendXml($this->makeRequestXml());
         $dom = $this->parseResponse($responseXml);
         $response = $this->makeResponse($dom);
         $response->setResponseXml($responseXml);
         $response->setOperation($this);
+
         return $response;
     }    
   
     /**
-     * 
      * @param string $xml
-     * @return \DOMDocument
+     *
+     * @return DOMDocument
+     *
      * @throws ResponseException
      */
-    private function parseResponse($xml) {        
+    private function parseResponse(string $xml): DOMDocument
+    {
+        // TODO this should be separate service
 
         if (strlen($xml) === 0) {
             throw new ResponseException('Brak odpowiedzi na żądanie.');
         }
 
-        $doc = new \DOMDocument();
+        $doc = new DOMDocument();
         try {
             $doc->loadXML($xml);
         } catch (\Exception $e) {
             throw new ResponseException('Nieprawidłowy format odpowiedzi.');
         }
 
-        $xpath = new \DOMXpath($doc);
+        $xpath = new DOMXpath($doc);
         $xpath->registerNamespace('env', 'http://schemas.xmlsoap.org/soap/envelope/');
         $xpath->registerNamespace('xsi', 'http://www.w3.org/2001/XMLSchema-instance');
         $xpath->registerNamespace('com', 'http://xml.kamsoft.pl/ws/common');
@@ -110,7 +113,16 @@ abstract class BaseOperation implements Operation
 
         return $doc;        
     }
-    
-    abstract function makeRequestXml();
-    abstract function makeResponse(\DOMDocument $dom);    
+
+    /**
+     * @return string
+     */
+    abstract function makeRequestXml(): string;
+
+    /**
+     * @param DOMDocument $dom
+     *
+     * @return Response
+     */
+    abstract function makeResponse(DOMDocument $dom): Response;
 }

@@ -1,47 +1,45 @@
 <?php
+declare(strict_types=1);
 
-namespace gilek\ewus\operations;
+namespace Gilek\Ewus\Operation;
 
-use gilek\ewus\exception\ResponseException;
-use gilek\ewus\responses\CheckPeselResponse;
+use Gilek\Ewus\Exception\ResponseException;
+use Gilek\Ewus\Response\CheckPeselResponse;
 
-class CheckPeselOperation extends BaseOperation {
-    
-    /**
-     *
-     * @var string 
-     */
+class CheckPeselOperation extends BaseOperation
+{
+    /** @var string */
     private $pesel;
-    
-    /**
-     * 
-     * @return string
-     */
-    public function getPesel() {
-        return $this->pesel;
-    }
 
     /**
-     * 
-     * @param string $pesel
-     */
-    public function setPesel($pesel) {
-        $this->pesel = $pesel;
-    }
-
-    /**
-     * 
      * @param string $pesel
      */
     public function __construct($pesel) {
         $this->setPesel($pesel);
-    }    
+    }
     
     /**
-     * 
-     * @inheritdoc
+     * @return string
+     */
+    public function getPesel(): string
+    {
+        return $this->pesel;
+    }
+
+    /**
+     * TODO THIS SHOULN'D EXIST
+     * @param string $pesel
+     */
+    public function setPesel(string $pesel): void
+    {
+        $this->pesel = $pesel;
+    }
+    
+    /**
+     * {@inheritDoc}
      */    
-    public function makeRequestXml() {        
+    public function makeRequestXml(): string
+    {
         return '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:com="http://xml.kamsoft.pl/ws/common" xmlns:brok="http://xml.kamsoft.pl/ws/broker">
            <soapenv:Header>
               <com:session id="' . $this->getSession()->getSessionId() . '" xmlns:ns1="http://xml.kamsoft.pl/ws/common"/>
@@ -68,10 +66,10 @@ class CheckPeselOperation extends BaseOperation {
     }
 
     /**
-     * 
-     * @inheritdoc
+     * {@inheritDoc}
      */    
-    public function makeResponse(\DOMDocument $xml) {
+    public function makeResponse(\DOMDocument $xml)
+    {
         $xpath = new \DOMXpath($xml);
         $xpath->registerNamespace('odp', 'https://ewus.nfz.gov.pl/ws/broker/ewus/status_cwu/v3');
 

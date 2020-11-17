@@ -1,8 +1,9 @@
 <?php
+declare(strict_types=1);
 
-namespace gilek\ewus\operations;
+namespace Gilek\Ewus\Operation;
 
-use gilek\ewus\responses\LoginResponse;
+use Gilek\Ewus\Response\LoginResponse;
 
 class LoginOperation extends BaseOperation {
     /**
@@ -85,7 +86,7 @@ class LoginOperation extends BaseOperation {
 
     /**
      * 
-     * @inheritdoc
+     * {@inheritDoc}
      */    
     public function makeRequestXml() {
         $xml = '<soapenv:Envelope xmlns:soapenv = "http://schemas.xmlsoap.org/soap/envelope/" xmlns:auth = "http://xml.kamsoft.pl/ws/kaas/login_types">
@@ -114,7 +115,7 @@ class LoginOperation extends BaseOperation {
 
     /**
      * 
-     * @inheritdoc
+     * {@inheritDoc}
      */    
     public function makeResponse(\DOMDocument $xml) {
         $xpath = new \DOMXpath($xml);

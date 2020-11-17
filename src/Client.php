@@ -1,51 +1,49 @@
 <?php
 
-namespace gilek\ewus;
+namespace Gilek\Ewus;
 
-use gilek\ewus\drivers\Driver;
-use gilek\ewus\responses\Session;
-use gilek\ewus\services\ServiceManager;
-use gilek\ewus\services\Service;
-use gilek\ewus\operations\Operation;
-use gilek\ewus\operations\LoginOperation;
-use gilek\ewus\operations\CheckPeselOperation;
-use gilek\ewus\operations\ChangePasswordOperation;
-use gilek\ewus\operations\LogoutOperation;
+use Gilek\Ewus\Driver\DriverInterface;
+use Gilek\Ewus\Response\ChangePasswordResponse;
+use Gilek\Ewus\Response\Response;
+use Gilek\Ewus\Response\SessionInterface;
+use Gilek\Ewus\Service\ServiceManager;
+use Gilek\Ewus\Service\ServiceInterface;
+use Gilek\Ewus\Operation\OperationInterface;
+use Gilek\Ewus\Operation\LoginOperation;
+use Gilek\Ewus\Operation\CheckPeselOperation;
+use Gilek\Ewus\Operation\ChangePasswordOperation;
+use Gilek\Ewus\Operation\LogoutOperation;
 
-class Client {
-    /**
-     *
-     * @var Driver
-     */
+class Client
+{
+    /** @var DriverInterface */
     private $driver;
     
-    /**
-     *
-     * @var Session 
-     */
+    /** @var SessionInterface */
     private $session;
-        
+
     /**
-     * 
-     * @param Driver $driver
+     * @param DriverInterface $driver
      */
-    public function __construct(Driver $driver) {
+    public function __construct(DriverInterface $driver)
+    {
         $this->driver = $driver;
     }
     
     /**
-     * 
-     * @return Session
+     * @return SessionInterface
      */
-    public function getSession() {
+    public function getSession(): ServiceInterface
+    {
         return $this->session;
     }
 
     /**
-     * 
-     * @param Session $session
+     * TODO PUBLKIC?
+     *
+     * @param SessionInterface $session
      */
-    public function setSession(Session $session) {
+    public function setSession(SessionInterface $session):void {
         $this->session = $session;
     }
 
@@ -54,13 +52,16 @@ class Client {
      * @param string $login
      * @param string $password
      * @param array $params
+     *
      * @return Response
      */
-    public function login($login, $password, $params) {
+    public function login(string $login, string $password, array $params): Response
+    {
         $response = $this->doOperation(new LoginOperation($login, $password, $params), ServiceManager::get('auth'));
-        if ($response instanceof Session) {
+        if ($response instanceof SessionInterface) {
             $this->setSession($response);
         }
+
         return $response;
         
     }
@@ -70,39 +71,44 @@ class Client {
      * @param string $pesel
      * @return Response     
      */    
-    public function checkPesel($pesel) {
+    public function checkPesel(string $pesel): Response
+    {
         return $this->doOperation(new CheckPeselOperation($pesel), ServiceManager::get('broker'));        
     }
     
     /**
-     * 
-     * @return Response
+     * @return LogoutOperation
      */
-    public function logout() {
+    public function logout(): LoginOperation
+    {
         return $this->doOperation(new LogoutOperation(), ServiceManager::get('auth'));            
     }
     
     /**
      * 
      * @param string $newPassword
-     * @return Response
+     *
+     * @return ChangePasswordResponse
      */
-    public function changePassword($newPassword) {
+    public function changePassword(string $newPassword): ChangePasswordResponse
+    {
         return $this->doOperation(new ChangePasswordOperation($newPassword), ServiceManager::get('auth'));          
     }
     
     /**
-     * 
-     * @param Operation $operation
-     * @param Service $service
+     * @param OperationInterface $operation
+     * @param ServiceInterface   $service
+     *
      * @return Response
      */
-    public function doOperation(Operation $operation, Service $service) {
+    public function doOperation(OperationInterface $operation, ServiceInterface $service): Response
+    {
         if ($this->getSession() !== null) {
             $operation->setSession($this->getSession());
         }
         $this->driver->setService($service);
         $operation->setDriver($this->driver);
+
         return $operation->run();
     }
 }

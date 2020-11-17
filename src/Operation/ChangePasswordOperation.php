@@ -1,46 +1,45 @@
 <?php
+declare(strict_types=1);
 
-namespace gilek\ewus\operations;
+namespace Gilek\Ewus\Operation;
 
-use gilek\ewus\responses\ChangePasswordResponse;
+use Gilek\Ewus\Response\ChangePasswordResponse;
 
 class ChangePasswordOperation extends BaseOperation
 {
-    /**
-     *
-     * @var string 
-     */
+    /** @var string */
     private $newPassword;
-    
-    /**
-     * 
-     * @return string
-     */
-    public function getNewPassword() {
-        return $this->newPassword;
-    }
 
     /**
-     * 
      * @param string $newPassword
      */
-    public function setNewPassword($newPassword) {
-        $this->newPassword = $newPassword;
-    }
-
-    /**
-     * 
-     * @param string $newPassword
-     */
-    public function __construct($newPassword) {
+    public function __construct(string $newPassword)
+    {
         $this->setNewPassword($newPassword);
     }
 
     /**
-     * 
-     * @inheritdoc
+     * @return string
      */
-    public function makeRequestXml() {
+    public function getNewPassword(): string
+    {
+        return $this->newPassword;
+    }
+
+    /**
+     * @param string $newPassword
+     */
+    public function setNewPassword(string $newPassword): void
+    {
+        $this->newPassword = $newPassword;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function makeRequestXml(): string {
+        // TODO omg
+
         $session = $this->getSession();
         $xml = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:com="http://xml.kamsoft.pl/ws/common" xmlns:auth="http://xml.kamsoft.pl/ws/kaas/login_types">
             <soapenv:Header>
@@ -74,7 +73,7 @@ class ChangePasswordOperation extends BaseOperation
 
     /**
      * 
-     * @inheritdoc
+     * {@inheritDoc}
      */    
     public function makeResponse(\DOMDocument $dom) {
         $response = new ChangePasswordResponse();
@@ -87,6 +86,7 @@ class ChangePasswordOperation extends BaseOperation
             throw new ResponseException('Nie można pobrać informacji zwrotnej.');
 
         $response->setMessage($element->item(0)->nodeValue);
+
         return $response;
     }
 }

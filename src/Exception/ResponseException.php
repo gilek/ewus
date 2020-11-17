@@ -1,30 +1,26 @@
 <?php
+declare(strict_types=1);
 
-namespace gilek\ewus\exceptions;
+namespace Gilek\Ewus\Exception;
 
 class ResponseException extends Exception
 {
-    /**
-     *
-     * @var string 
-     */
+    /** @var string */
     private $type;
     
     /**
-     * 
      * @return string
      */
-    public function getType() {
+    public function getType(): string
+    {
         return $this->type;
     }
 
     /**
-     * 
      * @param string $type
      */
-    public function setType($type) {
+    public function setType(string $type): void
+    {
         $this->type = $type;
     }
-
-
 }

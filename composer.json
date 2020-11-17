@@ -13,7 +13,17 @@
     ],
     "autoload": {
         "psr-4": {
-            "gilek\\ewus\\": "src/"
+            "Gilek\\Ewus\\": "src"
+        }
+    },
+    "require": {
+        "ext-soap": "*",
+        "ext-dom": "*",
+        "ext-mbstring": "*"
+    },
+    "config": {
+        "platform": {
+            "php": "^7.1"
         }
     }
 }
