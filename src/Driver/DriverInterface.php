@@ -8,20 +8,10 @@ use Gilek\Ewus\Service\ServiceInterface;
 interface DriverInterface
 {
     /**
-     * TODO better name
-     * @param string $xml
+     * @param string $url
+     * @param string $request XML format
      *
      * @return string
      */
-    public function sendXml(string $xml): string;
-
-    /**
-     * @param ServiceInterface $service
-     */
-    public function setService(ServiceInterface $service): void;
-
-    /**
-     * @return ServiceInterface
-     */
-    public function getService(): ServiceInterface;
+    public function doRequest(string $url, string $request): string;
 }

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Gilek\Ewus\Response;
 
-class LoginResponse extends Response implements SessionInterface
+class LoginResponse extends Response
 {
     /** @var string */
     private $sessionId;

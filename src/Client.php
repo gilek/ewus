@@ -3,85 +3,91 @@
 namespace Gilek\Ewus;
 
 use Gilek\Ewus\Driver\DriverInterface;
+use Gilek\Ewus\Driver\SoapDriver;
+use Gilek\Ewus\Request\ChangePasswordRequest;
+use Gilek\Ewus\Request\CheckCwuRequest;
+use Gilek\Ewus\Request\LoginRequest;
+use Gilek\Ewus\Request\LogoutRequest;
+use Gilek\Ewus\Request\RequestInterface;
 use Gilek\Ewus\Response\ChangePasswordResponse;
-use Gilek\Ewus\Response\Response;
-use Gilek\Ewus\Response\SessionInterface;
-use Gilek\Ewus\Service\ServiceManager;
-use Gilek\Ewus\Service\ServiceInterface;
-use Gilek\Ewus\Operation\OperationInterface;
-use Gilek\Ewus\Operation\LoginOperation;
-use Gilek\Ewus\Operation\CheckPeselOperation;
-use Gilek\Ewus\Operation\ChangePasswordOperation;
-use Gilek\Ewus\Operation\LogoutOperation;
+use Gilek\Ewus\Response\CheckCwuResponse;
+use Gilek\Ewus\Response\LoginResponse;
+use Gilek\Ewus\ResponseFactory\ResponseFactory;
+use Gilek\Ewus\Service\ServiceBroker;
+use Gilek\Ewus\Service\ServiceBrokerInterface;
 
 class Client
 {
-    /** @var DriverInterface */
-    private $driver;
-    
-    /** @var SessionInterface */
+    /** @var Credentials */
+    private $credentials;
+
+    /** @var Session|null */
     private $session;
 
+    /** @var DriverInterface */
+    private $driver;
+
+    /** @var ServiceBrokerInterface */
+    private $serviceBroker;
+
+    /** @var ResponseFactory */
+    private $responseFactory;
+
     /**
-     * @param DriverInterface $driver
+     * @param Credentials          $credentials
+     * @param DriverInterface|null $driver
+     * @param ServiceBroker|null   $serviceBroker
      */
-    public function __construct(DriverInterface $driver)
-    {
-        $this->driver = $driver;
-    }
-    
-    /**
-     * @return SessionInterface
-     */
-    public function getSession(): ServiceInterface
-    {
-        return $this->session;
+    public function __construct(
+        Credentials $credentials,
+        ?DriverInterface $driver = null,
+        ?ServiceBroker $serviceBroker = null
+    ) {
+        $this->credentials = $credentials;
+        $this->driver = $driver !== null ? $driver : new SoapDriver();
+        $this->serviceBroker = $serviceBroker !== null ? $serviceBroker : new ServiceBroker();
+        // Hardcoded
+        $this->responseFactory = new ResponseFactory();
     }
 
     /**
-     * TODO PUBLKIC?
-     *
-     * @param SessionInterface $session
+     * @return bool
      */
-    public function setSession(SessionInterface $session):void {
-        $this->session = $session;
+    private function isAuthorized(): bool
+    {
+        return $this->session !== null;
+    }
+
+    private function authorize()
+    {
+        $response = $this->login();
+        $this->session = new Session($response->getSessionId(), $response->getToken());
     }
 
     /**
-     * 
-     * @param string $login
-     * @param string $password
-     * @param array $params
      *
-     * @return Response
+     * @return LoginResponse
      */
-    public function login(string $login, string $password, array $params): Response
+    public function login(): LoginResponse
     {
-        $response = $this->doOperation(new LoginOperation($login, $password, $params), ServiceManager::get('auth'));
-        if ($response instanceof SessionInterface) {
-            $this->setSession($response);
+        $request = new LoginRequest($this->credentials);
+
+        return $this->responseFactory->createLogin(
+            $this->doRequest($request)
+        );
+    }
+
+    /**
+     * Is bool enought?
+     */
+    public function logout(): void
+    {
+        if (!$this->isAuthorized()) {
+            return;
         }
 
-        return $response;
-        
-    }
-        
-    /**
-     * 
-     * @param string $pesel
-     * @return Response     
-     */    
-    public function checkPesel(string $pesel): Response
-    {
-        return $this->doOperation(new CheckPeselOperation($pesel), ServiceManager::get('broker'));        
-    }
-    
-    /**
-     * @return LogoutOperation
-     */
-    public function logout(): LoginOperation
-    {
-        return $this->doOperation(new LogoutOperation(), ServiceManager::get('auth'));            
+        $request = new LogoutRequest($this->session);
+        $this->doRequest($request);
     }
     
     /**
@@ -92,23 +98,45 @@ class Client
      */
     public function changePassword(string $newPassword): ChangePasswordResponse
     {
-        return $this->doOperation(new ChangePasswordOperation($newPassword), ServiceManager::get('auth'));          
-    }
-    
-    /**
-     * @param OperationInterface $operation
-     * @param ServiceInterface   $service
-     *
-     * @return Response
-     */
-    public function doOperation(OperationInterface $operation, ServiceInterface $service): Response
-    {
-        if ($this->getSession() !== null) {
-            $operation->setSession($this->getSession());
+        if (!$this->isAuthorized()) {
+            $this->authorize();
         }
-        $this->driver->setService($service);
-        $operation->setDriver($this->driver);
 
-        return $operation->run();
+        $request = new ChangePasswordRequest($this->session, $this->credentials, $newPassword);
+
+        return $this->responseFactory->createChangePassword(
+            $this->doRequest($request)
+        );
+    }
+
+    /**
+     * @param string $pesel
+     *
+     * @return CheckCwuResponse
+     */
+    public function checkCwu(string $pesel): CheckCwuResponse
+    {
+        if (!$this->isAuthorized()) {
+            $this->authorize();
+        }
+
+        $request = new CheckCwuRequest($this->session, $pesel);
+
+        return $this->responseFactory->createCwu(
+            $this->doRequest($request)
+        );
+    }
+
+    /**
+     * @param RequestInterface $request
+     *
+     * @return string
+     */
+    public function doRequest(RequestInterface $request): string
+    {
+        return $this->driver->doRequest(
+            $this->serviceBroker->resolve($request),
+            $request->getBody()
+        );
     }
 }

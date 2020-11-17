@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Gilek\Ewus\Operation;
 
 use Gilek\Ewus\Exception\ResponseException;
-use Gilek\Ewus\Response\CheckPeselResponse;
+use Gilek\Ewus\Response\CheckCwuResponse;
 
 class CheckPeselOperation extends BaseOperation
 {
@@ -73,13 +73,13 @@ class CheckPeselOperation extends BaseOperation
         $xpath = new \DOMXpath($xml);
         $xpath->registerNamespace('odp', 'https://ewus.nfz.gov.pl/ws/broker/ewus/status_cwu/v3');
 
-        $response = new CheckPeselResponse();
+        $response = new CheckCwuResponse();
 
         $elements = $xpath->query("//odp:status_cwu_odp");
         if ($elements->length !== 1) {
             throw new ResponseException('Nie można pobrać informacji o id operacji.');
         }
-        $response->setData($elements->item(0)->getAttribute('id_operacji'), CheckPeselResponse::DATA_OPERATION_ID);
+        $response->setData($elements->item(0)->getAttribute('id_operacji'), CheckCwuResponse::DATA_OPERATION_ID);
 
 
         $elements = $xpath->query("//odp:status_cwu");
@@ -95,7 +95,7 @@ class CheckPeselOperation extends BaseOperation
                 throw new ResponseException('Nie można pobrać informacji o uprawnieniu do świadczeń.');
             }
         }
-        $response->setData($status === '1' ? $elements->item(0)->nodeValue : CheckPeselResponse::STATUS_NOT_EXIST, CheckPeselResponse::DATA_STATUS);
+        $response->setData($status === '1' ? $elements->item(0)->nodeValue : CheckCwuResponse::STATUS_NOT_EXIST, CheckCwuResponse::DATA_STATUS);
 
         if ($status === '1') {
             $elements = $xpath->query("//odp:imie");
@@ -103,7 +103,7 @@ class CheckPeselOperation extends BaseOperation
                 throw new ResponseException('Nie można pobrać informacji o imieniu pacjenta.');
             }
         }
-        $response->setData($status === '1' ? $elements->item(0)->nodeValue : null, CheckPeselResponse::DATA_PATIENT_NAME);
+        $response->setData($status === '1' ? $elements->item(0)->nodeValue : null, CheckCwuResponse::DATA_PATIENT_NAME);
 
         if ($status === '1') {
             $elements = $xpath->query("//odp:nazwisko");
@@ -111,7 +111,7 @@ class CheckPeselOperation extends BaseOperation
                 throw new ResponseException('Nie można pobrać informacji o nazwisko upacjenta.');
             }
         }
-        $response->setData($status === '1' ? $elements->item(0)->nodeValue : null, CheckPeselResponse::DATA_PATIENT_SURNAME);
+        $response->setData($status === '1' ? $elements->item(0)->nodeValue : null, CheckCwuResponse::DATA_PATIENT_SURNAME);
 
         if ($status === '1') {
             $elements = $xpath->query("//odp:id_ow");
@@ -119,7 +119,7 @@ class CheckPeselOperation extends BaseOperation
                 throw new ResponseException('Nie można pobrać informacji o identyfikatorze świadczeniodawcy.');
             }
         }
-        $response->setData($status === '1' ? $elements->item(0)->nodeValue : null, CheckPeselResponse::DATA_PROVIDER);
+        $response->setData($status === '1' ? $elements->item(0)->nodeValue : null, CheckCwuResponse::DATA_PROVIDER);
 
         return $response;        
     }

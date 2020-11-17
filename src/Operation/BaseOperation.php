@@ -56,7 +56,7 @@ abstract class BaseOperation implements OperationInterface
      */
     public function run()
     {
-        $responseXml = $this->getDriver()->sendXml($this->makeRequestXml());
+        $responseXml = $this->getDriver()->doRequest($this->makeRequestXml());
         $dom = $this->parseResponse($responseXml);
         $response = $this->makeResponse($dom);
         $response->setResponseXml($responseXml);

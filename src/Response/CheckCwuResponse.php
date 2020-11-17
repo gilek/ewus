@@ -5,7 +5,7 @@ namespace Gilek\Ewus\Response;
 
 use Gilek\Ewus\Exception\Exception;
 
-class CheckPeselResponse extends Response
+class CheckCwuResponse extends Response
 {
     public const DATA_STATUS = 1;
     public const DATA_OPERATION_ID = 2;

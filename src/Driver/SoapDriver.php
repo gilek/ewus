@@ -10,52 +10,31 @@ use SoapFault;
 class SoapDriver implements DriverInterface
 {
     /** @var SoapClient[] */
-    private $serviceInstances = [];   
-    
-    /** @var ServiceInterface */
-    private $service;
-        
-    /**
-     * {@inheritDoc}
-     */
-    public function getService(): ServiceInterface
-    {
-        return $this->service;
-    }
+    private $instances = [];
 
     /**
-     * {@inheritDoc}
-     */
-    public function setService(ServiceInterface $service): void
-    {
-        $this->service = $service;
-    }
-
-    /**
-     * @param ServiceInterface $service
+     * @param string $url
      *
      * @return SoapClient
      *
-     * TODO handle exception
      * @throws SoapFault
      */
-    private function getServiceInstance(ServiceInterface $service)
+    private function getInstance(string $url)
     {
-        $hash = spl_object_hash($service);
-        if (!array_key_exists($hash, $this->serviceInstances)) {
-            $this->serviceInstances[$hash] = new SoapClient($service->getUrl());
+        if (!array_key_exists($url, $this->instances)) {
+            $this->instances[$url] = new SoapClient($url);
         }
 
-        return $this->serviceInstances[$hash];
+        return $this->instances[$url];
     }    
     
     /**
      * {@inheritDoc}
      */
-    public function sendXml(string $xml): string
+    public function doRequest(string $url, string $request): string
     {
-        $soap = $this->getServiceInstance($this->service);
-
-        return $soap->__doRequest($xml, $this->service->getUrl(), 'executeService', SOAP_1_1);        
+        // TODO add throws to interface and handle this exception
+        // WSDL can no be loaded exception
+        return $this->getInstance($url)->__doRequest($request, $url, 'executeService', SOAP_1_1);
     }
 }
