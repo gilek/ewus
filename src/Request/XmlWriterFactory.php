@@ -1,13 +1,11 @@
 <?php
+declare(strict_types=1);
 
-declare(strict_types = 1);
-
-namespace Gilek\Ewus\Shared;
+namespace Gilek\Ewus\Request;
 
 use Sabre\Xml\Service;
 
-/** Class XmlServiceFactory */
-class XmlServiceFactory
+class XmlWriterFactory
 {
     /**
      * @param array<string, mixed> $namespaceMap

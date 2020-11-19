@@ -1,9 +1,8 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Gilek\Ewus\Request;
 
-use Gilek\Ewus\Shared\XmlServiceFactory;
 use Gilek\Ewus\Session;
 
 class LogoutRequestFactory
@@ -14,15 +13,15 @@ class LogoutRequestFactory
     private const NS_AUTH = 'http://xml.kamsoft.pl/ws/kaas/login_types';
     private const NS_COMMON = 'http://xml.kamsoft.pl/ws/common';
 
-    /** @var XmlServiceFactory */
-    private $xmlServiceFactory;
+    /** @var XmlWriterFactory */
+    private $xmlWriterFactory;
 
     /**
-     * @param XmlServiceFactory $xmlServiceFactory
+     * @param XmlWriterFactory $xmlWriterFactory
      */
-    public function __construct(XmlServiceFactory $xmlServiceFactory)
+    public function __construct(XmlWriterFactory $xmlWriterFactory)
     {
-        $this->xmlServiceFactory = $xmlServiceFactory;
+        $this->xmlWriterFactory = $xmlWriterFactory;
     }
 
     /**
@@ -32,7 +31,7 @@ class LogoutRequestFactory
      */
     public function build(Session $session): Request
     {
-        return new Request('logout', $this->generateBody($session));
+        return new Request(Request::METHOD_LOGOUT, $this->generateBody($session));
     }
 
     /**
@@ -42,7 +41,7 @@ class LogoutRequestFactory
      */
     private function generateBody(Session $session)
     {
-        $xmlService = $this->xmlServiceFactory->create([
+        $xmlService = $this->xmlWriterFactory->create([
             self::NS_SOAP => 'soapenv',
             self::NS_AUTH => 'auth',
             self::NS_COMMON => 'com',

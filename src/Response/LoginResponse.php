@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Gilek\Ewus\Response;
 
-class LoginResponse extends Response
+class LoginResponse
 {
     /** @var string */
     private $sessionId;
@@ -12,13 +12,22 @@ class LoginResponse extends Response
     private $token;
     
     /** @var string */
-    private $loginMessage;
-    
-    /** @var string */
-    private $loginMessageCode;
-    
+    private $returnMessage;
+
     /**
-     * {@inheritDoc}
+     * @param string $sessionId
+     * @param string $token
+     * @param string $returnMessage
+     */
+    public function __construct(string $sessionId, string $token, string $returnMessage)
+    {
+        $this->sessionId = $sessionId;
+        $this->token = $token;
+        $this->returnMessage = $returnMessage;
+    }
+
+    /**
+     * @return string
      */
     public function getSessionId(): string
     {
@@ -26,7 +35,7 @@ class LoginResponse extends Response
     }
 
     /**
-     * {@inheritDoc}
+     * @return string
      */
     public function getToken(): string
     {
@@ -34,77 +43,10 @@ class LoginResponse extends Response
     }
 
     /**
-     * @param string $sessionId
-     */
-    public function setSessionId(string $sessionId): void
-    {
-        $this->sessionId = $sessionId;
-    }
-
-    /**
-     * @param string $token
-     */
-    public function setToken(string $token): void
-    {
-        $this->token = $token;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public function getLogin(): string
-    {
-        return $this->getOperation()->getLogin();
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public function getPassword(): string
-    {
-        return $this->getOperation()->getPassword();
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public function getLoginParams(): string
-    {
-        return $this->getOperation()->getParams();
-    }    
-    
-    /**
-     * TODO not used
      * @return string
      */
-    public function getLoginMessage()
+    public function getReturnMessage(): string
     {
-        return $this->loginMessage;
-    }
-    
-    /**
-     * TODO NOT USED
-     * @return string
-     */
-    public function getLoginMessageCode(): string
-    {
-        return $this->loginMessageCode;
-    }
-
-    /**
-     * @param string $loginMessage
-     */
-    public function setLoginMessage(string $loginMessage): void
-    {
-        $this->loginMessage = $loginMessage;
-    }
-
-    /**
-     * 
-     * @param string $loginMessageCode
-     */
-    public function setLoginMessageCode(string $loginMessageCode): void
-    {
-        $this->loginMessageCode = $loginMessageCode;
+        return $this->returnMessage;
     }
 }

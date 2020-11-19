@@ -1,22 +1,24 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Gilek\Ewus\Request;
 
 use Gilek\Ewus\Credentials;
+use Gilek\Ewus\Response\XmlReaderFactory;
 use Gilek\Ewus\Session;
-use Gilek\Ewus\Shared\XmlServiceFactory;
 
 /** Class RequestBuilder */
 class RequestFactory
 {
-    /** @var XmlServiceFactory */
-    private $xmlServiceFactory;
+    /** @var XmlWriterFactory */
+    private $xmlWriterFactory;
 
-    public function __construct()
+    /**
+     * @param XmlReaderFactory|null $xmlReaderFactory
+     */
+    public function __construct(?XmlReaderFactory $xmlReaderFactory = null)
     {
-        // TODO hardcoded, interface?
-        $this->xmlServiceFactory = new XmlServiceFactory();
+        $this->xmlWriterFactory = $xmlReaderFactory !== null ? $xmlReaderFactory : new XmlWriterFactory();
     }
 
     /**
@@ -26,7 +28,7 @@ class RequestFactory
      */
     public function createLogin(Credentials $credentials): Request
     {
-        return (new LoginRequestFactory($this->xmlServiceFactory))->build($credentials);
+        return (new LoginRequestFactory($this->xmlWriterFactory))->build($credentials);
     }
 
     /**
@@ -36,7 +38,7 @@ class RequestFactory
      */
     public function createLogout(Session $session): Request
     {
-        return (new LogoutRequestFactory($this->xmlServiceFactory))->build($session);
+        return (new LogoutRequestFactory($this->xmlWriterFactory))->build($session);
     }
 
     /**
@@ -48,7 +50,7 @@ class RequestFactory
      */
     public function createChangePassword(Session $session, Credentials $credentials, string $newPassword): Request
     {
-        return (new ChangePasswordRequestFactory($this->xmlServiceFactory))
+        return (new ChangePasswordRequestFactory($this->xmlWriterFactory))
             ->build($session, $credentials, $newPassword);
     }
 
@@ -60,7 +62,7 @@ class RequestFactory
      */
     public function createCheckCwu(Session $session, string $pesel): Request
     {
-        return (new CheckCwuRequestFactory($this->xmlServiceFactory))
+        return (new CheckCwuRequestFactory($this->xmlWriterFactory))
             ->build($session, $pesel);
     }
 }

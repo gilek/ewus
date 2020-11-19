@@ -4,13 +4,8 @@ namespace Gilek\Ewus;
 
 use Gilek\Ewus\Driver\DriverInterface;
 use Gilek\Ewus\Driver\SoapDriver;
-use Gilek\Ewus\Request\ChangePasswordRequestFactory;
-use Gilek\Ewus\Request\CheckCwuRequestFactory;
-use Gilek\Ewus\Request\LoginRequestFactory;
-use Gilek\Ewus\Request\LogoutRequestFactory;
 use Gilek\Ewus\Request\Request;
 use Gilek\Ewus\Request\RequestFactory;
-use Gilek\Ewus\Request\RequestInterface;
 use Gilek\Ewus\Response\ChangePasswordResponse;
 use Gilek\Ewus\Response\CheckCwuResponse;
 use Gilek\Ewus\Response\LoginResponse;
@@ -134,7 +129,7 @@ class Client
 
         $request = $this->requestFactory->createCheckCwu($this->session, $pesel);
 
-        return $this->responseFactory->createCwu(
+        return $this->responseFactory->createCheckCwu(
             $this->doRequest($request)
         );
     }

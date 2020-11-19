@@ -1,11 +1,10 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Gilek\Ewus\Request;
 
 use DateTimeImmutable;
 use Gilek\Ewus\Client;
-use Gilek\Ewus\Shared\XmlServiceFactory;
 use Gilek\Ewus\Session;
 
 class CheckCwuRequestFactory
@@ -17,18 +16,15 @@ class CheckCwuRequestFactory
     private const NS_BROKER = 'http://xml.kamsoft.pl/ws/broker';
     private const NS_EWUS = 'https://ewus.nfz.gov.pl/ws/broker/ewus/status_cwu/v5';
 
-    // TODO move to request
-    public const NAME = 'checkCwu';
-
-    /** @var XmlServiceFactory */
-    private $xmlServiceFactory;
+    /** @var XmlWriterFactory */
+    private $xmlWriterFactory;
 
     /**
-     * @param XmlServiceFactory $xmlServiceFactory
+     * @param XmlWriterFactory $xmlWriterFactory
      */
-    public function __construct(XmlServiceFactory $xmlServiceFactory)
+    public function __construct(XmlWriterFactory $xmlWriterFactory)
     {
-        $this->xmlServiceFactory = $xmlServiceFactory;
+        $this->xmlWriterFactory = $xmlWriterFactory;
     }
 
     /**
@@ -39,7 +35,7 @@ class CheckCwuRequestFactory
      */
     public function build(Session $session, string $pesel): Request
     {
-        return new Request(self::NAME, $this->generateBody($session, $pesel));
+        return new Request(Request::METHOD_CHECK_CWU, $this->generateBody($session, $pesel));
     }
 
     /**
@@ -50,7 +46,7 @@ class CheckCwuRequestFactory
      */
     private function generateBody(Session $session, string $pesel): string
     {
-        $xmlService = $this->xmlServiceFactory->create([
+        $xmlService = $this->xmlWriterFactory->create([
             self::NS_SOAP => 'soapenv',
             self::NS_COMMON => 'com',
             self::NS_BROKER => 'brok',

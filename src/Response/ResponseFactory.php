@@ -1,42 +1,47 @@
 <?php
-
-/**
- * This file is part of Boozt Platform
- * and belongs to Boozt Fashion AB.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
- */
-
 declare(strict_types = 1);
 
 namespace Gilek\Ewus\Response;
 
-use Gilek\Ewus\Response\ChangePasswordResponse;
-use Gilek\Ewus\Response\CheckCwuResponse;
-use Gilek\Ewus\Response\LoginResponse;
-use Gilek\Ewus\Response\LogoutResponse;
-
 class ResponseFactory
 {
+    /**
+     * @param string $body
+     *
+     * @return LoginResponse
+     */
     public function createLogin(string $body): LoginResponse
     {
-
+        return (new LoginResponseFactory())->build($body);
     }
 
-    public function createCwu(string $body): CheckCwuResponse
-    {
-
-    }
-
+    /**
+     * @param string $body
+     *
+     * @return LogoutResponse
+     */
     public function createLogout(string $body): LogoutResponse
     {
-
+        return (new LogoutResponseFactory())->build($body);
     }
 
+    /**
+     * @param string $body
+     *
+     * @return CheckCwuResponse
+     */
+    public function createCheckCwu(string $body): CheckCwuResponse
+    {
+        return (new CheckCwuResponseFactory())->build($body);
+    }
+
+    /**
+     * @param string $body
+     *
+     * @return ChangePasswordResponse
+     */
     public function createChangePassword(string $body): ChangePasswordResponse
     {
-
+        return (new ChangePasswordResponseFactory())->build($body);
     }
 }

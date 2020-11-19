@@ -1,10 +1,9 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Gilek\Ewus\Request;
 
 use Gilek\Ewus\Credentials;
-use Gilek\Ewus\Shared\XmlServiceFactory;
 
 class LoginRequestFactory
 {
@@ -13,15 +12,15 @@ class LoginRequestFactory
     private const NS_SOAP = 'http://schemas.xmlsoap.org/soap/envelope/';
     private const NS_AUTH = 'http://xml.kamsoft.pl/ws/kaas/login_types';
 
-    /** @var XmlServiceFactory */
-    private $xmlServiceFactory;
+    /** @var XmlWriterFactory */
+    private $xmlWriterFactory;
 
     /**
-     * @param XmlServiceFactory $xmlServiceFactory
+     * @param XmlWriterFactory $xmlWriterFactory
      */
-    public function __construct(XmlServiceFactory $xmlServiceFactory)
+    public function __construct(XmlWriterFactory $xmlWriterFactory)
     {
-        $this->xmlServiceFactory = $xmlServiceFactory;
+        $this->xmlWriterFactory = $xmlWriterFactory;
     }
 
     /**
@@ -31,7 +30,7 @@ class LoginRequestFactory
      */
     public function build(Credentials $credentials): Request
     {
-        return new Request('login', $this->generateBody($credentials));
+        return new Request(Request::METHOD_LOGIN, $this->generateBody($credentials));
     }
 
     /**
@@ -41,7 +40,7 @@ class LoginRequestFactory
      */
     private function generateBody(Credentials $credentials): string
     {
-        $xmlService = $this->xmlServiceFactory->create([
+        $xmlService = $this->xmlWriterFactory->create([
             self::NS_SOAP => 'soapenv',
             self::NS_AUTH => 'auth'
         ]);

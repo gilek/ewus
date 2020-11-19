@@ -1,10 +1,15 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Gilek\Ewus\Request;
 
 class Request
 {
+    public const METHOD_CHECK_CWU = 'checkCwu';
+    public const METHOD_LOGIN = 'login';
+    public const METHOD_LOGOUT = 'logout';
+    public const METHOD_CHANGE_PASSWORD = 'changePassword';
+
     /** @var string */
     private $methodName;
 

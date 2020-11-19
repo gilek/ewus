@@ -3,13 +3,36 @@ declare(strict_types = 1);
 
 namespace Gilek\Ewus\Response;
 
-class ChangePasswordResponseFactory implements ResponseFactoryInterface
+class ChangePasswordResponseFactory
 {
+    private const NS_AUTH = 'auth';
+    private const NS_AUTH_URL = 'http://xml.kamsoft.pl/ws/kaas/login_types';
+
+    /** @var XmlReaderFactory */
+    private $xmlReaderFactory;
+
     /**
-     * {@inheritDoc}
+     * @param XmlReaderFactory $xmlReaderFactory
      */
-    public function build(string $responseBody)
+    public function __construct(XmlReaderFactory $xmlReaderFactory)
     {
-        // TODO: Implement build() method.
+        $this->xmlReaderFactory = $xmlReaderFactory;
+    }
+
+    /**
+     * @param string $responseBody
+     *
+     * @return ChangePasswordResponse
+     */
+    public function build(string $responseBody): ChangePasswordResponse
+    {
+        $xmrReader = $this->xmlReaderFactory->create($responseBody, [
+            self::NS_AUTH => self::NS_AUTH_URL
+        ]);
+
+        // TODO handle exception
+        return new ChangePasswordResponse(
+            $xmrReader->getElementValue('//' . self::NS_AUTH . ':changePasswordReturn')
+        );
     }
 }

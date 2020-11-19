@@ -1,10 +1,9 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Gilek\Ewus\Request;
 
 use Gilek\Ewus\Credentials;
-use Gilek\Ewus\Shared\XmlServiceFactory;
 use Gilek\Ewus\Session;
 
 class ChangePasswordRequestFactory
@@ -16,15 +15,15 @@ class ChangePasswordRequestFactory
     private const NS_AUTH = 'http://xml.kamsoft.pl/ws/kaas/login_types';
     private const NS_COMMON = 'http://xml.kamsoft.pl/ws/common';
 
-    /** @var XmlServiceFactory */
-    private $xmlServiceFactory;
+    /** @var XmlWriterFactory */
+    private $xmlWriterFactory;
 
     /**
-     * @param XmlServiceFactory $xmlServiceFactory
+     * @param XmlWriterFactory $xmlWriterFactory
      */
-    public function __construct(XmlServiceFactory $xmlServiceFactory)
+    public function __construct(XmlWriterFactory $xmlWriterFactory)
     {
-        $this->xmlServiceFactory = $xmlServiceFactory;
+        $this->xmlWriterFactory = $xmlWriterFactory;
     }
 
     /**
@@ -37,7 +36,7 @@ class ChangePasswordRequestFactory
     public function build(Session $session, Credentials $credentials, string $newPassword): Request
     {
         return new Request(
-            'changePassword',
+            Request::METHOD_CHANGE_PASSWORD,
             $this->generateBody($session, $credentials, $newPassword)
         );
     }
@@ -51,7 +50,7 @@ class ChangePasswordRequestFactory
      */
     private function generateBody(Session $session, Credentials $credentials, string $newPassword): string
     {
-        $xmlService = $this->xmlServiceFactory->create([
+        $xmlService = $this->xmlWriterFactory->create([
             self::NS_SOAP => 'soapenv',
             self::NS_AUTH => 'auth',
             self::NS_COMMON => 'com'

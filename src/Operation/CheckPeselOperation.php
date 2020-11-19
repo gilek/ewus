@@ -17,53 +17,6 @@ class CheckPeselOperation extends BaseOperation
     public function __construct($pesel) {
         $this->setPesel($pesel);
     }
-    
-    /**
-     * @return string
-     */
-    public function getPesel(): string
-    {
-        return $this->pesel;
-    }
-
-    /**
-     * TODO THIS SHOULN'D EXIST
-     * @param string $pesel
-     */
-    public function setPesel(string $pesel): void
-    {
-        $this->pesel = $pesel;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */    
-    public function makeRequestXml(): string
-    {
-        return '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:com="http://xml.kamsoft.pl/ws/common" xmlns:brok="http://xml.kamsoft.pl/ws/broker">
-           <soapenv:Header>
-              <com:session id="' . $this->getSession()->getSessionId() . '" xmlns:ns1="http://xml.kamsoft.pl/ws/common"/>
-              <com:authToken id="' . $this->getSession()->getToken() . '" xmlns:ns1="http://xml.kamsoft.pl/ws/common"/>
-           </soapenv:Header>
-           <soapenv:Body>
-              <brok:executeService>
-                 <com:location>
-                    <com:namespace>nfz.gov.pl/ws/broker/cwu</com:namespace>
-                    <com:localname>checkCWU</com:localname>
-                    <com:version>3.0</com:version>
-                 </com:location>
-                 <brok:payload>
-                    <brok:textload>
-                       <ewus:status_cwu_pyt xmlns:ewus="https://ewus.nfz.gov.pl/ws/broker/ewus/status_cwu/v3">
-                          <ewus:numer_pesel>' . $this->getPesel() . '</ewus:numer_pesel>
-                          <ewus:system_swiad nazwa="EwusClient by gilek" wersja="1.1"/>
-                       </ewus:status_cwu_pyt>
-                    </brok:textload>
-                 </brok:payload>
-              </brok:executeService>
-           </soapenv:Body>
-        </soapenv:Envelope>';        
-    }
 
     /**
      * {@inheritDoc}

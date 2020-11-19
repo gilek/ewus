@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Gilek\Ewus\Driver;
 
-use Gilek\Ewus\Service\ServiceInterface;
-
 interface DriverInterface
 {
     /**
@@ -12,6 +10,8 @@ interface DriverInterface
      * @param string $request XML format
      *
      * @return string
+     *
+     * @throws WsdlNotFoundException
      */
     public function doRequest(string $url, string $request): string;
 }
