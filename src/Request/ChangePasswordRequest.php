@@ -4,10 +4,14 @@ declare(strict_types = 1);
 namespace Gilek\Ewus\Request;
 
 use Gilek\Ewus\Credentials;
+use Gilek\Ewus\Factory\XmlServiceFactory;
 use Gilek\Ewus\Session;
 
-class ChangePasswordRequest implements RequestInterface
+class ChangePasswordRequest extends CredentialRequestBase implements RequestInterface
 {
+    private const NS_SOAP = 'http://schemas.xmlsoap.org/soap/envelope/';
+    private const NS_AUTH = 'http://xml.kamsoft.pl/ws/kaas/login_types';
+
     /** @var Session */
     private $session;
 
@@ -30,37 +34,35 @@ class ChangePasswordRequest implements RequestInterface
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function getMethodName(): string
+    {
+        return 'changePassword';
+    }
+
+    /**
      * @return string
      */
     public function getBody(): string
     {
-        $session = $this->getSession();
-        $xml = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:com="http://xml.kamsoft.pl/ws/common" xmlns:auth="http://xml.kamsoft.pl/ws/kaas/login_types">
-            <soapenv:Header>
-               <com:authToken id="' . $session->getToken() . '"/>
-               <com:session id="' . $session->getSessionId() . '"/>               
-            </soapenv:Header>
-            <soapenv:Body>
-                <auth:changePassword>
-                    <auth:credentials>
-                        <auth:item>
-                            <auth:name>login</auth:name>
-                            <auth:value><auth:stringValue>' . $session->getLogin() . '</auth:stringValue></auth:value>
-                        </auth:item>';
-        foreach ((array)$session->getLoginParams() as $key => $value) {
-            $xml.= '<auth:item>
-                        <auth:name>' . $key . '</auth:name>
-                        <auth:value><auth:stringValue>' . $value . '</auth:stringValue></auth:value>
-                    </auth:item>';
-        }
-        $xml .= '</auth:credentials>
-                    <auth:oldPassword>' . $session->getPassword() . '</auth:oldPassword>
-                    <auth:newPassword>' . $this->getNewPassword() . '</auth:newPassword>
-                    <auth:newPasswordRepeat>' . $this->getNewPassword() . '</auth:newPasswordRepeat>
-                </auth:changePassword>
-            </soapenv:Body>
-        </soapenv:Envelope>';
+        $xmlService = (new XmlServiceFactory())->create([
+            self::NS_SOAP => 'soapenv',
+            self::NS_AUTH => 'auth'
+        ]);
 
-        return $xml;
+        $soapNs = '{' . self::NS_SOAP . '}';
+        $authNs = '{' . self::NS_AUTH . '}';
+
+        return $xmlService->write($soapNs . 'Envelope', [
+            $soapNs . 'Header' => null,
+            $soapNs . 'Body' => [
+                $authNs .  'login' => [
+                    $authNs . 'credentials' => $this->generateCredentialItems($this->credentials),
+                    $authNs . 'newPassword' => $this->newPassword,
+                    $authNs . 'newPasswordRepeat' => $this-$this->newPassword,
+                ]
+            ]
+        ]);
     }
 }

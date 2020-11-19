@@ -36,7 +36,34 @@ class Credentials
     /** @var int */
     private $idntSwd;
 
-    // TODO value object?
+    /**
+     * @param string   $login
+     * @param string   $password
+     * @param int      $domain
+     * @param int|null $idntLek
+     * @param int|null $idntSwd
+     */
+    public function __construct(
+        string $login,
+        string $password,
+        int $domain,
+        ?int $idntLek = null,
+        ?int $idntSwd = null
+    ) {
+        $this->login = $login;
+        $this->password = $password;
+        $this->domain = $domain;
+
+        if ($idntLek !== null) {
+            $this->idntLek = $idntLek;
+            $this->type = self::TYPE_LEK;
+        }
+
+        if ($idntSwd !== null) {
+            $this->idntSwd = $idntSwd;
+            $this->type = self::TYPE_SWD;
+        }
+    }
 
     /**
      * @return string

@@ -6,7 +6,18 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitdb3d63971cdebecffcf6cbabf688f763
 {
+    public static $files = array (
+        '383eaff206634a77a1be54e64e6459c7' => __DIR__ . '/..' . '/sabre/uri/lib/functions.php',
+        '3569eecfeed3bcf0bad3c998a494ecb8' => __DIR__ . '/..' . '/sabre/xml/lib/Deserializer/functions.php',
+        '93aa591bc4ca510c520999e34229ee79' => __DIR__ . '/..' . '/sabre/xml/lib/Serializer/functions.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
+        'S' => 
+        array (
+            'Sabre\\Xml\\' => 10,
+            'Sabre\\Uri\\' => 10,
+        ),
         'G' => 
         array (
             'Gilek\\Ewus\\' => 11,
@@ -14,6 +25,14 @@ class ComposerStaticInitdb3d63971cdebecffcf6cbabf688f763
     );
 
     public static $prefixDirsPsr4 = array (
+        'Sabre\\Xml\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/sabre/xml/lib',
+        ),
+        'Sabre\\Uri\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/sabre/uri/lib',
+        ),
         'Gilek\\Ewus\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',

@@ -7,7 +7,11 @@ namespace Gilek\Ewus\Request;
 interface RequestInterface
 {
     /**
-     * TODO think about name
+     * @return string
+     */
+    public function getMethodName(): string;
+
+    /**
      * @return string
      */
     public function getBody(): string;

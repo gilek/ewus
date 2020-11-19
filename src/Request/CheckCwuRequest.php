@@ -3,10 +3,21 @@ declare(strict_types = 1);
 
 namespace Gilek\Ewus\Request;
 
+use DateTimeImmutable;
+use Gilek\Ewus\Client;
+use Gilek\Ewus\Factory\XmlServiceFactory;
 use Gilek\Ewus\Session;
+use Sabre\Xml\Service;
 
 class CheckCwuRequest implements RequestInterface
 {
+    private const NS_SOAP = 'http://schemas.xmlsoap.org/soap/envelope/';
+    private const NS_COMMON = 'http://xml.kamsoft.pl/ws/common';
+    private const NS_BROKER = 'http://xml.kamsoft.pl/ws/broker';
+    private const NS_EWUS = 'https://ewus.nfz.gov.pl/ws/broker/ewus/status_cwu/v5';
+
+    public const NAME = 'checkCwu';
+
     /** @var string */
     private $pesel;
 
@@ -24,32 +35,69 @@ class CheckCwuRequest implements RequestInterface
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function getMethodName(): string
+    {
+        return self::NAME;
+    }
+
+    /**
      * @return string
      */
     public function getBody(): string
     {
-        return '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:com="http://xml.kamsoft.pl/ws/common" xmlns:brok="http://xml.kamsoft.pl/ws/broker">
-           <soapenv:Header>
-              <com:session id="' . $this->session->getSessionId() . '" xmlns:ns1="http://xml.kamsoft.pl/ws/common"/>
-              <com:authToken id="' . $this->session->getToken() . '" xmlns:ns1="http://xml.kamsoft.pl/ws/common"/>
-           </soapenv:Header>
-           <soapenv:Body>
-              <brok:executeService>
-                 <com:location>
-                    <com:namespace>nfz.gov.pl/ws/broker/cwu</com:namespace>
-                    <com:localname>checkCWU</com:localname>
-                    <com:version>3.0</com:version>
-                 </com:location>
-                 <brok:payload>
-                    <brok:textload>
-                       <ewus:status_cwu_pyt xmlns:ewus="https://ewus.nfz.gov.pl/ws/broker/ewus/status_cwu/v3">
-                          <ewus:numer_pesel>' . $this->pesel . '</ewus:numer_pesel>
-                          <ewus:system_swiad nazwa="EwusClient by gilek" wersja="1.1"/>
-                       </ewus:status_cwu_pyt>
-                    </brok:textload>
-                 </brok:payload>
-              </brok:executeService>
-           </soapenv:Body>
-        </soapenv:Envelope>';
+        $xmlService = (new XmlServiceFactory())->create([
+            self::NS_SOAP => 'soapenv',
+            self::NS_COMMON => 'com',
+            self::NS_BROKER => 'brok',
+            self::NS_EWUS => 'ewus',
+        ]);
+
+        $soapNs = '{' . self::NS_SOAP . '}';
+        $comNs = '{' . self::NS_COMMON . '}';
+        $brokNs = '{' . self::NS_BROKER . '}';
+        $ewusNs = '{' . self::NS_EWUS . '}';
+
+        return $xmlService->write($soapNs . 'Envelope', [
+            $soapNs . 'Header' => [
+                [
+                    'name' =>  $comNs . 'session',
+                    'attributes' => [
+                        'id' => $this->session->getSessionId()
+                    ]
+                ],
+                [
+                    'name' =>  $comNs . 'authToken',
+                    'attributes' => [
+                        'id' => $this->session->getSessionId()
+                    ]
+                ],
+            ],
+            $soapNs . 'Body' => [
+                $brokNs .  'executeService' => [
+                    $comNs . 'location' => [
+                        $comNs . 'namespace' => 'nfz.gov.pl/ws/broker/cwu',
+                        $comNs . 'localname' => 'checkCWU',
+                        $comNs . 'version' => '5.0'
+                    ],
+                    $brokNs . 'date' => (new DateTimeImmutable())->format('c'),
+                    $brokNs . 'payload' => [
+                        $brokNs . 'textload' => [
+                            $ewusNs . 'status_cwu_pyt' => [
+                               $ewusNs . 'numer_pesel' => $this->pesel,
+                               [
+                                   'name' => 'system_swiad',
+                                   'attributes' => [
+                                       'nazwa' => 'gilek/ewus',
+                                       'wersja' => Client::VERSION
+                                   ],
+                               ],
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ]);
     }
 }

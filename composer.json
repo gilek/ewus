@@ -19,11 +19,12 @@
     "require": {
         "ext-soap": "*",
         "ext-dom": "*",
-        "ext-mbstring": "*"
+        "ext-mbstring": "*",
+        "sabre/xml": "^2.2"
     },
     "config": {
         "platform": {
-            "php": "^7.1"
+            "php": "7.1"
         }
     }
 }

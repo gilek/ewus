@@ -18,6 +18,8 @@ use Gilek\Ewus\Service\ServiceBrokerInterface;
 
 class Client
 {
+    public const VERSION = '2.0';
+
     /** @var Credentials */
     private $credentials;
 
@@ -135,7 +137,7 @@ class Client
     public function doRequest(RequestInterface $request): string
     {
         return $this->driver->doRequest(
-            $this->serviceBroker->resolve($request),
+            $this->serviceBroker->resolve($request->getMethodName()),
             $request->getBody()
         );
     }
