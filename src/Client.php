@@ -4,15 +4,18 @@ namespace Gilek\Ewus;
 
 use Gilek\Ewus\Driver\DriverInterface;
 use Gilek\Ewus\Driver\SoapDriver;
-use Gilek\Ewus\Request\ChangePasswordRequest;
-use Gilek\Ewus\Request\CheckCwuRequest;
-use Gilek\Ewus\Request\LoginRequest;
-use Gilek\Ewus\Request\LogoutRequest;
+use Gilek\Ewus\Request\ChangePasswordRequestFactory;
+use Gilek\Ewus\Request\CheckCwuRequestFactory;
+use Gilek\Ewus\Request\LoginRequestFactory;
+use Gilek\Ewus\Request\LogoutRequestFactory;
+use Gilek\Ewus\Request\Request;
+use Gilek\Ewus\Request\RequestFactory;
 use Gilek\Ewus\Request\RequestInterface;
 use Gilek\Ewus\Response\ChangePasswordResponse;
 use Gilek\Ewus\Response\CheckCwuResponse;
 use Gilek\Ewus\Response\LoginResponse;
-use Gilek\Ewus\ResponseFactory\ResponseFactory;
+use Gilek\Ewus\Response\LogoutResponse;
+use Gilek\Ewus\Response\ResponseFactory;
 use Gilek\Ewus\Service\ServiceBroker;
 use Gilek\Ewus\Service\ServiceBrokerInterface;
 
@@ -32,6 +35,9 @@ class Client
     /** @var ServiceBrokerInterface */
     private $serviceBroker;
 
+    /** @var RequestFactory */
+    private $requestFactory;
+
     /** @var ResponseFactory */
     private $responseFactory;
 
@@ -49,6 +55,7 @@ class Client
         $this->driver = $driver !== null ? $driver : new SoapDriver();
         $this->serviceBroker = $serviceBroker !== null ? $serviceBroker : new ServiceBroker();
         // Hardcoded
+        $this->requestFactory = new RequestFactory();
         $this->responseFactory = new ResponseFactory();
     }
 
@@ -72,7 +79,7 @@ class Client
      */
     public function login(): LoginResponse
     {
-        $request = new LoginRequest($this->credentials);
+        $request = $this->requestFactory->createLogin($this->credentials);
 
         return $this->responseFactory->createLogin(
             $this->doRequest($request)
@@ -80,16 +87,19 @@ class Client
     }
 
     /**
-     * Is bool enought?
+     * @return LogoutResponse
      */
-    public function logout(): void
+    public function logout(): LogoutResponse
     {
         if (!$this->isAuthorized()) {
+            // TODO exception
             return;
         }
+        $request = $this->requestFactory->createLogout($this->session);
 
-        $request = new LogoutRequest($this->session);
-        $this->doRequest($request);
+        return $this->responseFactory->createLogout(
+            $this->doRequest($request)
+        );
     }
     
     /**
@@ -104,7 +114,7 @@ class Client
             $this->authorize();
         }
 
-        $request = new ChangePasswordRequest($this->session, $this->credentials, $newPassword);
+        $request = $this->requestFactory->createChangePassword($this->session, $this->credentials, $newPassword);
 
         return $this->responseFactory->createChangePassword(
             $this->doRequest($request)
@@ -122,7 +132,7 @@ class Client
             $this->authorize();
         }
 
-        $request = new CheckCwuRequest($this->session, $pesel);
+        $request = $this->requestFactory->createCheckCwu($this->session, $pesel);
 
         return $this->responseFactory->createCwu(
             $this->doRequest($request)
@@ -130,11 +140,11 @@ class Client
     }
 
     /**
-     * @param RequestInterface $request
+     * @param Request $request
      *
      * @return string
      */
-    public function doRequest(RequestInterface $request): string
+    public function doRequest(Request $request): string
     {
         return $this->driver->doRequest(
             $this->serviceBroker->resolve($request->getMethodName()),

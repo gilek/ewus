@@ -1,64 +1,55 @@
 <?php
-
-/**
- * This file is part of Boozt Platform
- * and belongs to Boozt Fashion AB.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
- */
-
 declare(strict_types = 1);
 
 namespace Gilek\Ewus\Request;
 
 use Gilek\Ewus\Credentials;
 
-abstract class CredentialRequestBase
+trait WithCredentialItem
 {
-    protected const NS_AUTH = 'http://xml.kamsoft.pl/ws/kaas/login_types';
-
     /**
      * @param Credentials $credentials
+     * @param string      $ns
      *
-     * @return array[]
+     * @return array[] // TODO return type
      */
-    protected function generateCredentialItems(Credentials $credentials): array
+    private function generateCredentialItems(Credentials $credentials, string $ns): array
     {
         $items = [
-            $this->createCredentialItem('login', $credentials->getLogin()),
+            $this->createCredentialItem($ns, 'login', $credentials->getLogin()),
             $this->createCredentialItem(
+                $ns,
                 'domain',
                 sprintf('%02d', $credentials->getDomain())
             ),
         ];
 
         if (null !== $type = $credentials->getType()) {
-            $items[] = $this->createCredentialItem('type', $type);
+            $items[] = $this->createCredentialItem($ns,'type', $type);
         }
 
         if (null !== $idntLek = $credentials->getIdntLek()) {
-            $items[] = $this->createCredentialItem('idntLek', (string) $idntLek);
+            $items[] = $this->createCredentialItem($ns, 'idntLek', (string) $idntLek);
         }
 
         if (null !== $idntSwd = $credentials->getIdntSwd()) {
-            $items[] = $this->createCredentialItem('idntSwd', (string) $idntSwd);
+            $items[] = $this->createCredentialItem($ns,'idntSwd', (string) $idntSwd);
         }
 
         return $items;
     }
 
     /**
+     * @param string $ns
      * @param string $name
      * @param string $value
      * @param bool   $stringValue
      *
      * @return array<string, array<string, string>>
      */
-    private function createCredentialItem(string $name, string $value, bool $stringValue = false): array
+    private function createCredentialItem(string $ns, string $name, string $value, bool $stringValue = false): array
     {
-        $authNs = '{' . self::NS_AUTH . '}';
+        $authNs = '{' . $ns . '}';
 
         $elementValue = $stringValue
             ? [$authNs . 'stringValue' => $value]

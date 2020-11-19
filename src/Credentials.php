@@ -13,6 +13,7 @@ declare(strict_types = 1);
 
 namespace Gilek\Ewus;
 
+// TODO tkink about better plase
 class Credentials
 {
     private const TYPE_LEK = 'LEK';

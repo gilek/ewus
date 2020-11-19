@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Gilek\Ewus\Exception;
 
+// TODO move to response forlder
 class ResponseException extends Exception
 {
     /** @var string */

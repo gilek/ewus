@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Gilek\Ewus\Exception;
 
-/** TODO unless exception */
+/** TODO unless exception, */
 class Exception extends \Exception
 {
     /**

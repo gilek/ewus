@@ -11,14 +11,13 @@
 
 declare(strict_types = 1);
 
-namespace Gilek\Ewus\ResponseFactory;
+namespace Gilek\Ewus\Response;
 
 use Gilek\Ewus\Response\ChangePasswordResponse;
 use Gilek\Ewus\Response\CheckCwuResponse;
 use Gilek\Ewus\Response\LoginResponse;
 use Gilek\Ewus\Response\LogoutResponse;
 
-/** Class ResponseFactory */
 class ResponseFactory
 {
     public function createLogin(string $body): LoginResponse
@@ -31,8 +30,7 @@ class ResponseFactory
 
     }
 
-    // TODO do we need this?
-    public function createLogout(): LogoutResponse
+    public function createLogout(string $body): LogoutResponse
     {
 
     }

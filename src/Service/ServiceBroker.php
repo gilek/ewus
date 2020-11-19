@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Gilek\Ewus\Service;
 
-use Gilek\Ewus\Request\CheckCwuRequest;
+use Gilek\Ewus\Request\CheckCwuRequestFactory;
 
 class ServiceBroker implements ServiceBrokerInterface
 {
@@ -12,7 +12,7 @@ class ServiceBroker implements ServiceBrokerInterface
      */
     public function resolve(string $name): string
     {
-        if ($name === CheckCwuRequest::NAME) {
+        if ($name === CheckCwuRequestFactory::NAME) {
             return 'https://ewus.nfz.gov.pl/ws-broker-server-ewus/services/ServiceBroker?wsdl';
         }
 

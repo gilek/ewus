@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Gilek\Ewus;
 
+// TODO tkink about better plase
 class Session
 {
     /** @var string */

@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Gilek\Ewus\Factory;
+namespace Gilek\Ewus\Shared;
 
 use Sabre\Xml\Service;
 
@@ -10,7 +10,7 @@ use Sabre\Xml\Service;
 class XmlServiceFactory
 {
     /**
-     * @param array<string, string> $namespaceMap
+     * @param array<string, mixed> $namespaceMap
      *
      * @return Service
      */

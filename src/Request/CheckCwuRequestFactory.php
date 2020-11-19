@@ -5,49 +5,52 @@ namespace Gilek\Ewus\Request;
 
 use DateTimeImmutable;
 use Gilek\Ewus\Client;
-use Gilek\Ewus\Factory\XmlServiceFactory;
+use Gilek\Ewus\Shared\XmlServiceFactory;
 use Gilek\Ewus\Session;
-use Sabre\Xml\Service;
 
-class CheckCwuRequest implements RequestInterface
+class CheckCwuRequestFactory
 {
+    use WithSessionHeader;
+
     private const NS_SOAP = 'http://schemas.xmlsoap.org/soap/envelope/';
     private const NS_COMMON = 'http://xml.kamsoft.pl/ws/common';
     private const NS_BROKER = 'http://xml.kamsoft.pl/ws/broker';
     private const NS_EWUS = 'https://ewus.nfz.gov.pl/ws/broker/ewus/status_cwu/v5';
 
+    // TODO move to request
     public const NAME = 'checkCwu';
 
-    /** @var string */
-    private $pesel;
+    /** @var XmlServiceFactory */
+    private $xmlServiceFactory;
 
-    /** @var Session */
-    private $session;
+    /**
+     * @param XmlServiceFactory $xmlServiceFactory
+     */
+    public function __construct(XmlServiceFactory $xmlServiceFactory)
+    {
+        $this->xmlServiceFactory = $xmlServiceFactory;
+    }
 
     /**
      * @param string  $pesel
      * @param Session $session
+     *
+     * @return Request
      */
-    public function __construct(Session $session, string $pesel)
+    public function build(Session $session, string $pesel): Request
     {
-        $this->session = $session;
-        $this->pesel = $pesel;
+        return new Request(self::NAME, $this->generateBody($session, $pesel));
     }
 
     /**
-     * {@inheritDoc}
-     */
-    public function getMethodName(): string
-    {
-        return self::NAME;
-    }
-
-    /**
+     * @param Session $session
+     * @param string  $pesel
+     *
      * @return string
      */
-    public function getBody(): string
+    private function generateBody(Session $session, string $pesel): string
     {
-        $xmlService = (new XmlServiceFactory())->create([
+        $xmlService = $this->xmlServiceFactory->create([
             self::NS_SOAP => 'soapenv',
             self::NS_COMMON => 'com',
             self::NS_BROKER => 'brok',
@@ -60,20 +63,7 @@ class CheckCwuRequest implements RequestInterface
         $ewusNs = '{' . self::NS_EWUS . '}';
 
         return $xmlService->write($soapNs . 'Envelope', [
-            $soapNs . 'Header' => [
-                [
-                    'name' =>  $comNs . 'session',
-                    'attributes' => [
-                        'id' => $this->session->getSessionId()
-                    ]
-                ],
-                [
-                    'name' =>  $comNs . 'authToken',
-                    'attributes' => [
-                        'id' => $this->session->getSessionId()
-                    ]
-                ],
-            ],
+            $soapNs . 'Header' => $this->generateSessionHeaders($session, self::NS_COMMON),
             $soapNs . 'Body' => [
                 $brokNs .  'executeService' => [
                     $comNs . 'location' => [
@@ -85,14 +75,14 @@ class CheckCwuRequest implements RequestInterface
                     $brokNs . 'payload' => [
                         $brokNs . 'textload' => [
                             $ewusNs . 'status_cwu_pyt' => [
-                               $ewusNs . 'numer_pesel' => $this->pesel,
-                               [
-                                   'name' => 'system_swiad',
-                                   'attributes' => [
-                                       'nazwa' => 'gilek/ewus',
-                                       'wersja' => Client::VERSION
-                                   ],
-                               ],
+                                $ewusNs . 'numer_pesel' => $pesel,
+                                [
+                                    'name' => 'system_swiad',
+                                    'attributes' => [
+                                        'nazwa' => 'gilek/ewus',
+                                        'wersja' => Client::VERSION
+                                    ],
+                                ],
                             ]
                         ]
                     ]
