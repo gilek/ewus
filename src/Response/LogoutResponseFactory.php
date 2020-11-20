@@ -3,10 +3,11 @@ declare(strict_types = 1);
 
 namespace Gilek\Ewus\Response;
 
+use Gilek\Ewus\Ns;
+
 class LogoutResponseFactory
 {
-    private const NS_AUTH = 'auth';
-    private const NS_AUTH_URL = 'http://xml.kamsoft.pl/ws/kaas/login_types';
+    private const NS_AUTH_PREFIX = 'auth';
 
     /** @var XmlReaderFactory */
     private $xmlReaderFactory;
@@ -23,16 +24,21 @@ class LogoutResponseFactory
      * @param string $responseBody
      *
      * @return LogoutResponse
+     *
+     * @throws InvalidResponseException
      */
     public function build(string $responseBody): LogoutResponse
     {
-        $xmrReader = $this->xmlReaderFactory->create($responseBody, [
-            self::NS_AUTH => self::NS_AUTH_URL
-        ]);
+        try {
+            $xmrReader = $this->xmlReaderFactory->create($responseBody, [
+                self::NS_AUTH_PREFIX => Ns::AUTH
+            ]);
 
-        // TODO handle exception
-        return new LogoutResponse(
-            $xmrReader->getElementValue('//' . self::NS_AUTH . ':logoutReturn')
-        );
+            return new LogoutResponse(
+                $xmrReader->getElementValue('//' . self::NS_AUTH_PREFIX . ':logoutReturn')
+            );
+        } catch (EmptyResponseException | InvalidResponseFormatException | ElementNotFoundException $exception) {
+            throw new InvalidResponseException('Invalid "logout" response.', 0, $exception);
+        }
     }
 }

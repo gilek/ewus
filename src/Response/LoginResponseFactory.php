@@ -3,12 +3,12 @@ declare(strict_types = 1);
 
 namespace Gilek\Ewus\Response;
 
+use Gilek\Ewus\Ns;
+
 class LoginResponseFactory
 {
-    private const NS_AUTH = 'auth';
-    private const NS_AUTH_URL = 'http://xml.kamsoft.pl/ws/kaas/login_types';
-    private const NS_COMMON = 'com';
-    private const NS_COMMON_URL = 'http://xml.kamsoft.pl/ws/common';
+    private const NS_AUTH_PREFIX = 'auth';
+    private const NS_COMMON_PREFIX = 'com';
 
     /** @var XmlReaderFactory */
     private $xmlReaderFactory;
@@ -25,19 +25,24 @@ class LoginResponseFactory
      * @param string $responseBody
      *
      * @return LoginResponse
+     *
+     * @throws InvalidResponseException
      */
     public function build(string $responseBody): LoginResponse
     {
-        $xmrReader = $this->xmlReaderFactory->create($responseBody, [
-            self::NS_AUTH => self::NS_AUTH_URL,
-            self::NS_COMMON => self::NS_COMMON_URL,
-        ]);
+        try {
+            $xmrReader = $this->xmlReaderFactory->create($responseBody, [
+                self::NS_AUTH_PREFIX => Ns::AUTH,
+                self::NS_COMMON_PREFIX => Ns::COMMON,
+            ]);
 
-        // TODO handle exception
-        return new LoginResponse(
-            $xmrReader->getElementAttribute('//' . self::NS_COMMON . ':session', 'id'),
-            $xmrReader->getElementAttribute('//' . self::NS_COMMON . ':authToken', 'id'),
-            $xmrReader->getElementValue('//' . self::NS_AUTH . ':loginReturn')
-        );
+            return new LoginResponse(
+                $xmrReader->getElementAttribute('//' . self::NS_COMMON_PREFIX . ':session', 'id'),
+                $xmrReader->getElementAttribute('//' . self::NS_COMMON_PREFIX . ':authToken', 'id'),
+                $xmrReader->getElementValue('//' . self::NS_AUTH_PREFIX . ':loginReturn')
+            );
+        } catch (EmptyResponseException | InvalidResponseFormatException | ElementNotFoundException $exception) {
+            throw new InvalidResponseException('Invalid "login" response.', 0, $exception);
+        }
     }
 }

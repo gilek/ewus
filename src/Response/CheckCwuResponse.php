@@ -3,74 +3,74 @@ declare(strict_types=1);
 
 namespace Gilek\Ewus\Response;
 
-use Gilek\Ewus\Exception\Exception;
+use DateTimeInterface;
 
 class CheckCwuResponse
 {
-    public const DATA_STATUS = 1;
-    public const DATA_OPERATION_ID = 2;
-    public const DATA_PATIENT_NAME = 3;
-    public const DATA_PATIENT_SURNAME = 4;
-    public const DATA_PROVIDER = 5;
-    
-    public const STATUS_GOOD = 1;
-    public const STATUS_BAD = 0;
-    public const STATUS_OUT_OF_DATE = -1;
-    public const STATUS_NOT_EXIST = 99;
+    public const STATUS_INSURED = 1;
+    public const STATUS_UNINSURED = 0;
+    public const STATUS_NOT_EXIST = -1;
 
-    /** @var array */
-    private $data = [];
-    
+    /** @var Operation */
+    private $operation;
+
+    /** @var int */
+    private $statusCode;
+
+    /** @var string */
+    private $pesel;
+
+    /** @var Patient|null */
+    private $patient;
+
     /**
-     * @param int $status
-     * @param bool $strict
-     *
+     * @param Operation    $operation
+     * @param int         $statusCode
+     * @param string       $pesel
+     * @param Patient|null $patient
+     */
+    public function __construct(
+        Operation $operation,
+        int $statusCode,
+        string $pesel,
+        ?Patient $patient
+    ) {
+        $this->operation = $operation;
+        $this->statusCode = $statusCode;
+        $this->pesel = $pesel;
+        $this->patient = $patient;
+    }
+
+    /**
+     * @return Operation
+     */
+    public function getOperation(): Operation
+    {
+        return $this->operation;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStatusCode(): int
+    {
+        return $this->statusCode;
+    }
+
+    /**
      * @return string
-     *               
-     * @throws Exception
      */
-    public static function getStatus(int $status, bool $strict = false)
+    public function getPesel(): string
     {
-        // TODO omg
-        $data = array(
-            self::STATUS_GOOD => 'Ubezpieczony',
-            self::STATUS_BAD => 'Nieubezpieczony',
-            self::STATUS_OUT_OF_DATE => 'Nieaktualny',
-            self::STATUS_NOT_EXIST => 'Nieznany',
-        );
-        if (!array_key_exists($status, $data)) {
-            if ($strict) {
-                throw new Exception('Nieprawidłowa wartość statusu.');
-            } else {
-                $status = self::STATUS_NOT_EXIST;
-            }
-        }    
-        return $data[$status];
+        return $this->pesel;
     }
 
     /**
-     * @param string|null $section
-     *
-     * @return mixed
+     * @return Patient|null
      */
-    public  function getData(?string $section = null)
+    public function getPatient(): ?Patient
     {
-        return $section === null ? $this->data : $this->data[$section];
-    }
-
-    /**
-     *
-     * @param mixed       $data
-     * @param string|null $section
-     */
-    public function setData($data, ?string $section = null): void
-    {
-        // TODO omg
-        if ($section === null) {
-            $this->data = $data;
-        } else {
-            $this->data[$section] = $data;
-        }
+        return $this->patient;
     }
 }
 

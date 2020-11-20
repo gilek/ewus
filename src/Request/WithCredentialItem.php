@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Gilek\Ewus\Request;
 
-use Gilek\Ewus\Credentials;
+use Gilek\Ewus\Request\Credentials;
 
 trait WithCredentialItem
 {

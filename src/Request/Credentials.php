@@ -11,9 +11,9 @@
 
 declare(strict_types = 1);
 
-namespace Gilek\Ewus;
+namespace Gilek\Ewus\Request;
 
-// TODO tkink about better plase
+// TODO not sure if this is correct place
 class Credentials
 {
     private const TYPE_LEK = 'LEK';

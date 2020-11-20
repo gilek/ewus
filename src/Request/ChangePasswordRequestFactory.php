@@ -3,17 +3,14 @@ declare(strict_types=1);
 
 namespace Gilek\Ewus\Request;
 
-use Gilek\Ewus\Credentials;
-use Gilek\Ewus\Session;
+use Gilek\Ewus\Request\Credentials;
+use Gilek\Ewus\Ns;
+use Gilek\Ewus\Request\Session;
 
 class ChangePasswordRequestFactory
 {
     use WithCredentialItem;
     use WithSessionHeader;
-
-    private const NS_SOAP = 'http://schemas.xmlsoap.org/soap/envelope/';
-    private const NS_AUTH = 'http://xml.kamsoft.pl/ws/kaas/login_types';
-    private const NS_COMMON = 'http://xml.kamsoft.pl/ws/common';
 
     /** @var XmlWriterFactory */
     private $xmlWriterFactory;
@@ -51,19 +48,19 @@ class ChangePasswordRequestFactory
     private function generateBody(Session $session, Credentials $credentials, string $newPassword): string
     {
         $xmlService = $this->xmlWriterFactory->create([
-            self::NS_SOAP => 'soapenv',
-            self::NS_AUTH => 'auth',
-            self::NS_COMMON => 'com'
+            Ns::SOAP => 'soapenv',
+            Ns::AUTH => 'auth',
+            Ns::COMMON => 'com'
         ]);
 
-        $soapNs = '{' . self::NS_SOAP . '}';
-        $authNs = '{' . self::NS_AUTH . '}';
+        $soapNs = '{' . Ns::SOAP . '}';
+        $authNs = '{' . Ns::AUTH . '}';
 
         return $xmlService->write($soapNs . 'Envelope', [
-            $soapNs . 'Header' => $this->generateSessionHeaders($session, self::NS_COMMON),
+            $soapNs . 'Header' => $this->generateSessionHeaders($session, Ns::COMMON),
             $soapNs . 'Body' => [
                 $authNs .  'login' => [
-                    $authNs . 'credentials' => $this->generateCredentialItems($credentials, self::NS_AUTH),
+                    $authNs . 'credentials' => $this->generateCredentialItems($credentials, Ns::AUTH),
                     $authNs . 'newPassword' => $newPassword,
                     $authNs . 'newPasswordRepeat' => $newPassword,
                 ]

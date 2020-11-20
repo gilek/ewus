@@ -4,15 +4,19 @@ namespace Gilek\Ewus;
 
 use Gilek\Ewus\Driver\DriverInterface;
 use Gilek\Ewus\Driver\SoapDriver;
+use Gilek\Ewus\Request\Credentials;
 use Gilek\Ewus\Request\Request;
 use Gilek\Ewus\Request\RequestFactory;
+use Gilek\Ewus\Request\RequestFactoryInterface;
+use Gilek\Ewus\Request\Session;
 use Gilek\Ewus\Response\ChangePasswordResponse;
 use Gilek\Ewus\Response\CheckCwuResponse;
 use Gilek\Ewus\Response\LoginResponse;
 use Gilek\Ewus\Response\LogoutResponse;
 use Gilek\Ewus\Response\ResponseFactory;
-use Gilek\Ewus\Service\ServiceBroker;
-use Gilek\Ewus\Service\ServiceBrokerInterface;
+use Gilek\Ewus\Response\ResponseFactoryInterface;
+use Gilek\Ewus\Server\ServerBroker;
+use Gilek\Ewus\Server\ServerBrokerInterface;
 
 class Client
 {
@@ -27,31 +31,34 @@ class Client
     /** @var DriverInterface */
     private $driver;
 
-    /** @var ServiceBrokerInterface */
-    private $serviceBroker;
+    /** @var ServerBrokerInterface */
+    private $serverBroker;
 
-    /** @var RequestFactory */
+    /** @var RequestFactoryInterface */
     private $requestFactory;
 
     /** @var ResponseFactory */
     private $responseFactory;
 
     /**
-     * @param Credentials          $credentials
+     * @param Credentials $credentials
      * @param DriverInterface|null $driver
-     * @param ServiceBroker|null   $serviceBroker
+     * @param ServerBrokerInterface|null $serverBroker
+     * @param RequestFactoryInterface|null $requestFactory
+     * @param ResponseFactoryInterface|null $responseFactory
      */
     public function __construct(
         Credentials $credentials,
         ?DriverInterface $driver = null,
-        ?ServiceBroker $serviceBroker = null
+        ?ServerBrokerInterface $serverBroker = null,
+        ?RequestFactoryInterface $requestFactory = null,
+        ?ResponseFactoryInterface $responseFactory = null
     ) {
         $this->credentials = $credentials;
-        $this->driver = $driver !== null ? $driver : new SoapDriver();
-        $this->serviceBroker = $serviceBroker !== null ? $serviceBroker : new ServiceBroker();
-        // Hardcoded
-        $this->requestFactory = new RequestFactory();
-        $this->responseFactory = new ResponseFactory();
+        $this->driver = $driver ?? new SoapDriver();
+        $this->serverBroker = $serverBroker ?? new ServerBroker();
+        $this->requestFactory = $requestFactory ?? new RequestFactory();
+        $this->responseFactory = $responseFactory ?? new ResponseFactory();
     }
 
     /**
@@ -142,7 +149,7 @@ class Client
     public function doRequest(Request $request): string
     {
         return $this->driver->doRequest(
-            $this->serviceBroker->resolve($request->getMethodName()),
+            $this->serverBroker->resolve($request->getMethodName()),
             $request->getBody()
         );
     }

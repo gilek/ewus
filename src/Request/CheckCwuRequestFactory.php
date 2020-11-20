@@ -5,16 +5,12 @@ namespace Gilek\Ewus\Request;
 
 use DateTimeImmutable;
 use Gilek\Ewus\Client;
-use Gilek\Ewus\Session;
+use Gilek\Ewus\Ns;
+use Gilek\Ewus\Request\Session;
 
 class CheckCwuRequestFactory
 {
     use WithSessionHeader;
-
-    private const NS_SOAP = 'http://schemas.xmlsoap.org/soap/envelope/';
-    private const NS_COMMON = 'http://xml.kamsoft.pl/ws/common';
-    private const NS_BROKER = 'http://xml.kamsoft.pl/ws/broker';
-    private const NS_EWUS = 'https://ewus.nfz.gov.pl/ws/broker/ewus/status_cwu/v5';
 
     /** @var XmlWriterFactory */
     private $xmlWriterFactory;
@@ -28,7 +24,7 @@ class CheckCwuRequestFactory
     }
 
     /**
-     * @param string  $pesel
+     * @param string $pesel
      * @param Session $session
      *
      * @return Request
@@ -40,26 +36,26 @@ class CheckCwuRequestFactory
 
     /**
      * @param Session $session
-     * @param string  $pesel
+     * @param string $pesel
      *
      * @return string
      */
     private function generateBody(Session $session, string $pesel): string
     {
         $xmlService = $this->xmlWriterFactory->create([
-            self::NS_SOAP => 'soapenv',
-            self::NS_COMMON => 'com',
-            self::NS_BROKER => 'brok',
-            self::NS_EWUS => 'ewus',
+            Ns::SOAP => 'soapenv',
+            Ns::COMMON => 'com',
+            Ns::BROKER => 'brok',
+            Ns::EWUS => 'ewus',
         ]);
 
-        $soapNs = '{' . self::NS_SOAP . '}';
-        $comNs = '{' . self::NS_COMMON . '}';
-        $brokNs = '{' . self::NS_BROKER . '}';
-        $ewusNs = '{' . self::NS_EWUS . '}';
+        $soapNs = '{' . Ns::SOAP . '}';
+        $comNs = '{' . Ns::COMMON . '}';
+        $brokNs = '{' . Ns::BROKER . '}';
+        $ewusNs = '{' . Ns::EWUS . '}';
 
         return $xmlService->write($soapNs . 'Envelope', [
-            $soapNs . 'Header' => $this->generateSessionHeaders($session, self::NS_COMMON),
+            $soapNs . 'Header' => $this->generateSessionHeaders($session, Ns::COMMON),
             $soapNs . 'Body' => [
                 $brokNs .  'executeService' => [
                     $comNs . 'location' => [

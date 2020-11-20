@@ -3,13 +3,13 @@ declare(strict_types = 1);
 
 namespace Gilek\Ewus\Request;
 
-use Gilek\Ewus\Session;
+use Gilek\Ewus\Request\Session;
 
 trait WithSessionHeader
 {
     /**
      * @param Session $session
-     * @param string  $ns
+     * @param string $ns
      *
      * @return array[] // TODO
      */

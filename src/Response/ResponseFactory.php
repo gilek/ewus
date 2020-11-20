@@ -3,45 +3,48 @@ declare(strict_types = 1);
 
 namespace Gilek\Ewus\Response;
 
-class ResponseFactory
+class ResponseFactory implements ResponseFactoryInterface
 {
+    /** @var XmlReaderFactory */
+    private $xmlReaderFactory;
+
     /**
-     * @param string $body
-     *
-     * @return LoginResponse
+     * @param XmlReaderFactory|null $xmlReaderFactory
      */
-    public function createLogin(string $body): LoginResponse
+    public function __construct(?XmlReaderFactory $xmlReaderFactory = null)
     {
-        return (new LoginResponseFactory())->build($body);
+        $this->xmlReaderFactory = $xmlReaderFactory ?? new XmlReaderFactory();
     }
 
     /**
-     * @param string $body
-     *
-     * @return LogoutResponse
+     * {@inheritDoc}
      */
-    public function createLogout(string $body): LogoutResponse
+    public function createLogin(string $responseBody): LoginResponse
     {
-        return (new LogoutResponseFactory())->build($body);
+        return (new LoginResponseFactory($this->xmlReaderFactory))->build($responseBody);
     }
 
     /**
-     * @param string $body
-     *
-     * @return CheckCwuResponse
+     * {@inheritDoc}
      */
-    public function createCheckCwu(string $body): CheckCwuResponse
+    public function createLogout(string $responseBody): LogoutResponse
     {
-        return (new CheckCwuResponseFactory())->build($body);
+        return (new LogoutResponseFactory($this->xmlReaderFactory))->build($responseBody);
     }
 
     /**
-     * @param string $body
-     *
-     * @return ChangePasswordResponse
+     * {@inheritDoc}
      */
-    public function createChangePassword(string $body): ChangePasswordResponse
+    public function createCheckCwu(string $responseBody): CheckCwuResponse
     {
-        return (new ChangePasswordResponseFactory())->build($body);
+        return (new CheckCwuResponseFactory($this->xmlReaderFactory))->build($responseBody);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function createChangePassword(string $responseBody): ChangePasswordResponse
+    {
+        return (new ChangePasswordResponseFactory($this->xmlReaderFactory))->build($responseBody);
     }
 }

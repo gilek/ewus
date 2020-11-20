@@ -3,12 +3,10 @@ declare(strict_types=1);
 
 namespace Gilek\Ewus\Request;
 
-use Gilek\Ewus\Credentials;
 use Gilek\Ewus\Response\XmlReaderFactory;
-use Gilek\Ewus\Session;
 
 /** Class RequestBuilder */
-class RequestFactory
+class RequestFactory implements RequestFactoryInterface
 {
     /** @var XmlWriterFactory */
     private $xmlWriterFactory;
@@ -18,13 +16,11 @@ class RequestFactory
      */
     public function __construct(?XmlReaderFactory $xmlReaderFactory = null)
     {
-        $this->xmlWriterFactory = $xmlReaderFactory !== null ? $xmlReaderFactory : new XmlWriterFactory();
+        $this->xmlWriterFactory = $xmlReaderFactory ?? new XmlWriterFactory();
     }
 
     /**
-     * @param Credentials $credentials
-     *
-     * @return Request
+     * {@inheritDoc}
      */
     public function createLogin(Credentials $credentials): Request
     {
@@ -32,9 +28,7 @@ class RequestFactory
     }
 
     /**
-     * @param Session $session
-     *
-     * @return Request
+     * {@inheritDoc}
      */
     public function createLogout(Session $session): Request
     {
@@ -42,11 +36,7 @@ class RequestFactory
     }
 
     /**
-     * @param Session     $session
-     * @param Credentials $credentials
-     * @param string      $newPassword
-     *
-     * @return Request
+     * {@inheritDoc}
      */
     public function createChangePassword(Session $session, Credentials $credentials, string $newPassword): Request
     {
@@ -55,10 +45,7 @@ class RequestFactory
     }
 
     /**
-     * @param Session $session
-     * @param string  $pesel
-     *
-     * @return Request
+     * {@inheritDoc}
      */
     public function createCheckCwu(Session $session, string $pesel): Request
     {

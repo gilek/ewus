@@ -1,9 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace Gilek\Ewus\Service;
+namespace Gilek\Ewus\Server;
 
-interface ServiceBrokerInterface
+interface ServerBrokerInterface
 {
     /**
      * @param string $name
