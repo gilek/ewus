@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Gilek\Ewus\Driver;
 
+use Gilek\Ewus\Driver\Exception\WsdlNotFoundException;
+
 interface DriverInterface
 {
     /**

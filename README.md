@@ -17,7 +17,7 @@ Użycie
 ------
 ```php
 <?php
-use gilek\ewus\Client;
+use Gilek\Ewus\Client\Client;
 use gilek\ewus\Driver\SoapDriver;
 
 $client = new Client(new SoapDriver());

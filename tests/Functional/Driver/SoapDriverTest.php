@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Gilek\Ewus\Test\Functional\Driver;
 
 use Gilek\Ewus\Driver\SoapDriver;
-use Gilek\Ewus\Driver\WsdlNotFoundException;
+use Gilek\Ewus\Driver\Exception\WsdlNotFoundException;
 use PHPUnit\Framework\TestCase;
 
 final class SoapDriverTest extends TestCase

@@ -3,8 +3,9 @@ declare(strict_types = 1);
 
 namespace Gilek\Ewus\Test\Functional\Response;
 
-use Gilek\Ewus\Response\CheckCwuResponseFactory;
-use Gilek\Ewus\Response\XmlReaderFactory;
+use Gilek\Ewus\Response\Factory\CheckCwuResponseFactory;
+use Gilek\Ewus\Response\DateTimeFactory;
+use Gilek\Ewus\Xml\Factory\XmlReaderFactory;
 use PHPUnit\Framework\TestCase;
 
 final class CheckCwuResponseFactoryTest extends TestCase
@@ -18,7 +19,7 @@ final class CheckCwuResponseFactoryTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->sut = new CheckCwuResponseFactory(new XmlReaderFactory());
+        $this->sut = new CheckCwuResponseFactory(new XmlReaderFactory(), new DateTimeFactory());
     }
 
     /**

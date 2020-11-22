@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Gilek\Ewus;
 
-class Ns
+final class Ns
 {
     public const AUTH = 'http://xml.kamsoft.pl/ws/kaas/login_types';
     public const SOAP = 'http://schemas.xmlsoap.org/soap/envelope/';
