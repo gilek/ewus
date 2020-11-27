@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Body>
+        <ns1:logoutReturn xmlns:ns1="http://xml.kamsoft.pl/ws/kaas/login_types">Wylogowany</ns1:logoutReturn>
+    </soapenv:Body>
+</soapenv:Envelope>

@@ -1,9 +1,9 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Gilek\Ewus\Test\Unit\Response;
 
-use Gilek\Ewus\Response\DateTimeFactory;
+use Gilek\Ewus\Misc\Factory\DateTimeFactory;
 use PHPUnit\Framework\TestCase;
 
 final class DateTimeFactoryTest extends TestCase

@@ -4,12 +4,14 @@ declare(strict_types=1);
 namespace Gilek\Ewus\Response\Factory;
 
 use DOMNode;
+use Gilek\Ewus\Misc\Exception\InvalidDateException;
+use Gilek\Ewus\Misc\Factory\DateTimeFactory;
 use Gilek\Ewus\Ns;
 use Gilek\Ewus\Response\CheckCwuResponse;
-use Gilek\Ewus\Response\DateTimeFactory;
 use Gilek\Ewus\Response\Exception\EmptyResponseException;
 use Gilek\Ewus\Response\Exception\InvalidResponseContentException;
 use Gilek\Ewus\Response\Exception\InvalidResponseException;
+use Gilek\Ewus\Response\InsuranceStatus;
 use Gilek\Ewus\Response\Operation;
 use Gilek\Ewus\Response\Patient;
 use Gilek\Ewus\Response\PatientInformation;
@@ -55,7 +57,12 @@ class CheckCwuResponseFactory
                 $this->extractPesel($xmlReader),
                 $this->extractPatient($xmlReader)
             );
-        } catch (EmptyResponseException | InvalidResponseContentException | ElementNotFoundException $exception) {
+        } catch (
+            EmptyResponseException |
+            InvalidResponseContentException |
+            ElementNotFoundException |
+            InvalidDateException $exception
+        ) {
             throw new InvalidResponseException('Invalid "checkCwu" response.', 0, $exception);
         }
     }
@@ -66,6 +73,7 @@ class CheckCwuResponseFactory
      * @return Operation
      *
      * @throws ElementNotFoundException
+     * @throws InvalidDateException
      */
     private function extractOperation(XmlReader $xmrReader): Operation
     {
@@ -107,6 +115,7 @@ class CheckCwuResponseFactory
      * @return Patient|null
      *
      * @throws ElementNotFoundException
+     * @throws InvalidDateException
      */
     private function extractPatient(XmlReader $xmlReader): ?Patient
     {
@@ -120,10 +129,26 @@ class CheckCwuResponseFactory
 
         return new Patient(
             $this->dateTimeFactory->createDate($expirationDate),
-            (int)$xmlReader->getElementValue($this->q('pacjent[1]/status_ubezp[1]')),
+            $this->extractInsuranceStatus($xmlReader),
             $xmlReader->getElementValue($this->q('pacjent[1]/imie[1]')),
             $xmlReader->getElementValue($this->q('pacjent[1]/nazwisko[1]')),
             $this->extractInformation($xmlReader)
+        );
+    }
+
+    /**
+     * @param XmlReader $xmlReader
+     *
+     * @return InsuranceStatus
+     * @throws ElementNotFoundException
+     */
+    private function extractInsuranceStatus(XmlReader $xmlReader): InsuranceStatus
+    {
+        $insurance = $xmlReader->getElement($this->q('pacjent[1]/status_ubezp[1]'));
+
+        return new InsuranceStatus(
+            (int)$insurance->nodeValue,
+            $insurance->getAttribute('ozn_rec') === 'DN'
         );
     }
 

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Gilek\Ewus\Response;
+namespace Gilek\Ewus\Misc\Exception;
 
 use Gilek\Ewus\EwusExceptionInterface;
 use RuntimeException;

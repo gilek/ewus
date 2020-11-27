@@ -10,8 +10,8 @@ class Patient
     /** @var DateTimeInterface */
     private $expirationDate;
 
-    /** @var int */
-    private $stateCode;
+    /** @var InsuranceStatus */
+    private $insuranceStatus;
 
     /** @var string */
     private $name;
@@ -23,21 +23,21 @@ class Patient
     private $additionalInformation;
 
     /**
-     * @param DateTimeInterface    $expirationDate
-     * @param int                  $stateCode
-     * @param string               $name
-     * @param string               $surname
+     * @param DateTimeInterface $expirationDate
+     * @param InsuranceStatus $insuranceStatus
+     * @param string $name
+     * @param string $surname
      * @param PatientInformation[] $additionalInformation
      */
     public function __construct(
         DateTimeInterface $expirationDate,
-        int $stateCode,
+        InsuranceStatus $insuranceStatus,
         string $name,
         string $surname,
         array $additionalInformation = []
     ) {
         $this->expirationDate = $expirationDate;
-        $this->stateCode = $stateCode;
+        $this->insuranceStatus = $insuranceStatus;
         $this->name = $name;
         $this->surname = $surname;
         $this->additionalInformation = $additionalInformation;
@@ -52,11 +52,11 @@ class Patient
     }
 
     /**
-     * @return int
+     * @return InsuranceStatus
      */
-    public function getStateCode(): int
+    public function getInsuranceStatus(): InsuranceStatus
     {
-        return $this->stateCode;
+        return $this->insuranceStatus;
     }
 
     /**

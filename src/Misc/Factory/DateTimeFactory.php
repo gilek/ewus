@@ -1,9 +1,10 @@
 <?php
 declare(strict_types=0);
 
-namespace Gilek\Ewus\Response;
+namespace Gilek\Ewus\Misc\Factory;
 
 use DateTimeImmutable;
+use Gilek\Ewus\Misc\Exception\InvalidDateException;
 
 // TODO find better place
 class DateTimeFactory

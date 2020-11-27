@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Body>
+        <ns3:executeServiceReturn xsi:type="ns3:ServiceResponse" xmlns:ns3="http://xml.kamsoft.pl/ws/broker"
+                                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <location xmlns="http://xml.kamsoft.pl/ws/common">
+                <namespace>nfz.gov.pl/ws/broker/cwu</namespace>
+                <localname>checkCWU</localname>
+                <version>5.0</version>
+            </location>
+            <ns3:date>2020-11-22T10:40:21.432+01:00</ns3:date>
+            <ns3:payload>
+                <ns3:textload>
+                    <ns2:status_cwu_odp data_czas_operacji="2020-11-22T10:31:06.756+01:00"
+                                        id_operacji="L1712M01200000001"
+                                        xmlns:ns2="https://ewus.nfz.gov.pl/ws/broker/ewus/status_cwu/v5">
+                        <ns2:status_cwu>-1</ns2:status_cwu>
+                        <ns2:numer_pesel>00060958187</ns2:numer_pesel>
+                        <ns2:system_nfz nazwa="eWUS" wersja="test"/>
+                        <ns2:swiad>
+                            <ns2:id_swiad>TEST3</ns2:id_swiad>
+                            <ns2:id_ow>01</ns2:id_ow>
+                            <ns2:id_operatora>3</ns2:id_operatora>
+                        </ns2:swiad>
+                        <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+                            <SignedInfo>
+                                <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+                                <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+                                <Reference URI="">
+                                    <Transforms>
+                                        <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+                                    </Transforms>
+                                    <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+                                    <DigestValue>ggsD+/y9DPI4k/LTxiuDLIICIwo=</DigestValue>
+                                </Reference>
+                            </SignedInfo>
+                            <SignatureValue>JEiBBDRXdW9ZpThDfT+XAYwHp2lHYczJNHYLfjEdnIWtn+HTxJfr54ViVHfGICDUeM7mGdMqqpN+
+                                d+FlIGJudjkQFPwHt4wXLLVlr/eigbCR1AbZrKTqDn50rMavjnWMf6FchUatmAHpDviQcKEjIFwo
+                                QQ9b8vCvnzWupQX7TfY=
+                            </SignatureValue>
+                        </Signature>
+                    </ns2:status_cwu_odp>
+                </ns3:textload>
+            </ns3:payload>
+        </ns3:executeServiceReturn>
+    </soapenv:Body>
+</soapenv:Envelope>

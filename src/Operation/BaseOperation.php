@@ -5,7 +5,6 @@ namespace Gilek\Ewus\Operation;
 
 use DOMDocument;
 use DOMXpath;
-use Gilek\Ewus\Driver\DriverInterface;
 use Gilek\Ewus\Exception\ResponseException;
 use Gilek\Ewus\Response\Response;
 use Gilek\Ewus\Response\SessionInterface;
@@ -13,58 +12,7 @@ use Gilek\Ewus\Response\SessionInterface;
 // TODO baseOperation is the evil
 abstract class BaseOperation implements OperationInterface
 {
-    /** @var DriverInterface */
-    private $driver;
-    
-    /** @var SessionInterface */
-    private $session;
 
-    /**
-     * @return DriverInterface
-     */
-    public function getDriver(): DriverInterface
-    {
-        return $this->driver;
-    }
-
-    /**
-     * @return SessionInterface
-     */
-    public function getSession(): SessionInterface
-    {
-        return $this->session;
-    }
-
-    /**
-     * @param DriverInterface $driver
-     */
-    public function setDriver(DriverInterface $driver): void
-    {
-        $this->driver = $driver;
-    }
-
-    /**
-     * @param SessionInterface $session
-     */
-    public function setSession(SessionInterface $session): void
-    {
-        $this->session = $session;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function run()
-    {
-        $responseXml = $this->getDriver()->doRequest($this->makeRequestXml());
-        $dom = $this->parseResponse($responseXml);
-        $response = $this->makeResponse($dom);
-        $response->setResponseXml($responseXml);
-        $response->setOperation($this);
-
-        return $response;
-    }    
-  
     /**
      * @param string $xml
      *
@@ -113,16 +61,4 @@ abstract class BaseOperation implements OperationInterface
 
         return $doc;        
     }
-
-    /**
-     * @return string
-     */
-    abstract function makeRequestXml(): string;
-
-    /**
-     * @param DOMDocument $dom
-     *
-     * @return Response
-     */
-    abstract function makeResponse(DOMDocument $dom): Response;
 }

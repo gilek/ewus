@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Gilek\Ewus\Response\Factory;
 
+use Gilek\Ewus\Misc\Factory\DateTimeFactory;
 use Gilek\Ewus\Response\ChangePasswordResponse;
 use Gilek\Ewus\Response\CheckCwuResponse;
 use Gilek\Ewus\Response\LoginResponse;
@@ -14,12 +15,17 @@ class ResponseFactory implements ResponseFactoryInterface
     /** @var XmlReaderFactory */
     private $xmlReaderFactory;
 
+    /** @var DateTimeFactory */
+    private $dateTimeFactory;
+
     /**
      * @param XmlReaderFactory|null $xmlReaderFactory
+     * @param DateTimeFactory|null $dateTimeFactory
      */
-    public function __construct(?XmlReaderFactory $xmlReaderFactory = null)
+    public function __construct(?XmlReaderFactory $xmlReaderFactory = null, ?DateTimeFactory $dateTimeFactory = null)
     {
         $this->xmlReaderFactory = $xmlReaderFactory ?? new XmlReaderFactory();
+        $this->dateTimeFactory = $dateTimeFactory ?? new DateTimeFactory();
     }
 
     /**
@@ -43,7 +49,7 @@ class ResponseFactory implements ResponseFactoryInterface
      */
     public function createCheckCwu(string $responseBody): CheckCwuResponse
     {
-        return (new CheckCwuResponseFactory($this->xmlReaderFactory))->build($responseBody);
+        return (new CheckCwuResponseFactory($this->xmlReaderFactory, $this->dateTimeFactory))->build($responseBody);
     }
 
     /**
