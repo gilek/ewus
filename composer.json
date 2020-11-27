@@ -13,11 +13,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Gilek\\Ewus\\": "src"
-        }
-    },
-    "autoload-dev": {
-        "prs-4": {
+            "Gilek\\Ewus\\": "src",
             "Gilek\\Ewus\\Test\\": "tests"
         }
     },

@@ -18,6 +18,8 @@ use PHPUnit\Framework\TestCase;
 
 final class CheckCwuResponseFactoryTest extends TestCase
 {
+    use WithXmlLoad;
+
     /** @var CheckCwuResponseFactory */
     private $sut;
 
@@ -51,49 +53,39 @@ final class CheckCwuResponseFactoryTest extends TestCase
     public function responseDataProvider(): Generator
     {
         yield [
-            $this->load('check_cwu_insured_patient'),
+            $this->loadXml('check_cwu_insured_patient'),
             $this->createInsuredPatientResponse(),
         ];
 
         yield [
-            $this->load('check_cwu_insured_patient_with_dn'),
+            $this->loadXml('check_cwu_insured_patient_with_dn'),
             $this->createInsuredPatientWithDnResponse(),
         ];
 
         yield [
-            $this->load('check_cwu_insured_patient_with_home_isolation'),
+            $this->loadXml('check_cwu_insured_patient_with_home_isolation'),
             $this->createInsuredPatientWithHomeIsolationResponse(),
         ];
 
         yield [
-            $this->load('check_cwu_insured_patient_with_quarantine'),
+            $this->loadXml('check_cwu_insured_patient_with_quarantine'),
             $this->createInsuredPatientWithQuarantineResponse(),
         ];
 
         yield [
-            $this->load('check_cwu_patient_not_exist'),
+            $this->loadXml('check_cwu_patient_not_exist'),
             $this->createPatientNotExistResponse()
         ];
 
         yield [
-            $this->load('check_cwu_patient_with_annulled_pesel'),
+            $this->loadXml('check_cwu_patient_with_annulled_pesel'),
             $this->createPatientWithAnnulledPeselResponse()
         ];
 
         yield [
-            $this->load('check_cwu_uninsured_patient'),
+            $this->loadXml('check_cwu_uninsured_patient'),
             $this->createUninsuredPatientResponse(),
         ];
-    }
-
-    /**
-     * @param $filename
-     *
-     * @return string
-     */
-    private function load($filename): string
-    {
-        return file_get_contents(__DIR__ . '/__data__/' . $filename . '.xml');
     }
 
     /**

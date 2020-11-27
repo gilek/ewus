@@ -10,6 +10,7 @@ use Gilek\Ewus\Response\Exception\InvalidResponseException;
 use Gilek\Ewus\Response\LoginResponse;
 use Gilek\Ewus\Xml\Exception\ElementNotFoundException;
 use Gilek\Ewus\Xml\Factory\XmlReaderFactory;
+use Gilek\Ewus\Xml\XmlReader;
 
 class LoginResponseFactory
 {
@@ -45,10 +46,24 @@ class LoginResponseFactory
             return new LoginResponse(
                 $xmrReader->getElementAttribute('//' . self::NS_COMMON_PREFIX . ':session', 'id'),
                 $xmrReader->getElementAttribute('//' . self::NS_COMMON_PREFIX . ':authToken', 'id'),
-                $xmrReader->getElementValue('//' . self::NS_AUTH_PREFIX . ':loginReturn')
+                $this->extractReturnMessage($xmrReader)
             );
         } catch (EmptyResponseException | InvalidResponseContentException | ElementNotFoundException $exception) {
             throw new InvalidResponseException('Invalid "login" response.', 0, $exception);
         }
+    }
+
+    /**
+     * @param XmlReader $xmrReader
+     *
+     * @return string
+     *
+     * @throws ElementNotFoundException
+     */
+    private function extractReturnMessage(XmlReader $xmrReader): string
+    {
+        $returnMessage = $xmrReader->getElementValue('//' . self::NS_AUTH_PREFIX . ':loginReturn');
+
+        return html_entity_decode($returnMessage);
     }
 }

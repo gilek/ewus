@@ -39,6 +39,7 @@ class ComposerStaticInitdb3d63971cdebecffcf6cbabf688f763
         ),
         'G' => 
         array (
+            'Gilek\\Ewus\\Test\\' => 16,
             'Gilek\\Ewus\\' => 11,
         ),
         'D' => 
@@ -82,6 +83,10 @@ class ComposerStaticInitdb3d63971cdebecffcf6cbabf688f763
         'Prophecy\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpspec/prophecy/src/Prophecy',
+        ),
+        'Gilek\\Ewus\\Test\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/tests',
         ),
         'Gilek\\Ewus\\' => 
         array (
