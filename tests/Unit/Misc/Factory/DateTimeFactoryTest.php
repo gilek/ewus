@@ -53,6 +53,7 @@ final class DateTimeFactoryTest extends TestCase
         yield ['2020-02-30T13:44:59.406+01:00'];
         yield ['2020-02-28T13:61:59.406+01:00'];
         yield ['2020-01-30T13:44:59.406'];
+        yield [''];
     }
 
     /**
@@ -85,5 +86,6 @@ final class DateTimeFactoryTest extends TestCase
     {
         yield ['2020-02-30+01:00'];
         yield ['2020-01-30'];
+        yield [''];
     }
 }
