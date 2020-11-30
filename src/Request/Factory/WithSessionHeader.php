@@ -11,7 +11,7 @@ trait WithSessionHeader
      * @param Session $session
      * @param string $ns
      *
-     * @return array[] // TODO
+     * @return array[]
      */
     private function generateSessionHeaders(Session $session, string $ns): array
     {

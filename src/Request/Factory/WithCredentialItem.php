@@ -11,7 +11,7 @@ trait WithCredentialItem
      * @param Credentials $credentials
      * @param string      $ns
      *
-     * @return array[] // TODO return type
+     * @return array[]
      */
     private function generateCredentialItems(Credentials $credentials, string $ns): array
     {

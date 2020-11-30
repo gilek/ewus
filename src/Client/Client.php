@@ -12,6 +12,7 @@ use Gilek\Ewus\Request\Request;
 use Gilek\Ewus\Response\ChangePasswordResponse;
 use Gilek\Ewus\Response\CheckCwuResponse;
 use Gilek\Ewus\Response\Exception\InvalidResponseException;
+use Gilek\Ewus\Response\Exception\ServerResponseException;
 use Gilek\Ewus\Response\Factory\ResponseFactory;
 use Gilek\Ewus\Response\Factory\ResponseFactoryInterface;
 use Gilek\Ewus\Response\LoginResponse;
@@ -84,6 +85,7 @@ class Client
      *
      * @throws InvalidResponseException
      * @throws WsdlNotFoundException
+     * @throws ServerResponseException
      */
     public function login(): LoginResponse
     {
@@ -100,6 +102,7 @@ class Client
      * @throws ClientNotAuthenticatedException
      * @throws InvalidResponseException
      * @throws WsdlNotFoundException
+     * @throws ServerResponseException
      */
     public function logout(): LogoutResponse
     {
@@ -120,6 +123,7 @@ class Client
      *
      * @throws InvalidResponseException
      * @throws WsdlNotFoundException
+     * @throws ServerResponseException
      */
     public function changePassword(string $newPassword): ChangePasswordResponse
     {
@@ -141,6 +145,7 @@ class Client
      *
      * @throws InvalidResponseException
      * @throws WsdlNotFoundException
+     * @throws ServerResponseException
      */
     public function checkCwu(string $pesel): CheckCwuResponse
     {

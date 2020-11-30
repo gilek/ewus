@@ -131,7 +131,7 @@ class XmlReader
      * @param string $query
      * @param int $index
      *
-     * @return DOMNode // TODO better to wrap it somehow, that missing attribute will thwon an exception
+     * @return DOMNode
      *
      * @throws ElementNotFoundException
      */
