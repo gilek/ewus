@@ -143,7 +143,12 @@ class XmlReader
             throw new ElementNotFoundException(sprintf('Element "%s" at index %d not found.', $query, $index));
         }
 
-        return $elements->item($index);
+        $element = $elements->item($index);
+        if ($element === null) {
+            throw new ElementNotFoundException(sprintf('Element "%s" at index %d not found.', $query, $index));
+        }
+
+        return $element;
     }
 
     /**

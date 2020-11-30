@@ -28,7 +28,7 @@ class Client
     /** @var Credentials */
     private $credentials;
 
-    /** @var Session|null */
+    /** @var Session */
     private $session;
 
     /** @var DriverInterface */
