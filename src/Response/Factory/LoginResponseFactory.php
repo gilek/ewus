@@ -7,7 +7,9 @@ use Gilek\Ewus\Ns;
 use Gilek\Ewus\Response\Exception\EmptyResponseException;
 use Gilek\Ewus\Response\Exception\InvalidResponseContentException;
 use Gilek\Ewus\Response\Exception\InvalidResponseException;
+use Gilek\Ewus\Response\Exception\ServerResponseException;
 use Gilek\Ewus\Response\LoginResponse;
+use Gilek\Ewus\Response\Service\ErrorParserService;
 use Gilek\Ewus\Xml\Exception\ElementNotFoundException;
 use Gilek\Ewus\Xml\Factory\XmlReaderFactory;
 use Gilek\Ewus\Xml\XmlReader;
@@ -20,12 +22,17 @@ class LoginResponseFactory
     /** @var XmlReaderFactory */
     private $xmlReaderFactory;
 
+    /** @var ErrorParserService */
+    private $errorParserService;
+
     /**
      * @param XmlReaderFactory $xmlReaderFactory
+     * @param ErrorParserService $errorParserService
      */
-    public function __construct(XmlReaderFactory $xmlReaderFactory)
+    public function __construct(XmlReaderFactory $xmlReaderFactory, ErrorParserService $errorParserService)
     {
         $this->xmlReaderFactory = $xmlReaderFactory;
+        $this->errorParserService = $errorParserService;
     }
 
     /**
@@ -34,19 +41,22 @@ class LoginResponseFactory
      * @return LoginResponse
      *
      * @throws InvalidResponseException
+     * @throws ServerResponseException
      */
     public function build(string $responseBody): LoginResponse
     {
         try {
-            $xmrReader = $this->xmlReaderFactory->create($responseBody, [
+            $xmlReader = $this->xmlReaderFactory->create($responseBody, [
                 self::NS_AUTH_PREFIX => Ns::AUTH,
                 self::NS_COMMON_PREFIX => Ns::COMMON,
             ]);
 
+            $this->errorParserService->throwErrorIfExist($xmlReader);
+
             return new LoginResponse(
-                $xmrReader->getElementAttribute('//' . self::NS_COMMON_PREFIX . ':session', 'id'),
-                $xmrReader->getElementAttribute('//' . self::NS_COMMON_PREFIX . ':authToken', 'id'),
-                $this->extractReturnMessage($xmrReader)
+                $xmlReader->getElementAttribute('//' . self::NS_COMMON_PREFIX . ':session', 'id'),
+                $xmlReader->getElementAttribute('//' . self::NS_COMMON_PREFIX . ':authToken', 'id'),
+                $this->extractReturnMessage($xmlReader)
             );
         } catch (EmptyResponseException | InvalidResponseContentException | ElementNotFoundException $exception) {
             throw new InvalidResponseException('Invalid "login" response.', 0, $exception);

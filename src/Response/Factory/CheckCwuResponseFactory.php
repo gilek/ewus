@@ -11,10 +11,12 @@ use Gilek\Ewus\Response\CheckCwuResponse;
 use Gilek\Ewus\Response\Exception\EmptyResponseException;
 use Gilek\Ewus\Response\Exception\InvalidResponseContentException;
 use Gilek\Ewus\Response\Exception\InvalidResponseException;
+use Gilek\Ewus\Response\Exception\ServerResponseException;
 use Gilek\Ewus\Response\InsuranceStatus;
 use Gilek\Ewus\Response\Operation;
 use Gilek\Ewus\Response\Patient;
 use Gilek\Ewus\Response\PatientInformation;
+use Gilek\Ewus\Response\Service\ErrorParserService;
 use Gilek\Ewus\Xml\Exception\ElementNotFoundException;
 use Gilek\Ewus\Xml\Factory\XmlReaderFactory;
 use Gilek\Ewus\Xml\XmlReader;
@@ -26,17 +28,25 @@ class CheckCwuResponseFactory
     /** @var XmlReaderFactory */
     private $xmlReaderFactory;
 
+    /** @var ErrorParserService */
+    private $errorParserService;
+
     /** @var DateTimeFactory */
     private $dateTimeFactory;
 
     /**
      * @param XmlReaderFactory $xmlReaderFactory
+     * @param ErrorParserService $errorParserService
      * @param DateTimeFactory $dateTimeFactory
      */
-    public function __construct(XmlReaderFactory $xmlReaderFactory, DateTimeFactory $dateTimeFactory)
-    {
+    public function __construct(
+        XmlReaderFactory $xmlReaderFactory,
+        ErrorParserService $errorParserService,
+        DateTimeFactory $dateTimeFactory
+    ) {
         $this->xmlReaderFactory = $xmlReaderFactory;
         $this->dateTimeFactory = $dateTimeFactory;
+        $this->errorParserService = $errorParserService;
     }
 
     /**
@@ -45,11 +55,13 @@ class CheckCwuResponseFactory
      * @return CheckCwuResponse
      *
      * @throws InvalidResponseException
+     * @throws ServerResponseException
      */
     public function build(string $responseBody): CheckCwuResponse
     {
         try {
             $xmlReader = $this->xmlReaderFactory->create($responseBody, [self::NS_EWUS_PREFIX => Ns::EWUS]);
+            $this->errorParserService->throwErrorIfExist($xmlReader);
 
             return new CheckCwuResponse(
                 $this->extractOperation($xmlReader),

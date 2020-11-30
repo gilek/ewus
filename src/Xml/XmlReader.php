@@ -10,12 +10,16 @@ use DOMXPath;
 use Gilek\Ewus\Response\Exception\EmptyResponseException;
 use Gilek\Ewus\Response\Exception\InvalidResponseContentException;
 use Gilek\Ewus\Xml\Exception\ElementNotFoundException;
+use Gilek\Ewus\Xml\Exception\NamespaceNotRegisteredException;
 
 class XmlReader
 {
     /** @var DOMXPath */
     private $xpath;
 
+    /** @var array<string, string> */
+    private $namespacePrefixes =[];
+
     /**
      * @param string $xml
      * @param array<string, string> $namespaces
@@ -23,34 +27,67 @@ class XmlReader
      * @throws EmptyResponseException
      * @throws InvalidResponseContentException
      */
-    public function __construct(string $xml, array $namespaces)
+    public function __construct(string $xml, array $namespaces = [])
     {
-        $this->xpath = $this->createXpath($xml, $namespaces);
+        $this->xpath = $this->createXpath($xml);
+        $this->registerNamespaces($namespaces);
     }
 
     /**
      * @param string $xml
-     * @param array<string, string> $namespaces
      *
      * @return DOMXPath
      *
      * @throws EmptyResponseException
      * @throws InvalidResponseContentException
      */
-    private function createXpath(string $xml, array $namespaces): DOMXPath
+    private function createXpath(string $xml): DOMXPath
     {
         if (trim($xml) === '') {
             throw new EmptyResponseException('Empty response received.');
         }
 
-        $xpath = new DOMXPath(
+        return new DOMXPath(
             $this->createDomDocument($xml)
         );
+    }
+
+    /**
+     * @param array<string, string> $namespaces
+     */
+    private function registerNamespaces(array $namespaces): void
+    {
         foreach ($namespaces as $prefix => $namespace) {
-            $xpath->registerNamespace($prefix, $namespace);
+            $this->registerNamespace($prefix, $namespace);
+        }
+    }
+
+    /**
+     * @param string $prefix
+     * @param string $namespace
+     */
+    public function registerNamespace(string $prefix, string $namespace): void
+    {
+        $this->xpath->registerNamespace($prefix, $namespace);
+        $this->namespacePrefixes[$namespace] = $prefix;
+    }
+
+    /**
+     * @param string $namespace
+     *
+     * @return string
+     *
+     * @throws NamespaceNotRegisteredException
+     */
+    public function getNamespacePrefix(string $namespace): string
+    {
+        if (!array_key_exists($namespace, $this->namespacePrefixes)) {
+            throw new NamespaceNotRegisteredException(
+                sprintf('Namespace "%s" is not registered.', $namespace)
+            );
         }
 
-        return $xpath;
+        return $this->namespacePrefixes[$namespace];
     }
 
     /**

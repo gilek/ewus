@@ -27,7 +27,7 @@ trait WithSessionHeader
             [
                 'name' =>  $comNs . 'authToken',
                 'attributes' => [
-                    'id' => $session->getSessionId()
+                    'id' => $session->getToken()
                 ]
             ],
         ];

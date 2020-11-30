@@ -17,13 +17,13 @@ class Credentials
     /** @var int */
     private $domain;
 
-    /** @var string */
+    /** @var string|null */
     private $type;
 
-    /** @var int */
+    /** @var int|null */
     private $idntLek;
 
-    /** @var int */
+    /** @var int|null */
     private $idntSwd;
 
     /**
@@ -80,25 +80,25 @@ class Credentials
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getType(): string
+    public function getType(): ?string
     {
         return $this->type;
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getIdntLek(): int
+    public function getIdntLek(): ?int
     {
         return $this->idntLek;
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getIdntSwd(): int
+    public function getIdntSwd(): ?int
     {
         return $this->idntSwd;
     }

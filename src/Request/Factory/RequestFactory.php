@@ -4,15 +4,10 @@ declare(strict_types=1);
 namespace Gilek\Ewus\Request\Factory;
 
 use Gilek\Ewus\Client\Credentials;
-use Gilek\Ewus\Request\Factory\ChangePasswordRequestFactory;
-use Gilek\Ewus\Request\Factory\CheckCwuRequestFactory;
-use Gilek\Ewus\Request\Factory\LoginRequestFactory;
-use Gilek\Ewus\Request\Factory\LogoutRequestFactory;
 use Gilek\Ewus\Request\Request;
-use Gilek\Ewus\Request\Factory\RequestFactoryInterface;
 use Gilek\Ewus\Response\Session;
-use Gilek\Ewus\Xml\Factory\XmlWriterFactory;
 use Gilek\Ewus\Xml\Factory\XmlReaderFactory;
+use Gilek\Ewus\Xml\Factory\XmlWriterFactory;
 
 class RequestFactory implements RequestFactoryInterface
 {
@@ -32,7 +27,7 @@ class RequestFactory implements RequestFactoryInterface
      */
     public function createLogin(Credentials $credentials): Request
     {
-        return (new LoginRequestFactory($this->xmlWriterFactory))->build($credentials);
+        return (new LoginRequestFactory($this->xmlWriterFactory))->create($credentials);
     }
 
     /**
@@ -40,7 +35,7 @@ class RequestFactory implements RequestFactoryInterface
      */
     public function createLogout(Session $session): Request
     {
-        return (new LogoutRequestFactory($this->xmlWriterFactory))->build($session);
+        return (new LogoutRequestFactory($this->xmlWriterFactory))->create($session);
     }
 
     /**
@@ -49,7 +44,7 @@ class RequestFactory implements RequestFactoryInterface
     public function createChangePassword(Session $session, Credentials $credentials, string $newPassword): Request
     {
         return (new ChangePasswordRequestFactory($this->xmlWriterFactory))
-            ->build($session, $credentials, $newPassword);
+            ->create($session, $credentials, $newPassword);
     }
 
     /**
@@ -58,6 +53,6 @@ class RequestFactory implements RequestFactoryInterface
     public function createCheckCwu(Session $session, string $pesel): Request
     {
         return (new CheckCwuRequestFactory($this->xmlWriterFactory))
-            ->build($session, $pesel);
+            ->create($session, $pesel);
     }
 }

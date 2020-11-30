@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Body>
+        <soapenv:Fault>
+            <faultcode>soapenv:Server</faultcode>
+            <faultstring>AuthTokenExceptionMsg</faultstring>
+            <detail>
+                <ns1:authTokenError xsi:type="ns1:AuthTokenException" xmlns:ns1="http://xml.kamsoft.pl/ws/common" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                    <ns1:location>
+                        <ns1:namespace>nfz.gov.pl/ws/broker/cwu</ns1:namespace>
+                        <ns1:localname>checkCWU</ns1:localname>
+                        <ns1:version>5.0</ns1:version>
+                    </ns1:location>
+                    <ns1:faultcode>Client.AuthTokenException</ns1:faultcode>
+                    <ns1:faultstring>Brak poprawnego tokenu autoryzacyjnego. Konieczna jest ponowna operacja logowania do systemu.</ns1:faultstring>
+                    <ns1:faultactor>pl.kamsoft.app.ws.broker.cwu.BrokerServiceAuth</ns1:faultactor>
+                </ns1:authTokenError>
+            </detail>
+        </soapenv:Fault>
+    </soapenv:Body>
+</soapenv:Envelope>

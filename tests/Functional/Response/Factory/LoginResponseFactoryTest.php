@@ -5,6 +5,8 @@ namespace Gilek\Ewus\Test\Functional\Response\Factory;
 
 use Gilek\Ewus\Response\Factory\LoginResponseFactory;
 use Gilek\Ewus\Response\LoginResponse;
+use Gilek\Ewus\Response\Service\ErrorParserService;
+use Gilek\Ewus\Test\Functional\WithXmlLoad;
 use Gilek\Ewus\Xml\Factory\XmlReaderFactory;
 use PHPUnit\Framework\TestCase;
 
@@ -21,7 +23,7 @@ class LoginResponseFactoryTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->sut = new LoginResponseFactory(new XmlReaderFactory());
+        $this->sut = new LoginResponseFactory(new XmlReaderFactory(), new ErrorParserService());
     }
 
     /**

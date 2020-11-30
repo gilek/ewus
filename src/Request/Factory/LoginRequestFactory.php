@@ -6,7 +6,6 @@ namespace Gilek\Ewus\Request\Factory;
 use Gilek\Ewus\Client\Credentials;
 use Gilek\Ewus\Ns;
 use Gilek\Ewus\Request\Request;
-use Gilek\Ewus\Request\Factory\WithCredentialItem;
 use Gilek\Ewus\Xml\Factory\XmlWriterFactory;
 
 class LoginRequestFactory
@@ -29,7 +28,7 @@ class LoginRequestFactory
      *
      * @return Request
      */
-    public function build(Credentials $credentials): Request
+    public function create(Credentials $credentials): Request
     {
         return new Request(Request::METHOD_LOGIN, $this->generateBody($credentials));
     }

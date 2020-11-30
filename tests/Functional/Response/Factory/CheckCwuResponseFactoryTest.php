@@ -13,6 +13,8 @@ use Gilek\Ewus\Response\InsuranceStatus;
 use Gilek\Ewus\Response\Operation;
 use Gilek\Ewus\Response\Patient;
 use Gilek\Ewus\Response\PatientInformation;
+use Gilek\Ewus\Response\Service\ErrorParserService;
+use Gilek\Ewus\Test\Functional\WithXmlLoad;
 use Gilek\Ewus\Xml\Factory\XmlReaderFactory;
 use PHPUnit\Framework\TestCase;
 
@@ -29,7 +31,11 @@ final class CheckCwuResponseFactoryTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->sut = new CheckCwuResponseFactory(new XmlReaderFactory(), new DateTimeFactory());
+        $this->sut = new CheckCwuResponseFactory(
+            new XmlReaderFactory(),
+            new ErrorParserService(),
+            new DateTimeFactory()
+        );
     }
 
     /**

@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Gilek\Ewus\Response;
 
-use DateTimeInterface;
-
 class CheckCwuResponse
 {
     public const STATUS_INSURED = 1;

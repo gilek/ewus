@@ -8,6 +8,8 @@ use Gilek\Ewus\Response\ChangePasswordResponse;
 use Gilek\Ewus\Response\Exception\EmptyResponseException;
 use Gilek\Ewus\Response\Exception\InvalidResponseContentException;
 use Gilek\Ewus\Response\Exception\InvalidResponseException;
+use Gilek\Ewus\Response\Exception\ServerResponseException;
+use Gilek\Ewus\Response\Service\ErrorParserService;
 use Gilek\Ewus\Xml\Exception\ElementNotFoundException;
 use Gilek\Ewus\Xml\Factory\XmlReaderFactory;
 
@@ -18,12 +20,17 @@ class ChangePasswordResponseFactory
     /** @var XmlReaderFactory */
     private $xmlReaderFactory;
 
+    /** @var ErrorParserService */
+    private $errorParserService;
+
     /**
      * @param XmlReaderFactory $xmlReaderFactory
+     * @param ErrorParserService $errorParserService
      */
-    public function __construct(XmlReaderFactory $xmlReaderFactory)
+    public function __construct(XmlReaderFactory $xmlReaderFactory, ErrorParserService $errorParserService)
     {
         $this->xmlReaderFactory = $xmlReaderFactory;
+        $this->errorParserService = $errorParserService;
     }
 
     /**
@@ -32,16 +39,18 @@ class ChangePasswordResponseFactory
      * @return ChangePasswordResponse
      *
      * @throws InvalidResponseException
+     * @throws ServerResponseException
      */
     public function build(string $responseBody): ChangePasswordResponse
     {
         try {
-            $xmrReader = $this->xmlReaderFactory->create($responseBody, [
+            $xmlReader = $this->xmlReaderFactory->create($responseBody, [
                 self::NS_AUTH_PREFIX => Ns::AUTH
             ]);
+            $this->errorParserService->throwErrorIfExist($xmlReader);
 
             return new ChangePasswordResponse(
-                $xmrReader->getElementValue('//' . self::NS_AUTH_PREFIX . ':changePasswordReturn[1]')
+                $xmlReader->getElementValue('//' . self::NS_AUTH_PREFIX . ':changePasswordReturn[1]')
             );
         } catch (EmptyResponseException | InvalidResponseContentException | ElementNotFoundException $exception) {
             throw new InvalidResponseException('Invalid "change password" response.', 0, $exception);

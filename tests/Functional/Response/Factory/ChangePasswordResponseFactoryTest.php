@@ -5,6 +5,8 @@ namespace Gilek\Ewus\Test\Functional\Response\Factory;
 
 use Gilek\Ewus\Response\ChangePasswordResponse;
 use Gilek\Ewus\Response\Factory\ChangePasswordResponseFactory;
+use Gilek\Ewus\Response\Service\ErrorParserService;
+use Gilek\Ewus\Test\Functional\WithXmlLoad;
 use Gilek\Ewus\Xml\Factory\XmlReaderFactory;
 use PHPUnit\Framework\TestCase;
 
@@ -21,7 +23,7 @@ class ChangePasswordResponseFactoryTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->sut = new ChangePasswordResponseFactory(new XmlReaderFactory());
+        $this->sut = new ChangePasswordResponseFactory(new XmlReaderFactory(), new ErrorParserService());
     }
 
     /**
