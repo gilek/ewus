@@ -40,7 +40,7 @@ class Client
     /** @var RequestFactoryInterface */
     private $requestFactory;
 
-    /** @var ResponseFactory */
+    /** @var ResponseFactoryInterface */
     private $responseFactory;
 
     /**
@@ -56,8 +56,7 @@ class Client
         ?ServerBrokerInterface $serverBroker = null,
         ?RequestFactoryInterface $requestFactory = null,
         ?ResponseFactoryInterface $responseFactory = null
-    )
-    {
+    ) {
         $this->credentials = $credentials;
         $this->driver = $driver ?? new SoapDriver();
         $this->serverBroker = $serverBroker ?? new ServerBroker();
@@ -73,7 +72,7 @@ class Client
         return $this->session !== null;
     }
 
-    private function authenticate()
+    private function authenticate(): void
     {
         $response = $this->login();
         $this->session = new Session($response->getSessionId(), $response->getToken());

@@ -6,7 +6,6 @@ namespace Gilek\Ewus\Request\Factory;
 use Gilek\Ewus\Client\Credentials;
 use Gilek\Ewus\Request\Request;
 use Gilek\Ewus\Response\Session;
-use Gilek\Ewus\Xml\Factory\XmlReaderFactory;
 use Gilek\Ewus\Xml\Factory\XmlWriterFactory;
 
 class RequestFactory implements RequestFactoryInterface
@@ -15,11 +14,11 @@ class RequestFactory implements RequestFactoryInterface
     private $xmlWriterFactory;
 
     /**
-     * @param XmlReaderFactory|null $xmlReaderFactory
+     * @param XmlWriterFactory|null $xmlWriterFactory
      */
-    public function __construct(?XmlReaderFactory $xmlReaderFactory = null)
+    public function __construct(?XmlWriterFactory $xmlWriterFactory = null)
     {
-        $this->xmlWriterFactory = $xmlReaderFactory ?? new XmlWriterFactory();
+        $this->xmlWriterFactory = $xmlWriterFactory ?? new XmlWriterFactory();
     }
 
     /**

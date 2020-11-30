@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Gilek\Ewus\Response\Factory;
 
-use DOMNode;
+use DOMElement;
 use Gilek\Ewus\Misc\Exception\InvalidDateException;
 use Gilek\Ewus\Misc\Factory\DateTimeFactory;
 use Gilek\Ewus\Ns;
@@ -69,8 +69,7 @@ class CheckCwuResponseFactory
                 $this->extractPesel($xmlReader),
                 $this->extractPatient($xmlReader)
             );
-        } catch (
-            EmptyResponseException |
+        } catch (EmptyResponseException |
             InvalidResponseContentException |
             ElementNotFoundException |
             InvalidDateException $exception
@@ -89,6 +88,7 @@ class CheckCwuResponseFactory
      */
     private function extractOperation(XmlReader $xmrReader): Operation
     {
+        /** @var DOMElement $element */
         $element = $xmrReader->getElement($this->q('status_cwu_odp[1]'));
 
         return new Operation(
@@ -156,6 +156,7 @@ class CheckCwuResponseFactory
      */
     private function extractInsuranceStatus(XmlReader $xmlReader): InsuranceStatus
     {
+        /** @var DOMElement $insurance */
         $insurance = $xmlReader->getElement($this->q('pacjent[1]/status_ubezp[1]'));
 
         return new InsuranceStatus(
@@ -195,7 +196,7 @@ class CheckCwuResponseFactory
         }
 
         $infos = [];
-        /** @var DOMNode $infoElement */
+        /** @var DOMElement $infoElement */
         foreach ($infoElements as $infoElement) {
             $infos[] = new PatientInformation(
                 $infoElement->getAttribute('kod'),

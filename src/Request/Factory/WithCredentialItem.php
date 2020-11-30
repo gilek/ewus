@@ -25,7 +25,7 @@ trait WithCredentialItem
         ];
 
         if (null !== $type = $credentials->getType()) {
-            $items[] = $this->createCredentialItem($ns,'type', $type);
+            $items[] = $this->createCredentialItem($ns, 'type', $type);
         }
 
         if (null !== $idntLek = $credentials->getIdntLek()) {
@@ -33,7 +33,7 @@ trait WithCredentialItem
         }
 
         if (null !== $idntSwd = $credentials->getIdntSwd()) {
-            $items[] = $this->createCredentialItem($ns,'idntSwd', (string) $idntSwd);
+            $items[] = $this->createCredentialItem($ns, 'idntSwd', (string) $idntSwd);
         }
 
         return $items;
@@ -45,7 +45,7 @@ trait WithCredentialItem
      * @param string $value
      * @param bool   $stringValue
      *
-     * @return array<string, array<string, string>>
+     * @return array<string, array<string, array<string, string>|string>>
      */
     private function createCredentialItem(string $ns, string $name, string $value, bool $stringValue = false): array
     {

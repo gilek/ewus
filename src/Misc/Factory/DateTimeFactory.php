@@ -48,6 +48,9 @@ class DateTimeFactory
     private function hasDateTimeReportedErrors(): bool
     {
         $errors = DateTimeImmutable::getLastErrors();
+        if ($errors === false) {
+            return true;
+        }
 
         return $errors['warning_count'] > 0 || $errors['error_count'] > 0;
     }

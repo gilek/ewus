@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Gilek\Ewus\Xml;
 
 use DOMDocument;
+use DOMElement;
 use DOMNode;
 use DOMNodeList;
 use DOMXPath;
@@ -113,7 +114,7 @@ class XmlReader
     /**
      * @param string $query
      *
-     * @return DOMNodeList
+     * @return DOMNodeList<DOMElement>
      *
      * @throws ElementNotFoundException
      */
@@ -138,7 +139,7 @@ class XmlReader
     public function getElement(string $query, int $index = 0): DOMNode
     {
         $elements = $this->xpath->query($query);
-        if ($elements->length === 0) {
+        if ($elements === false || $elements->length === 0) {
             throw new ElementNotFoundException(sprintf('Element "%s" at index %d not found.', $query, $index));
         }
 
@@ -169,6 +170,7 @@ class XmlReader
      */
     public function getElementAttribute(string $query, string $attribute, int $index = 0): string
     {
+        /** @var DOMElement $element */
         $element = $this->getElement($query, $index);
 
         return $element->getAttribute($attribute);

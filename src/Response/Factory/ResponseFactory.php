@@ -58,7 +58,9 @@ class ResponseFactory implements ResponseFactoryInterface
      */
     public function createLogout(string $responseBody): LogoutResponse
     {
-        return (new LogoutResponseFactory($this->xmlReaderFactory))->build($responseBody);
+        $factory = new LogoutResponseFactory($this->xmlReaderFactory, $this->getErrorParserService());
+
+        return $factory->build($responseBody);
     }
 
     /**
@@ -80,7 +82,9 @@ class ResponseFactory implements ResponseFactoryInterface
      */
     public function createChangePassword(string $responseBody): ChangePasswordResponse
     {
-        return (new ChangePasswordResponseFactory($this->xmlReaderFactory))->build($responseBody);
+        $factory = new ChangePasswordResponseFactory($this->xmlReaderFactory, $this->getErrorParserService());
+
+        return $factory->build($responseBody);
     }
 
     /**
