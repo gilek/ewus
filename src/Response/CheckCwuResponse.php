@@ -71,5 +71,3 @@ class CheckCwuResponse
         return $this->patient;
     }
 }
-
-
