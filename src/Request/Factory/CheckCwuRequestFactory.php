@@ -71,7 +71,7 @@ class CheckCwuRequestFactory
                             $ewusNs . 'status_cwu_pyt' => [
                                 $ewusNs . 'numer_pesel' => $pesel,
                                 [
-                                    'name' => 'system_swiad',
+                                    'name' => $ewusNs . 'system_swiad',
                                     'attributes' => [
                                         'nazwa' => 'gilek/ewus',
                                         'wersja' => Client::VERSION
