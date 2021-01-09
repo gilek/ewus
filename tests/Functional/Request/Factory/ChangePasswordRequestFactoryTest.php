@@ -13,7 +13,7 @@ final class ChangePasswordRequestFactoryTest extends RequestFactoryTestCase
 {
     private const LOGIN = 'login';
     private const PASSWORD = 'password';
-    private const DOMAIN = 15;
+    private const DOMAIN = '15';
     private const ID_LEK = 123;
     private const NEW_PASSWORD = 'new_password';
     private const SESSION_ID = 'sessionId';
@@ -38,7 +38,7 @@ final class ChangePasswordRequestFactoryTest extends RequestFactoryTestCase
     {
         $expectedResult = [
             $this->soapNode('Header', [], [
-                $this->comNode( 'session', ['id' => self::SESSION_ID]),
+                $this->comNode('session', ['id' => self::SESSION_ID]),
                 $this->comNode('authToken', ['id' => self::TOKEN]),
             ]),
             $this->soapNode('Body', [], [
@@ -50,7 +50,7 @@ final class ChangePasswordRequestFactoryTest extends RequestFactoryTestCase
                         ]),
                         $this->authNode('item', [], [
                             $this->authNode('name', [], 'domain'),
-                            $this->authNode('value', [], (string) self::DOMAIN),
+                            $this->authNode('value', [], self::DOMAIN),
                         ]),
                         $this->authNode('item', [], [
                             $this->authNode('name', [], 'type'),
@@ -72,6 +72,7 @@ final class ChangePasswordRequestFactoryTest extends RequestFactoryTestCase
             new Credentials(self::LOGIN, self::PASSWORD, self::DOMAIN, self::ID_LEK),
             self::NEW_PASSWORD
         );
+
         $this->assertSame('changePassword', $response->getMethodName());
         $this->assertEquals(
             $expectedResult,

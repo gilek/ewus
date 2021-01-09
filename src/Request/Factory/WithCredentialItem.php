@@ -43,22 +43,17 @@ trait WithCredentialItem
      * @param string $ns
      * @param string $name
      * @param string $value
-     * @param bool   $stringValue
      *
      * @return array<string, array<string, array<string, string>|string>>
      */
-    private function createCredentialItem(string $ns, string $name, string $value, bool $stringValue = false): array
+    private function createCredentialItem(string $ns, string $name, string $value): array
     {
         $authNs = '{' . $ns . '}';
-
-        $elementValue = $stringValue
-            ? [$authNs . 'stringValue' => $value]
-            : $value;
 
         return [
             $authNs . 'item' => [
                 $authNs . 'name' => $name,
-                $authNs . 'value' => $elementValue,
+                $authNs . 'value' => [$authNs . 'stringValue' => $value],
             ],
         ];
     }

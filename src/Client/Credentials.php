@@ -14,7 +14,7 @@ class Credentials
     /** @var string */
     private $password;
 
-    /** @var int */
+    /** @var string */
     private $domain;
 
     /** @var string|null */
@@ -27,16 +27,16 @@ class Credentials
     private $idntSwd;
 
     /**
-     * @param string   $login
-     * @param string   $password
-     * @param int      $domain
+     * @param string $login
+     * @param string $password
+     * @param string $domain
      * @param int|null $idntLek
      * @param int|null $idntSwd
      */
     public function __construct(
         string $login,
         string $password,
-        int $domain,
+        string $domain,
         ?int $idntLek = null,
         ?int $idntSwd = null
     ) {
@@ -72,9 +72,9 @@ class Credentials
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function getDomain(): int
+    public function getDomain(): string
     {
         return $this->domain;
     }

@@ -12,7 +12,7 @@ final class LoginRequestFactoryTest extends RequestFactoryTestCase
 {
     private const LOGIN = 'login';
     private const PASSWORD = 'password';
-    private const DOMAIN = 15;
+    private const DOMAIN = '15';
     private const TYPE = 'SWD';
     private const ID_SWD = 456;
 

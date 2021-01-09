@@ -10,7 +10,7 @@ use Gilek\Ewus\Test\Functional\WithXmlLoad;
 use Gilek\Ewus\Xml\Factory\XmlReaderFactory;
 use PHPUnit\Framework\TestCase;
 
-class ChangePasswordResponseFactoryTest extends TestCase
+final class ChangePasswordResponseFactoryTest extends TestCase
 {
     use WithXmlLoad;
 

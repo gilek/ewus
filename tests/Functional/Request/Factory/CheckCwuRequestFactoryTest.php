@@ -34,7 +34,7 @@ final class CheckCwuRequestFactoryTest extends RequestFactoryTestCase
     {
         $expectedResult = [
             $this->soapElement('Header', [], [
-                $this->comElement( 'session', ['id' => self::SESSION_ID]),
+                $this->comElement('session', ['id' => self::SESSION_ID]),
                 $this->comElement('authToken', ['id' => self::TOKEN]),
             ]),
             $this->soapElement('Body', [], [
@@ -49,7 +49,7 @@ final class CheckCwuRequestFactoryTest extends RequestFactoryTestCase
                     $this->brokerElement('payload', [], [
                         $this->brokerElement('textload', [], [
                             $this->ewusElement('status_cwu_pyt', [], [
-                                $this->ewusElement('numer_pesel', [],self::PESEL),
+                                $this->ewusElement('numer_pesel', [], self::PESEL),
                                 $this->ewusElement('system_swiad', [
                                     'nazwa' => 'gilek/ewus',
                                     'wersja' => '<VERSION>',

@@ -32,7 +32,7 @@ final class LogoutRequestFactoryTest extends RequestFactoryTestCase
     {
         $expectedResult = [
             $this->soapNode('Header', [], [
-                $this->comNode( 'session', ['id' => self::SESSION_ID]),
+                $this->comNode('session', ['id' => self::SESSION_ID]),
                 $this->comNode('authToken', ['id' => self::TOKEN]),
             ]),
             $this->soapNode('Body', [], [

@@ -1,11 +1,12 @@
 <?php
+declare(strict_types=1);
 
 namespace Gilek\Ewus\Client;
 
 use Gilek\Ewus\Client\Exception\ClientNotAuthenticatedException;
 use Gilek\Ewus\Driver\DriverInterface;
-use Gilek\Ewus\Driver\Exception\WsdlNotFoundException;
-use Gilek\Ewus\Driver\SoapDriver;
+use Gilek\Ewus\Driver\Exception\SoapOperationException;
+use Gilek\Ewus\Driver\NusoapDriver;
 use Gilek\Ewus\Request\Factory\RequestFactory;
 use Gilek\Ewus\Request\Factory\RequestFactoryInterface;
 use Gilek\Ewus\Request\Request;
@@ -58,7 +59,7 @@ class Client
         ?ResponseFactoryInterface $responseFactory = null
     ) {
         $this->credentials = $credentials;
-        $this->driver = $driver ?? new SoapDriver();
+        $this->driver = $driver ?? new NusoapDriver();
         $this->serverBroker = $serverBroker ?? new ServerBroker();
         $this->requestFactory = $requestFactory ?? new RequestFactory();
         $this->responseFactory = $responseFactory ?? new ResponseFactory();
@@ -72,27 +73,23 @@ class Client
         return $this->session !== null;
     }
 
-    private function authenticate(): void
-    {
-        $response = $this->login();
-        $this->session = new Session($response->getSessionId(), $response->getToken());
-    }
-
     /**
      *
      * @return LoginResponse
      *
      * @throws InvalidResponseException
-     * @throws WsdlNotFoundException
+     * @throws SoapOperationException
      * @throws ServerResponseException
      */
     public function login(): LoginResponse
     {
         $request = $this->requestFactory->createLogin($this->credentials);
-
-        return $this->responseFactory->createLogin(
+        $response = $this->responseFactory->createLogin(
             $this->doRequest($request)
         );
+        $this->session = new Session($response->getSessionId(), $response->getToken());
+
+        return $response;
     }
 
     /**
@@ -100,7 +97,7 @@ class Client
      *
      * @throws ClientNotAuthenticatedException
      * @throws InvalidResponseException
-     * @throws WsdlNotFoundException
+     * @throws SoapOperationException
      * @throws ServerResponseException
      */
     public function logout(): LogoutResponse
@@ -121,13 +118,13 @@ class Client
      * @return ChangePasswordResponse
      *
      * @throws InvalidResponseException
-     * @throws WsdlNotFoundException
+     * @throws SoapOperationException
      * @throws ServerResponseException
      */
     public function changePassword(string $newPassword): ChangePasswordResponse
     {
         if (!$this->isAuthenticated()) {
-            $this->authenticate();
+            $this->login();
         }
 
         $request = $this->requestFactory->createChangePassword($this->session, $this->credentials, $newPassword);
@@ -143,13 +140,13 @@ class Client
      * @return CheckCwuResponse
      *
      * @throws InvalidResponseException
-     * @throws WsdlNotFoundException
+     * @throws SoapOperationException
      * @throws ServerResponseException
      */
     public function checkCwu(string $pesel): CheckCwuResponse
     {
         if (!$this->isAuthenticated()) {
-            $this->authenticate();
+            $this->login();
         }
 
         $request = $this->requestFactory->createCheckCwu($this->session, $pesel);
@@ -164,7 +161,7 @@ class Client
      *
      * @return string
      *
-     * @throws WsdlNotFoundException
+     * @throws SoapOperationException
      */
     public function doRequest(Request $request): string
     {

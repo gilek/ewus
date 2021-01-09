@@ -1,8 +1,8 @@
 {
     "name": "gilek/ewus",
     "description": "Biblioteka do usprawnienia komunikacji z systemem eWUŚ.",
-    "keywords": ["ewus", "nfz", "biblioteka"],
-    "homepage": "https://github.com/gilek/Ewus",
+    "keywords": ["ewus", "nfz", "library"],
+    "homepage": "https://github.com/gilek/ewus",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -23,9 +23,9 @@
         }
     },
     "require": {
-        "ext-soap": "*",
         "ext-dom": "*",
-        "sabre/xml": "^2.2"
+        "sabre/xml": "^2.2",
+        "econea/nusoap": "^0.9.10"
     },
     "config": {
         "platform": {

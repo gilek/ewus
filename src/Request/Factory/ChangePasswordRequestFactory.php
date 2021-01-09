@@ -61,8 +61,9 @@ class ChangePasswordRequestFactory
         return $xmlService->write($soapNs . 'Envelope', [
             $soapNs . 'Header' => $this->generateSessionHeaders($session, Ns::COMMON),
             $soapNs . 'Body' => [
-                $authNs .  'login' => [
+                $authNs .  'changePassword' => [
                     $authNs . 'credentials' => $this->generateCredentialItems($credentials, Ns::AUTH),
+                    $authNs . 'oldPassword' => $credentials->getPassword(),
                     $authNs . 'newPassword' => $newPassword,
                     $authNs . 'newPasswordRepeat' => $newPassword,
                 ]

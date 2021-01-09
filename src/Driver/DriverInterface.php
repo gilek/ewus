@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Gilek\Ewus\Driver;
 
-use Gilek\Ewus\Driver\Exception\WsdlNotFoundException;
+use Gilek\Ewus\Driver\Exception\SoapOperationException;
 
 interface DriverInterface
 {
@@ -13,7 +13,7 @@ interface DriverInterface
      *
      * @return string
      *
-     * @throws WsdlNotFoundException
+     * @throws SoapOperationException
      */
     public function doRequest(string $url, string $request): string;
 }

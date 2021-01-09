@@ -10,7 +10,7 @@ use Gilek\Ewus\Test\Functional\WithXmlLoad;
 use Gilek\Ewus\Xml\Factory\XmlReaderFactory;
 use PHPUnit\Framework\TestCase;
 
-class LoginResponseFactoryTest extends TestCase
+final class LoginResponseFactoryTest extends TestCase
 {
     use WithXmlLoad;
 
