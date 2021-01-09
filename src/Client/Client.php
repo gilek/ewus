@@ -5,7 +5,7 @@ namespace Gilek\Ewus\Client;
 
 use Gilek\Ewus\Client\Exception\ClientNotAuthenticatedException;
 use Gilek\Ewus\Driver\DriverInterface;
-use Gilek\Ewus\Driver\Exception\SoapOperationException;
+use Gilek\Ewus\Driver\Exception\SoapOperationFailedException;
 use Gilek\Ewus\Driver\NusoapDriver;
 use Gilek\Ewus\Request\Factory\RequestFactory;
 use Gilek\Ewus\Request\Factory\RequestFactoryInterface;
@@ -78,7 +78,7 @@ class Client
      * @return LoginResponse
      *
      * @throws InvalidResponseException
-     * @throws SoapOperationException
+     * @throws SoapOperationFailedException
      * @throws ServerResponseException
      */
     public function login(): LoginResponse
@@ -97,7 +97,7 @@ class Client
      *
      * @throws ClientNotAuthenticatedException
      * @throws InvalidResponseException
-     * @throws SoapOperationException
+     * @throws SoapOperationFailedException
      * @throws ServerResponseException
      */
     public function logout(): LogoutResponse
@@ -118,7 +118,7 @@ class Client
      * @return ChangePasswordResponse
      *
      * @throws InvalidResponseException
-     * @throws SoapOperationException
+     * @throws SoapOperationFailedException
      * @throws ServerResponseException
      */
     public function changePassword(string $newPassword): ChangePasswordResponse
@@ -140,7 +140,7 @@ class Client
      * @return CheckCwuResponse
      *
      * @throws InvalidResponseException
-     * @throws SoapOperationException
+     * @throws SoapOperationFailedException
      * @throws ServerResponseException
      */
     public function checkCwu(string $pesel): CheckCwuResponse
@@ -161,7 +161,7 @@ class Client
      *
      * @return string
      *
-     * @throws SoapOperationException
+     * @throws SoapOperationFailedException
      */
     public function doRequest(Request $request): string
     {

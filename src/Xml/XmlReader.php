@@ -153,6 +153,22 @@ class XmlReader
 
     /**
      * @param string $query
+     *
+     * @return bool
+     */
+    public function hasElement(string $query): bool
+    {
+        try {
+            $this->getElement($query);
+
+            return true;
+        } catch (ElementNotFoundException $exception) {
+            return false;
+        }
+    }
+
+    /**
+     * @param string $query
      * @param int $index
      *
      * @return string

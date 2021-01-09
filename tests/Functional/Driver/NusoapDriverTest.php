@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Gilek\Ewus\Test\Functional\Driver;
 
-use Gilek\Ewus\Driver\Exception\SoapOperationException;
+use Gilek\Ewus\Driver\Exception\SoapOperationFailedException;
 use Gilek\Ewus\Driver\NusoapDriver;
 use PHPUnit\Framework\TestCase;
 
@@ -39,7 +39,7 @@ final class NusoapDriverTest extends TestCase
      */
     public function it_throws_exception_on_missing_wsdl(): void
     {
-        $this->expectException(SoapOperationException::class);
+        $this->expectException(SoapOperationFailedException::class);
         $this->expectExceptionMessage('Couldn\'t load WSDL from "http://localhost".');
         $this->sut->doRequest(
             'https://ewus.nfz.gov.pl/ws-broker-server-ewus-auth-test/services/AuthDummy?wsdl',

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Gilek\Ewus\Driver;
 
-use Gilek\Ewus\Driver\Exception\SoapOperationException;
+use Gilek\Ewus\Driver\Exception\SoapOperationFailedException;
 use nusoap_client;
 
 class NusoapDriver implements DriverInterface
@@ -41,13 +41,13 @@ class NusoapDriver implements DriverInterface
      *
      * @return string
      *
-     * @throws SoapOperationException
+     * @throws SoapOperationFailedException
      */
     public function doRequest(string $url, string $request): string
     {
         $client = $this->getInstance($url);
         if ($client->send($request) === false) {
-            throw new SoapOperationException($client->getError());
+            throw new SoapOperationFailedException($client->getError());
         }
 
         return $client->responseData;

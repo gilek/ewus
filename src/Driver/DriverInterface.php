@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Gilek\Ewus\Driver;
 
-use Gilek\Ewus\Driver\Exception\SoapOperationException;
+use Gilek\Ewus\Driver\Exception\SoapOperationFailedException;
 
 interface DriverInterface
 {
@@ -13,7 +13,7 @@ interface DriverInterface
      *
      * @return string
      *
-     * @throws SoapOperationException
+     * @throws SoapOperationFailedException
      */
     public function doRequest(string $url, string $request): string;
 }

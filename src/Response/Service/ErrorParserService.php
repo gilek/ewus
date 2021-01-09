@@ -18,7 +18,8 @@ use Gilek\Ewus\Xml\XmlReader;
 
 class ErrorParserService
 {
-    private const NS_PREFIX = 'com';
+    private const NS_COMMON_PREFIX = 'com';
+    private const NS_SOAP_PREFIX = 'soap';
 
     /**
      * @param XmlReader $xmlReader
@@ -27,12 +28,35 @@ class ErrorParserService
      */
     public function throwErrorIfExist(XmlReader $xmlReader): void
     {
-        $nsPrefix = $this->registerErrorNsPrefix($xmlReader);
+        if (!$this->hasError($xmlReader)) {
+            return;
+        }
 
-        // TODO handle this one
-        /*
-         "<?xml version='1.0' encoding='ISO-8859-1'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Body><soapenv:Fault><faultcode>soapenv:Server</faultcode><faultstring>org.apache.axis2.databinding.ADBException: Unexpected subelement {http://xml.kamsoft.pl/ws/kaas/login_types}newPassword</faultstring><detail /></soapenv:Fault></soapenv:Body></soapenv:Envelope>"
-*/
+        $this->handleEwusError($xmlReader);
+        $this->handleSoapError($xmlReader);
+    }
+
+    /**
+     * @param XmlReader $xmlReader
+     *
+     * @return bool
+     */
+    private function hasError(XmlReader $xmlReader): bool
+    {
+        $nsPrefix = $this->registerNsPrefix($xmlReader, Ns::SOAP, self::NS_SOAP_PREFIX);
+
+        return $xmlReader->hasElement('//' . $nsPrefix . ':Fault');
+    }
+
+    /**
+     * @param XmlReader $xmlReader
+     *
+     * @throws ServerResponseException
+     */
+    private function handleEwusError(XmlReader $xmlReader): void
+    {
+        $nsPrefix = $this->registerNsPrefix($xmlReader, Ns::COMMON, self::NS_COMMON_PREFIX);
+
         try {
             $code = $xmlReader->getElementValue('//' . $nsPrefix . ':faultcode');
         } catch (ElementNotFoundException $exception) {
@@ -54,16 +78,36 @@ class ErrorParserService
     /**
      * @param XmlReader $xmlReader
      *
+     * @throws ServerResponseException
+     */
+    private function handleSoapError(XmlReader $xmlReader): void
+    {
+        $message = trim(
+            preg_replace(
+                '/\s+/',
+                ' ',
+                $xmlReader->getElementValue('//faultstring')
+            )
+        );
+
+        throw new ServerResponseException($message);
+    }
+
+    /**
+     * @param XmlReader $xmlReader
+     * @param string $namespace
+     * @param string $prefixCandidate
+     *
      * @return string
      */
-    private function registerErrorNsPrefix(XmlReader $xmlReader): string
+    private function registerNsPrefix(XmlReader $xmlReader, string $namespace, string $prefixCandidate): string
     {
         try {
-            return $xmlReader->getNamespacePrefix(Ns::COMMON);
+            return $xmlReader->getNamespacePrefix($namespace);
         } catch (NamespaceNotRegisteredException $exception) {
-            $xmlReader->registerNamespace(self::NS_PREFIX, Ns::COMMON);
+            $xmlReader->registerNamespace($prefixCandidate, $namespace);
 
-            return self::NS_PREFIX;
+            return $prefixCandidate;
         }
     }
 

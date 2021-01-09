@@ -6,6 +6,6 @@ namespace Gilek\Ewus\Driver\Exception;
 use Gilek\Ewus\EwusExceptionInterface;
 use RuntimeException;
 
-class SoapOperationException extends RuntimeException implements EwusExceptionInterface
+class SoapOperationFailedException extends RuntimeException implements EwusExceptionInterface
 {
 }

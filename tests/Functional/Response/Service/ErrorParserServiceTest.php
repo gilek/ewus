@@ -6,13 +6,14 @@ namespace Gilek\Ewus\Test\Functional\Response\Service;
 use Generator;
 use Gilek\Ewus\Response\Exception\AuthenticationException;
 use Gilek\Ewus\Response\Exception\AuthTokenException;
+use Gilek\Ewus\Response\Exception\ServerResponseException;
 use Gilek\Ewus\Response\Exception\SessionException;
 use Gilek\Ewus\Response\Service\ErrorParserService;
 use Gilek\Ewus\Test\Functional\WithXmlLoad;
 use Gilek\Ewus\Xml\XmlReader;
 use PHPUnit\Framework\TestCase;
 
-class ErrorParserServiceTest extends TestCase
+final class ErrorParserServiceTest extends TestCase
 {
     use WithXmlLoad;
 
@@ -68,6 +69,13 @@ class ErrorParserServiceTest extends TestCase
             'auth_token_exception',
             AuthTokenException::class,
             'Brak poprawnego tokenu autoryzacyjnego. Konieczna jest ponowna operacja logowania do systemu.'
+        ];
+
+        yield [
+            'soap_exception',
+            ServerResponseException::class,
+            'org.apache.axis2.databinding.ADBException: Unexpected subelement '
+            . '{http://xml.kamsoft.pl/ws/kaas/login_types}newPassword'
         ];
     }
 }
