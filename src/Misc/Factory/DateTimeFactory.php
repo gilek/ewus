@@ -22,7 +22,7 @@ class DateTimeFactory
             return new DateTimeImmutable();
         }
 
-        $dateObject = DateTimeImmutable::createFromFormat('Y-m-d\TH:i:s.vO', $dateTime);
+        $dateObject = DateTimeImmutable::createFromFormat('Y-m-d\TH:i:s.uO', $dateTime);
         if ($dateObject === false || $this->hasDateTimeReportedErrors()) {
             throw new InvalidDateException(sprintf('Can\'t create date from "%s".', $dateTime));
         }
