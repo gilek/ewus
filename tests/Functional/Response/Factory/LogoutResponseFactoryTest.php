@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Gilek\Ewus\Test\Functional\Response\Factory;
 
-use Gilek\Ewus\Response\Factory\LoginResponseFactory;
 use Gilek\Ewus\Response\Factory\LogoutResponseFactory;
 use Gilek\Ewus\Response\LogoutResponse;
 use Gilek\Ewus\Response\Service\ErrorParserService;
@@ -15,13 +14,13 @@ class LogoutResponseFactoryTest extends TestCase
 {
     use WithXmlLoad;
 
-    /** @var LoginResponseFactory */
+    /** @var LogoutResponseFactory */
     private $sut;
 
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->sut = new LogoutResponseFactory(new XmlReaderFactory(), new ErrorParserService());

@@ -16,7 +16,7 @@ final class DateTimeFactoryTest extends TestCase
     /**
      * {@inheritDoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->sut = new DateTimeFactory();
@@ -46,7 +46,7 @@ final class DateTimeFactoryTest extends TestCase
     }
 
     /**
-     * @return Generator
+     * @return Generator<array>
      */
     public function invalidDateTimeDataProvider(): Generator
     {
@@ -80,7 +80,7 @@ final class DateTimeFactoryTest extends TestCase
     }
 
     /**
-     * @return Generator
+     * @return Generator<array>
      */
     public function invalidDateDataProvider(): Generator
     {

@@ -25,7 +25,7 @@ final class ChangePasswordRequestFactoryTest extends RequestFactoryTestCase
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->sut = new ChangePasswordRequestFactory(new XmlWriterFactory());

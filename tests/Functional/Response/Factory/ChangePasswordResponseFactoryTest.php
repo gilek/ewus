@@ -20,7 +20,7 @@ final class ChangePasswordResponseFactoryTest extends TestCase
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->sut = new ChangePasswordResponseFactory(new XmlReaderFactory(), new ErrorParserService());

@@ -23,7 +23,7 @@ final class ErrorParserServiceTest extends TestCase
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->sut = new ErrorParserService();
@@ -49,7 +49,7 @@ final class ErrorParserServiceTest extends TestCase
     }
 
     /**
-     * @return Generator
+     * @return Generator<array>
      */
     public function exceptionDataProvider(): Generator
     {

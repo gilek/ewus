@@ -21,7 +21,7 @@ final class LoginRequestFactoryTest extends RequestFactoryTestCase
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->sut = new LoginRequestFactory(new XmlWriterFactory());

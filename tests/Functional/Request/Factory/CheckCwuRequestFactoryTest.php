@@ -6,7 +6,6 @@ namespace Gilek\Ewus\Test\Functional\Request\Factory;
 use DateTimeImmutable;
 use Gilek\Ewus\Misc\Factory\DateTimeFactory;
 use Gilek\Ewus\Request\Factory\CheckCwuRequestFactory;
-use Gilek\Ewus\Response\Factory\CheckCwuResponseFactory;
 use Gilek\Ewus\Response\Session;
 use Gilek\Ewus\Xml\Factory\XmlWriterFactory;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -22,16 +21,17 @@ final class CheckCwuRequestFactoryTest extends RequestFactoryTestCase
     /** @var DateTimeFactory|MockObject */
     private $dateTimeFactory;
 
-    /** @var CheckCwuResponseFactory */
+    /** @var CheckCwuRequestFactory */
     private $sut;
 
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
-        $this->dateTimeFactory = $this->createMock(DateTimeFactory::class);
+        /** @var DateTimeFactory|MockObject $dateTimeFactory */
+        $this->dateTimeFactory = $dateTimeFactory = $this->createMock(DateTimeFactory::class);
         $this->sut = new CheckCwuRequestFactory(new XmlWriterFactory(), $this->dateTimeFactory);
     }
 

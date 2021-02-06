@@ -4,15 +4,18 @@ declare(strict_types=1);
 namespace Gilek\Ewus\Test\Functional;
 
 use ReflectionClass;
+use ReflectionException;
 
 trait WithXmlLoad
 {
     /**
-     * @param $filename
+     * @param string $filename
      *
      * @return string
+     *
+     * @throws ReflectionException
      */
-    private function loadXml($filename): string
+    private function loadXml(string $filename): string
     {
         $reflection = new ReflectionClass(get_class($this));
         $dir = dirname($reflection->getFileName());

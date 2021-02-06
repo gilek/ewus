@@ -19,7 +19,7 @@ final class LogoutRequestFactoryTest extends RequestFactoryTestCase
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->sut = new LogoutRequestFactory(new XmlWriterFactory());

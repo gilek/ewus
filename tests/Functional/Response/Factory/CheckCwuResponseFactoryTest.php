@@ -28,7 +28,7 @@ final class CheckCwuResponseFactoryTest extends TestCase
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->sut = new CheckCwuResponseFactory(
@@ -54,7 +54,7 @@ final class CheckCwuResponseFactoryTest extends TestCase
     }
 
     /**
-     * @return Generator
+     * @return Generator<array>
      */
     public function responseDataProvider(): Generator
     {
