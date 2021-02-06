@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Gilek\Ewus\Request\Factory;
 
-use DateTimeImmutable;
 use Gilek\Ewus\Client\Client;
+use Gilek\Ewus\Misc\Factory\DateTimeFactory;
 use Gilek\Ewus\Ns;
 use Gilek\Ewus\Request\Request;
 use Gilek\Ewus\Response\Session;
@@ -17,12 +17,17 @@ class CheckCwuRequestFactory
     /** @var XmlWriterFactory */
     private $xmlWriterFactory;
 
+    /** @var DateTimeFactory */
+    private $dateTimeFactory;
+
     /**
      * @param XmlWriterFactory $xmlWriterFactory
+     * @param DateTimeFactory $dateTimeFactory
      */
-    public function __construct(XmlWriterFactory $xmlWriterFactory)
+    public function __construct(XmlWriterFactory $xmlWriterFactory, DateTimeFactory $dateTimeFactory)
     {
         $this->xmlWriterFactory = $xmlWriterFactory;
+        $this->dateTimeFactory = $dateTimeFactory;
     }
 
     /**
@@ -65,7 +70,7 @@ class CheckCwuRequestFactory
                         $comNs . 'localname' => 'checkCWU',
                         $comNs . 'version' => '5.0'
                     ],
-                    $brokNs . 'date' => (new DateTimeImmutable())->format('c'),
+                    $brokNs . 'date' => $this->dateTimeFactory->createDateTime('now')->format('c'),
                     $brokNs . 'payload' => [
                         $brokNs . 'textload' => [
                             $ewusNs . 'status_cwu_pyt' => [

@@ -40,7 +40,7 @@ final class NusoapDriverTest extends TestCase
     public function it_throws_exception_on_missing_wsdl(): void
     {
         $this->expectException(SoapOperationFailedException::class);
-        $this->expectExceptionMessage('Couldn\'t load WSDL from "http://localhost".');
+        $this->expectExceptionMessage('HTTP Error: Unsupported HTTP response status 404 Not Found (soapclient->response has contents of the response)');
         $this->sut->doRequest(
             'https://ewus.nfz.gov.pl/ws-broker-server-ewus-auth-test/services/AuthDummy?wsdl',
             ''

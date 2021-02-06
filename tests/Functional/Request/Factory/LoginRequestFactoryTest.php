@@ -13,7 +13,6 @@ final class LoginRequestFactoryTest extends RequestFactoryTestCase
     private const LOGIN = 'login';
     private const PASSWORD = 'password';
     private const DOMAIN = '15';
-    private const TYPE = 'SWD';
     private const ID_SWD = 456;
 
     /** @var LoginRequestFactory */
@@ -38,28 +37,36 @@ final class LoginRequestFactoryTest extends RequestFactoryTestCase
         );
 
         $expectedResult = [
-            $this->soapElement('Header'),
-            $this->soapElement('Body', [], [
-                $this->authElement('login', [], [
-                    $this->authElement('credentials', [], [
-                        $this->authElement('item', [], [
-                            $this->authElement('name', [], 'login'),
-                            $this->authElement('value', [], self::LOGIN),
+            $this->soapNode('Header'),
+            $this->soapNode('Body', [], [
+                $this->authNode('login', [], [
+                    $this->authNode('credentials', [], [
+                        $this->authNode('item', [], [
+                            $this->authNode('name', [], 'login'),
+                            $this->authNode('value', [], [
+                                $this->authNode('stringValue', [], self::LOGIN)
+                            ]),
                         ]),
-                        $this->authElement('item', [], [
-                            $this->authElement('name', [], 'domain'),
-                            $this->authElement('value', [], (string) self::DOMAIN),
+                        $this->authNode('item', [], [
+                            $this->authNode('name', [], 'domain'),
+                            $this->authNode('value', [], [
+                                $this->authNode('stringValue', [], self::DOMAIN)
+                            ]),
                         ]),
-                        $this->authElement('item', [], [
-                            $this->authElement('name', [], 'type'),
-                            $this->authElement('value', [], self::TYPE),
+                        $this->authNode('item', [], [
+                            $this->authNode('name', [], 'type'),
+                            $this->authNode('value', [], [
+                                $this->authNode('stringValue', [], 'SWD')
+                            ]),
                         ]),
-                        $this->authElement('item', [], [
-                            $this->authElement('name', [], 'idntSwd'),
-                            $this->authElement('value', [], (string) self::ID_SWD),
+                        $this->authNode('item', [], [
+                            $this->authNode('name', [], 'idntSwd'),
+                            $this->authNode('value', [], [
+                                $this->authNode('stringValue', [], self::ID_SWD)
+                            ]),
                         ])
                     ]),
-                    $this->authElement('password', [], self::PASSWORD),
+                    $this->authNode('password', [], self::PASSWORD),
                 ])
             ])
         ];
@@ -72,20 +79,15 @@ final class LoginRequestFactoryTest extends RequestFactoryTestCase
     }
 
     /**
-     * @param string $namespace
      * @param string $name
-     * @param array  $attributes
-     * @param null   $value
+     * @param array<string, string> $attributes
+     * @param mixed $value
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    private function element(string $namespace, string $name, array $attributes = [], $value = null): array
+    private function soapNode(string $name, array $attributes = [], $value = null): array
     {
-        return [
-            'name' => '{' . $namespace . '}' . $name,
-            'value' => $value,
-            'attributes' => $attributes
-        ];
+        return $this->node('http://schemas.xmlsoap.org/soap/envelope/', $name, $attributes, $value);
     }
 
     /**
@@ -95,20 +97,8 @@ final class LoginRequestFactoryTest extends RequestFactoryTestCase
      *
      * @return array<string, mixed>
      */
-    private function soapElement(string $name, array $attributes = [], $value = null): array
+    private function authNode(string $name, array $attributes = [], $value = null): array
     {
-        return $this->element('http://schemas.xmlsoap.org/soap/envelope/', $name, $attributes, $value);
-    }
-
-    /**
-     * @param string $name
-     * @param array<string, string> $attributes
-     * @param mixed $value
-     *
-     * @return array<string, mixed>
-     */
-    private function authElement(string $name, array $attributes = [], $value = null): array
-    {
-        return $this->element('http://xml.kamsoft.pl/ws/kaas/login_types', $name, $attributes, $value);
+        return $this->node('http://xml.kamsoft.pl/ws/kaas/login_types', $name, $attributes, $value);
     }
 }

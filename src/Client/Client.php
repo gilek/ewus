@@ -24,7 +24,7 @@ use Gilek\Ewus\Server\ServerBrokerInterface;
 
 class Client
 {
-    public const VERSION = '<VERSION>';
+    public const VERSION = '3';
 
     /** @var Credentials */
     private $credentials;
@@ -163,7 +163,7 @@ class Client
      *
      * @throws SoapOperationFailedException
      */
-    public function doRequest(Request $request): string
+    private function doRequest(Request $request): string
     {
         return $this->driver->doRequest(
             $this->serverBroker->resolve($request->getMethodName()),

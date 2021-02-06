@@ -3,10 +3,13 @@ declare(strict_types=1);
 
 namespace Gilek\Ewus\Test\Functional\Request\Factory;
 
+use DateTimeImmutable;
+use Gilek\Ewus\Misc\Factory\DateTimeFactory;
 use Gilek\Ewus\Request\Factory\CheckCwuRequestFactory;
 use Gilek\Ewus\Response\Factory\CheckCwuResponseFactory;
 use Gilek\Ewus\Response\Session;
 use Gilek\Ewus\Xml\Factory\XmlWriterFactory;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\Xml\Service;
 
 final class CheckCwuRequestFactoryTest extends RequestFactoryTestCase
@@ -14,6 +17,10 @@ final class CheckCwuRequestFactoryTest extends RequestFactoryTestCase
     private const PESEL = '11111111111';
     private const SESSION_ID = 'sessionId';
     private const TOKEN = 'token';
+    private const NOW = '2020-12-05 12:12:13';
+
+    /** @var DateTimeFactory|MockObject */
+    private $dateTimeFactory;
 
     /** @var CheckCwuResponseFactory */
     private $sut;
@@ -24,7 +31,8 @@ final class CheckCwuRequestFactoryTest extends RequestFactoryTestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->sut = new CheckCwuRequestFactory(new XmlWriterFactory());
+        $this->dateTimeFactory = $this->createMock(DateTimeFactory::class);
+        $this->sut = new CheckCwuRequestFactory(new XmlWriterFactory(), $this->dateTimeFactory);
     }
 
     /**
@@ -32,27 +40,31 @@ final class CheckCwuRequestFactoryTest extends RequestFactoryTestCase
      */
     public function it_should_create_request(): void
     {
+        $this->dateTimeFactory->expects($this->once())
+            ->method('createDateTime')
+            ->with('now')
+            ->willReturn(new DateTimeImmutable(self::NOW));
+
         $expectedResult = [
-            $this->soapElement('Header', [], [
-                $this->comElement('session', ['id' => self::SESSION_ID]),
-                $this->comElement('authToken', ['id' => self::TOKEN]),
+            $this->soapNode('Header', [], [
+                $this->comNode('session', ['id' => self::SESSION_ID]),
+                $this->comNode('authToken', ['id' => self::TOKEN]),
             ]),
-            $this->soapElement('Body', [], [
-                $this->brokerElement('executeService', [], [
-                    $this->comElement('location', [], [
-                        $this->comElement('namespace', [], 'nfz.gov.pl/ws/broker/cwu'),
-                        $this->comElement('localname', [], 'checkCWU'),
-                        $this->comElement('version', [], '5.0'),
+            $this->soapNode('Body', [], [
+                $this->brokerNode('executeService', [], [
+                    $this->comNode('location', [], [
+                        $this->comNode('namespace', [], 'nfz.gov.pl/ws/broker/cwu'),
+                        $this->comNode('localname', [], 'checkCWU'),
+                        $this->comNode('version', [], '5.0'),
                     ]),
-                    // TODO di, move to unit tests
-                    $this->brokerElement('date', [], '2020-12-07T15:51:43+01:00'),
-                    $this->brokerElement('payload', [], [
-                        $this->brokerElement('textload', [], [
-                            $this->ewusElement('status_cwu_pyt', [], [
-                                $this->ewusElement('numer_pesel', [], self::PESEL),
-                                $this->ewusElement('system_swiad', [
+                    $this->brokerNode('date', [], '2020-12-05T12:12:13+00:00'),
+                    $this->brokerNode('payload', [], [
+                        $this->brokerNode('textload', [], [
+                            $this->ewusNode('status_cwu_pyt', [], [
+                                $this->ewusNode('numer_pesel', [], self::PESEL),
+                                $this->ewusNode('system_swiad', [
                                     'nazwa' => 'gilek/ewus',
-                                    'wersja' => '<VERSION>',
+                                    'wersja' => '3',
                                 ]),
                             ])
                         ])
@@ -74,20 +86,15 @@ final class CheckCwuRequestFactoryTest extends RequestFactoryTestCase
     }
 
     /**
-     * @param string $namespace
      * @param string $name
-     * @param array  $attributes
-     * @param null   $value
+     * @param array<string, string> $attributes
+     * @param mixed $value
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    private function element(string $namespace, string $name, array $attributes = [], $value = null): array
+    private function comNode(string $name, array $attributes = [], $value = null): array
     {
-        return [
-            'name' => '{' . $namespace . '}' . $name,
-            'value' => $value,
-            'attributes' => $attributes
-        ];
+        return $this->node('http://xml.kamsoft.pl/ws/common', $name, $attributes, $value);
     }
 
     /**
@@ -97,9 +104,9 @@ final class CheckCwuRequestFactoryTest extends RequestFactoryTestCase
      *
      * @return array<string, mixed>
      */
-    private function comElement(string $name, array $attributes = [], $value = null): array
+    private function soapNode(string $name, array $attributes = [], $value = null): array
     {
-        return $this->element('http://xml.kamsoft.pl/ws/common', $name, $attributes, $value);
+        return $this->node('http://schemas.xmlsoap.org/soap/envelope/', $name, $attributes, $value);
     }
 
     /**
@@ -109,9 +116,9 @@ final class CheckCwuRequestFactoryTest extends RequestFactoryTestCase
      *
      * @return array<string, mixed>
      */
-    private function soapElement(string $name, array $attributes = [], $value = null): array
+    private function brokerNode(string $name, array $attributes = [], $value = null): array
     {
-        return $this->element('http://schemas.xmlsoap.org/soap/envelope/', $name, $attributes, $value);
+        return $this->node('http://xml.kamsoft.pl/ws/broker', $name, $attributes, $value);
     }
 
     /**
@@ -121,20 +128,8 @@ final class CheckCwuRequestFactoryTest extends RequestFactoryTestCase
      *
      * @return array<string, mixed>
      */
-    private function brokerElement(string $name, array $attributes = [], $value = null): array
+    private function ewusNode(string $name, array $attributes = [], $value = null): array
     {
-        return $this->element('http://xml.kamsoft.pl/ws/broker', $name, $attributes, $value);
-    }
-
-    /**
-     * @param string $name
-     * @param array<string, string> $attributes
-     * @param mixed $value
-     *
-     * @return array<string, mixed>
-     */
-    private function ewusElement(string $name, array $attributes = [], $value = null): array
-    {
-        return $this->element('https://ewus.nfz.gov.pl/ws/broker/ewus/status_cwu/v5', $name, $attributes, $value);
+        return $this->node('https://ewus.nfz.gov.pl/ws/broker/ewus/status_cwu/v5', $name, $attributes, $value);
     }
 }

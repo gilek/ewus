@@ -42,25 +42,34 @@ final class ChangePasswordRequestFactoryTest extends RequestFactoryTestCase
                 $this->comNode('authToken', ['id' => self::TOKEN]),
             ]),
             $this->soapNode('Body', [], [
-                $this->authNode('login', [], [
+                $this->authNode('changePassword', [], [
                     $this->authNode('credentials', [], [
                         $this->authNode('item', [], [
                             $this->authNode('name', [], 'login'),
-                            $this->authNode('value', [], self::LOGIN),
+                            $this->authNode('value', [], [
+                                $this->authNode('stringValue', [], self::LOGIN)
+                            ]),
                         ]),
                         $this->authNode('item', [], [
                             $this->authNode('name', [], 'domain'),
-                            $this->authNode('value', [], self::DOMAIN),
+                            $this->authNode('value', [], [
+                                $this->authNode('stringValue', [], self::DOMAIN)
+                            ]),
                         ]),
                         $this->authNode('item', [], [
                             $this->authNode('name', [], 'type'),
-                            $this->authNode('value', [], 'LEK'),
+                            $this->authNode('value', [], [
+                                $this->authNode('stringValue', [], 'LEK')
+                            ]),
                         ]),
                         $this->authNode('item', [], [
                             $this->authNode('name', [], 'idntLek'),
-                            $this->authNode('value', [], self::ID_LEK),
+                            $this->authNode('value', [], [
+                                $this->authNode('stringValue', [], self::ID_LEK)
+                            ]),
                         ])
                     ]),
+                    $this->authNode('oldPassword', [], self::PASSWORD),
                     $this->authNode('newPassword', [], self::NEW_PASSWORD),
                     $this->authNode('newPasswordRepeat', [], self::NEW_PASSWORD),
                 ])

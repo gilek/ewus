@@ -486,6 +486,7 @@ return array(
     'PhpCsFixer\\Diff\\v3_0\\Output\\UnifiedDiffOutputBuilder' => $vendorDir . '/php-cs-fixer/diff/src/v3_0/Output/UnifiedDiffOutputBuilder.php',
     'PhpCsFixer\\Diff\\v3_0\\Parser' => $vendorDir . '/php-cs-fixer/diff/src/v3_0/Parser.php',
     'PhpCsFixer\\Diff\\v3_0\\TimeEfficientLongestCommonSubsequenceCalculator' => $vendorDir . '/php-cs-fixer/diff/src/v3_0/TimeEfficientLongestCommonSubsequenceCalculator.php',
+    'PhpCsFixer\\Tests\\InterimTestCase' => $vendorDir . '/friendsofphp/php-cs-fixer/tests/TestCase.php',
     'PhpCsFixer\\Tests\\TestCase' => $vendorDir . '/friendsofphp/php-cs-fixer/tests/TestCase.php',
     'PhpCsFixer\\Tests\\Test\\AbstractFixerTestCase' => $vendorDir . '/friendsofphp/php-cs-fixer/tests/Test/AbstractFixerTestCase.php',
     'PhpCsFixer\\Tests\\Test\\AbstractIntegrationCaseFactory' => $vendorDir . '/friendsofphp/php-cs-fixer/tests/Test/AbstractIntegrationCaseFactory.php',
