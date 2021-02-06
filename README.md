@@ -12,6 +12,7 @@ Użycie
 ------
 ```php
 <?php
+
 use Gilek\Ewus\Client\Client;
 use Gilek\Ewus\Client\Credentials;
 
@@ -21,7 +22,6 @@ $client = new Client(
 $response = $client->checkCwu('NNNNNNNNNNN');
 var_dump($response);
 $client->logout();
-?>
 ```
 
 Powyższy kod ma za zadanie:
