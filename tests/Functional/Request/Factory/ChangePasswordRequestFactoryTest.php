@@ -125,3 +125,4 @@ final class ChangePasswordRequestFactoryTest extends RequestFactoryTestCase
         return $this->node('http://xml.kamsoft.pl/ws/kaas/login_types', $name, $attributes, $value);
     }
 }
+

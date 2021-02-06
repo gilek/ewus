@@ -74,7 +74,6 @@ class Client
     }
 
     /**
-     *
      * @return LoginResponse
      *
      * @throws InvalidResponseException
