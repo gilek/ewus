@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Body>
+        <soapenv:Fault>
+            <faultcode>soapenv:Server</faultcode>
+            <faultstring>Brak dost&amp;#281;pu - nieznany operator lub has&amp;#322;o.</faultstring>
+            <detail>
+                <ns2:authenticationError xsi:type="ns2:AuthenticationException" xmlns:ns2="http://xml.kamsoft.pl/ws/common" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                    <ns2:location>
+                        <ns2:namespace>http://xml.kamsoft.pl/ws/auth</ns2:namespace>
+                        <ns2:localname>login</ns2:localname>
+                        <ns2:version>1.0</ns2:version>
+                        <ns2:id>0</ns2:id>
+                    </ns2:location>
+                    <ns2:faultcode>Client.AuthenticationException</ns2:faultcode>
+                    <ns2:faultstring>Brak identyfikacji operatora. Podane parametry logowania s&amp;#261; nieprawid&amp;#322;owe.</ns2:faultstring>
+                    <ns2:faultactor>pl.kamsoft.app.ws.broker.cwu.LoginServiceKaas</ns2:faultactor>
+                </ns2:authenticationError>
+            </detail>
+        </soapenv:Fault>
+    </soapenv:Body>
+</soapenv:Envelope>
