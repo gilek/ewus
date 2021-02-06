@@ -42,7 +42,7 @@ final class LogoutRequestFactoryTest extends RequestFactoryTestCase
         ];
 
         $response = $this->sut->create(
-            new Session(self::SESSION_ID, self::TOKEN),
+            new Session(self::SESSION_ID, self::TOKEN)
         );
 
         $this->assertSame('logout', $response->getMethodName());
