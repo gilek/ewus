@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Gilek\Ewus\Response\Factory;
@@ -69,7 +70,8 @@ class CheckCwuResponseFactory
                 $this->extractPesel($xmlReader),
                 $this->extractPatient($xmlReader)
             );
-        } catch (EmptyResponseException |
+        } catch (
+            EmptyResponseException |
             InvalidResponseContentException |
             ElementNotFoundException |
             InvalidDateException $exception

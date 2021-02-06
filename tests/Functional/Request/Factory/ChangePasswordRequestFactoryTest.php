@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Gilek\Ewus\Test\Functional\Request\Factory;
@@ -125,4 +126,3 @@ final class ChangePasswordRequestFactoryTest extends RequestFactoryTestCase
         return $this->node('http://xml.kamsoft.pl/ws/kaas/login_types', $name, $attributes, $value);
     }
 }
-

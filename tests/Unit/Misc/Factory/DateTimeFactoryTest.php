@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Gilek\Ewus\Test\Unit\Misc\Factory;
@@ -41,7 +42,7 @@ final class DateTimeFactoryTest extends TestCase
     public function is_should_throw_on_invalid_date_time(string $invalidDateTime): void
     {
         $this->expectException(InvalidDateException::class);
-        $this->expectExceptionMessage('Can\'t create date from "'. $invalidDateTime .'".');
+        $this->expectExceptionMessage('Can\'t create date from "' . $invalidDateTime . '".');
         $this->sut->createDateTime($invalidDateTime);
     }
 
@@ -75,7 +76,7 @@ final class DateTimeFactoryTest extends TestCase
     public function is_should_throw_on_invalid_date(string $invalidDate): void
     {
         $this->expectException(InvalidDateException::class);
-        $this->expectExceptionMessage('Can\'t create date from "'. $invalidDate .'".');
+        $this->expectExceptionMessage('Can\'t create date from "' . $invalidDate . '".');
         $this->sut->createDate($invalidDate);
     }
 

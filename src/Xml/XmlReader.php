@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Gilek\Ewus\Xml;
@@ -19,7 +20,7 @@ class XmlReader
     private $xpath;
 
     /** @var array<string, string> */
-    private $namespacePrefixes =[];
+    private $namespacePrefixes = [];
 
     /**
      * @param string $xml
@@ -99,7 +100,7 @@ class XmlReader
      */
     private function createDomDocument(string $xml): DOMDocument
     {
-        set_error_handler(function (int $number, string $error, string $file, int $line, array $context):bool {
+        set_error_handler(function (int $number, string $error, string $file, int $line, array $context): bool {
             if (preg_match('/^DOMDocument::loadXML\(\): (.+)$/', $error, $m) === 1) {
                 throw new InvalidResponseContentException($m[1]);
             }

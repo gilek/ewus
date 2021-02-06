@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Gilek\Ewus\Test\Functional\Driver;
@@ -40,7 +41,10 @@ final class NusoapDriverTest extends TestCase
     public function it_throws_exception_on_missing_wsdl(): void
     {
         $this->expectException(SoapOperationFailedException::class);
-        $this->expectExceptionMessage('HTTP Error: Unsupported HTTP response status 404 Not Found (soapclient->response has contents of the response)');
+        $this->expectExceptionMessage(
+            'HTTP Error: Unsupported HTTP response status 404 Not Found ' .
+            '(soapclient->response has contents of the response)'
+        );
         $this->sut->doRequest(
             'https://ewus.nfz.gov.pl/ws-broker-server-ewus-auth-test/services/AuthDummy?wsdl',
             ''

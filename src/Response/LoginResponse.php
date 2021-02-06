@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Gilek\Ewus\Response;
@@ -7,10 +8,10 @@ class LoginResponse
 {
     /** @var string */
     private $sessionId;
-    
+
     /** @var string */
     private $token;
-    
+
     /** @var string */
     private $returnMessage;
 
