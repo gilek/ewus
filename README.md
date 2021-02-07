@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/gilek/ewus.svg?branch=master)](https://travis-ci.org/gilek/ewus)
+
 Ewus
 ====
 Biblioteka Ewus została stworzona w celu ułatwienia komunikacji z systemem [eWUŚ](https://ewus.nfz.gov.pl/ap-ewus/).
