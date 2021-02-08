@@ -27,6 +27,6 @@ $client->logout();
 The above code is designed to:
 
 1. Login the user to the eWUŚ system (the account is associated with the 15th NFZ department).
-1. Fetch the person info by NNNNNNNNNNN PESEL.
+1. Fetch information about the person with PESEL number NNNNNNNNNNN.
 1. Return the response as `\Gilek\Ewus\Response\CheckCwuResponse` object.
 1. Logout of the eWUŚ system.
