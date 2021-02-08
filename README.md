@@ -9,7 +9,7 @@ At this moment, the functionality of the system is the same as the eWUŚ service
 Ewus requires PHP version `^7.1` with [DOM](http://pl1.php.net/manual/en/book.dom.php) extension to work properly.
 
 ## Usage
-------
+
 ```php
 <?php
 
