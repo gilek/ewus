@@ -32,7 +32,7 @@ final class CheckCwuRequestFactoryTest extends RequestFactoryTestCase
     {
         parent::setUp();
         /** @var DateTimeFactory|MockObject $dateTimeFactory */
-        $this->dateTimeFactory = $dateTimeFactory = $this->createMock(DateTimeFactory::class);
+        $this->dateTimeFactory = $this->createMock(DateTimeFactory::class);
         $this->sut = new CheckCwuRequestFactory(new XmlWriterFactory(), $this->dateTimeFactory);
     }
 
