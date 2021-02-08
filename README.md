@@ -1,16 +1,14 @@
 [![Build Status](https://travis-ci.org/gilek/ewus.svg?branch=master)](https://travis-ci.org/gilek/ewus)
 
-Ewus
-====
-Biblioteka Ewus została stworzona w celu ułatwienia komunikacji z systemem [eWUŚ](https://ewus.nfz.gov.pl/ap-ewus/).
+# Ewus
+The Ewus library was created to simplify communication with the [eWUŚ](https://ewus.nfz.gov.pl/ap-ewus/) system.
 
-W obecnej chwili funkcjonalność systemu jest tożsama z usługami eWUŚ dostępnymi w wersji [1.10](http://www.nfz.gov.pl/dla-swiadczeniodawcy/ewus/tworcy-oprogramowania/)
+At this moment, the functionality of the system is the same as the eWUŚ service in version [1.10](http://www.nfz.gov.pl/dla-swiadczeniodawcy/ewus/tworcy-oprogramowania/).
 
-Wymagania
----------
-Ewus do prawidłowego działa wymaga PHP w wersji ^7.1 wraz z rozszerzeniem [DOM](http://pl1.php.net/manual/en/book.dom.php).
+## Requirements
+Ewus requires PHP version `^7.1` with [DOM](http://pl1.php.net/manual/en/book.dom.php) extension to work properly.
 
-Użycie
+## Usage
 ------
 ```php
 <?php
@@ -26,9 +24,9 @@ var_dump($response);
 $client->logout();
 ```
 
-Powyższy kod ma za zadanie:
+The above code is designed to:
 
-1. Zalogować użytkownika do systemu eWUŚ (konto skojarzone jest z 15 oddziałem NFZ).
-1. Pobrać poświadczenia osoby o PESEL `NNNNNNNNNNN`.
-1. Zwrócić odpowiedz w postacie obiektu `\Gilek\Ewus\Response\CheckCwuResponse`.
-1. Wylogować z systemu eWUŚ.
+1. Login the user to the eWUŚ system (the account is associated with the 15th NFZ department).
+1. Fetch the person info by NNNNNNNNNNN PESEL.
+1. Return the response as `\Gilek\Ewus\Response\CheckCwuResponse` object.
+1. Logout of the eWUŚ system.
