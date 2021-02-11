@@ -1,7 +1,7 @@
 {
     "name": "gilek/ewus",
-    "description": "Biblioteka do usprawnienia komunikacji z systemem eWUŚ.",
-    "keywords": ["ewus", "nfz", "library"],
+    "description": "Library to simplify communication with the eWUŚ system.",
+    "keywords": ["ewuś", "ewus", "nfz"],
     "homepage": "https://github.com/gilek/ewus",
     "type": "library",
     "license": "MIT",
