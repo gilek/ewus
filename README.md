@@ -17,7 +17,7 @@ use Gilek\Ewus\Client\Client;
 use Gilek\Ewus\Client\Credentials;
 
 $client = new Client(
-    new Credentials('login', 'hasło', '15'),
+    new Credentials('login', 'password', '15'),
 );
 $response = $client->checkCwu('NNNNNNNNNNN');
 var_dump($response);
