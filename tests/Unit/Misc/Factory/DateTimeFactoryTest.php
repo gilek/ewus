@@ -39,7 +39,7 @@ final class DateTimeFactoryTest extends TestCase
      *
      * @param string $invalidDateTime
      */
-    public function is_should_throw_on_invalid_date_time(string $invalidDateTime): void
+    public function is_should_throw_exception_on_invalid_date_time(string $invalidDateTime): void
     {
         $this->expectException(InvalidDateException::class);
         $this->expectExceptionMessage('Can\'t create date from "' . $invalidDateTime . '".');
@@ -73,7 +73,7 @@ final class DateTimeFactoryTest extends TestCase
      *
      * @param string $invalidDate
      */
-    public function is_should_throw_on_invalid_date(string $invalidDate): void
+    public function is_should_throw_exception_on_invalid_date(string $invalidDate): void
     {
         $this->expectException(InvalidDateException::class);
         $this->expectExceptionMessage('Can\'t create date from "' . $invalidDate . '".');
