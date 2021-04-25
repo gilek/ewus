@@ -28,7 +28,7 @@ final class NusoapDriverTest extends TestCase
     public function it_should_make_request_without_exception(): void
     {
         $this->sut->doRequest(
-            'https://ewus.nfz.gov.pl/ws-broker-server-ewus-auth-test/services/Auth?wsdl',
+            'https://ewus.nfz.gov.pl/ws-broker-server-ewus-auth-test/services/Auth',
             ''
         );
 

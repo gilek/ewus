@@ -15,9 +15,9 @@ class TestServiceBroker implements ServerBrokerInterface
     public function resolve(string $name): string
     {
         if ($name === Request::METHOD_CHECK_CWU) {
-            return 'https://ewus.nfz.gov.pl/ws-broker-server-ewus-auth-test/services/ServiceBroker?wsdl';
+            return 'https://ewus.nfz.gov.pl/ws-broker-server-ewus-auth-test/services/ServiceBroker';
         }
 
-        return 'https://ewus.nfz.gov.pl/ws-broker-server-ewus-auth-test/services/Auth?wsdl';
+        return 'https://ewus.nfz.gov.pl/ws-broker-server-ewus-auth-test/services/Auth';
     }
 }
