@@ -21,7 +21,7 @@ final class ClientTest extends TestCase
     {
         parent::setUp();
         $this->sut = new Client(
-            new Credentials('TEST', 'qwerty!@#', '01', null, 123456789),
+            new Credentials('TEST', 'qwerty!@#', '01', null, '123456789'),
             new NusoapDriver(),
             new TestServiceBroker()
         );

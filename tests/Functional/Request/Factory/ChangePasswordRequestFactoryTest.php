@@ -15,7 +15,7 @@ final class ChangePasswordRequestFactoryTest extends RequestFactoryTestCase
     private const LOGIN = 'login';
     private const PASSWORD = 'password';
     private const DOMAIN = '15';
-    private const ID_LEK = 123;
+    private const ID_LEK = '123';
     private const NEW_PASSWORD = 'new_password';
     private const SESSION_ID = 'sessionId';
     private const TOKEN = 'token';

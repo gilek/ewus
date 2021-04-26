@@ -14,7 +14,7 @@ final class LoginRequestFactoryTest extends RequestFactoryTestCase
     private const LOGIN = 'login';
     private const PASSWORD = 'password';
     private const DOMAIN = '15';
-    private const ID_SWD = 456;
+    private const ID_SWD = '456';
 
     /** @var LoginRequestFactory */
     private $sut;

@@ -21,25 +21,25 @@ class Credentials
     /** @var string|null */
     private $type;
 
-    /** @var int|null */
+    /** @var string|null */
     private $idntLek;
 
-    /** @var int|null */
+    /** @var string|null */
     private $idntSwd;
 
     /**
      * @param string $login
      * @param string $password
      * @param string $domain
-     * @param int|null $idntLek
-     * @param int|null $idntSwd
+     * @param string|null $idntLek
+     * @param string|null $idntSwd
      */
     public function __construct(
         string $login,
         string $password,
         string $domain,
-        ?int $idntLek = null,
-        ?int $idntSwd = null
+        ?string $idntLek = null,
+        ?string $idntSwd = null
     ) {
         $this->login = $login;
         $this->password = $password;
@@ -89,17 +89,17 @@ class Credentials
     }
 
     /**
-     * @return int|null
+     * @return string|null
      */
-    public function getIdntLek(): ?int
+    public function getIdntLek(): ?string
     {
         return $this->idntLek;
     }
 
     /**
-     * @return int|null
+     * @return string|null
      */
-    public function getIdntSwd(): ?int
+    public function getIdntSwd(): ?string
     {
         return $this->idntSwd;
     }
