@@ -54,7 +54,7 @@ class DateTimeFactory
     {
         $errors = DateTimeImmutable::getLastErrors();
         if ($errors === false) {
-            return true;
+            return false;
         }
 
         return $errors['warning_count'] > 0 || $errors['error_count'] > 0;
