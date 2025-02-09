@@ -1,0 +1,19 @@
+runs:
+  using: composite
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${env.PHP_VERSION}
+        extensions: dom
+    - name: Composer
+      run: composer install
+      shell: bash
+    - name: Lint
+      run: composer run lint
+      shell: bash
+    - name: Test
+      run: composer run test
+      shell: bash
