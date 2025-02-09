@@ -1,0 +1,7 @@
+steps:
+  - name: Composer install
+    run: composer install
+  - name: Lint
+    run: composer run lint
+  - name: Test
+    run: composer run test

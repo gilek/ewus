@@ -1,7 +1,6 @@
 name: CI
 
-on:
-  pull_request:
+on: pull_request
 
 jobs:
   test-81:
@@ -14,12 +13,8 @@ jobs:
         with:
           php-version: '8.1'
           extensions: dom
-      - name: Composer install
-        run: composer install
-      - name: Lint
-        run: composer run lint
-      - name: Test
-        run: composer run test
+      - name: My composite action
+        uses: ./.github/actions/ci_steps.yaml
   test-82:
     runs-on: ubuntu-latest
     steps:
