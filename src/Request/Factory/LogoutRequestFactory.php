@@ -13,11 +13,8 @@ class LogoutRequestFactory
 {
     use WithSessionHeader;
 
-    private XmlWriterFactory $xmlWriterFactory;
-
-    public function __construct(XmlWriterFactory $xmlWriterFactory)
+    public function __construct(private readonly XmlWriterFactory $xmlWriterFactory)
     {
-        $this->xmlWriterFactory = $xmlWriterFactory;
     }
 
     public function create(Session $session): Request

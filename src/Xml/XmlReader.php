@@ -16,9 +16,9 @@ use Gilek\Ewus\Xml\Exception\NamespaceNotRegisteredException;
 
 class XmlReader
 {
-    private DOMXPath $xpath;
+    private readonly DOMXPath $xpath;
     /** @var array<string, string> */
-    private array $namespacePrefixes = [];
+    private readonly array $namespacePrefixes;
 
     /**
      * @param array<string, string> $namespaces

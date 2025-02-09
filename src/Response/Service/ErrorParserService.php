@@ -24,6 +24,7 @@ class ErrorParserService
 
     /**
      * @throws ServerResponseException
+     * @throws ElementNotFoundException
      */
     public function throwErrorIfExist(XmlReader $xmlReader): void
     {

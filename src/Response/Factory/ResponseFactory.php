@@ -14,10 +14,10 @@ use Gilek\Ewus\Xml\Factory\XmlReaderFactory;
 
 class ResponseFactory implements ResponseFactoryInterface
 {
-    private XmlReaderFactory $xmlReaderFactory;
+    private readonly XmlReaderFactory $xmlReaderFactory;
+    private readonly ErrorParserServiceFactory $errorParserServiceFactory;
+    private readonly DateTimeFactory $dateTimeFactory;
     private ?ErrorParserService $errorParserService;
-    private ErrorParserServiceFactory $errorParserServiceFactory;
-    private DateTimeFactory $dateTimeFactory;
 
     public function __construct(
         ?XmlReaderFactory $xmlReaderFactory = null,

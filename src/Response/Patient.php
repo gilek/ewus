@@ -8,28 +8,16 @@ use DateTimeInterface;
 
 class Patient
 {
-    private DateTimeInterface $expirationDate;
-    private InsuranceStatus $insuranceStatus;
-    private string $name;
-    private string $surname;
-    /** @var PatientInformation[] */
-    private array $additionalInformation;
-
     /**
      * @param PatientInformation[] $additionalInformation
      */
     public function __construct(
-        DateTimeInterface $expirationDate,
-        InsuranceStatus $insuranceStatus,
-        string $name,
-        string $surname,
-        array $additionalInformation = []
+        private readonly DateTimeInterface $expirationDate,
+        private readonly InsuranceStatus $insuranceStatus,
+        private readonly string $name,
+        private readonly string $surname,
+        private readonly array $additionalInformation = []
     ) {
-        $this->expirationDate = $expirationDate;
-        $this->insuranceStatus = $insuranceStatus;
-        $this->name = $name;
-        $this->surname = $surname;
-        $this->additionalInformation = $additionalInformation;
     }
 
     public function getExpirationDate(): DateTimeInterface
@@ -52,6 +40,9 @@ class Patient
         return $this->surname;
     }
 
+    /**
+     * @return PatientInformation[]
+     */
     public function getAdditionalInformation(): array
     {
         return $this->additionalInformation;

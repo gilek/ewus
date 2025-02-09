@@ -26,18 +26,11 @@ class CheckCwuResponseFactory
 {
     private const NS_EWUS_PREFIX = 'ewus';
 
-    private XmlReaderFactory $xmlReaderFactory;
-    private ErrorParserService $errorParserService;
-    private DateTimeFactory $dateTimeFactory;
-
     public function __construct(
-        XmlReaderFactory $xmlReaderFactory,
-        ErrorParserService $errorParserService,
-        DateTimeFactory $dateTimeFactory
+        private readonly XmlReaderFactory $xmlReaderFactory,
+        private readonly ErrorParserService $errorParserService,
+        private readonly DateTimeFactory $dateTimeFactory
     ) {
-        $this->xmlReaderFactory = $xmlReaderFactory;
-        $this->dateTimeFactory = $dateTimeFactory;
-        $this->errorParserService = $errorParserService;
     }
 
     /**

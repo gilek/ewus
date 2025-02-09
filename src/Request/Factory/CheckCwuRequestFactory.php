@@ -15,13 +15,10 @@ class CheckCwuRequestFactory
 {
     use WithSessionHeader;
 
-    private XmlWriterFactory $xmlWriterFactory;
-    private DateTimeFactory $dateTimeFactory;
-
-    public function __construct(XmlWriterFactory $xmlWriterFactory, DateTimeFactory $dateTimeFactory)
-    {
-        $this->xmlWriterFactory = $xmlWriterFactory;
-        $this->dateTimeFactory = $dateTimeFactory;
+    public function __construct(
+        private readonly XmlWriterFactory $xmlWriterFactory,
+        private readonly DateTimeFactory $dateTimeFactory
+    ) {
     }
 
     public function create(Session $session, string $pesel): Request

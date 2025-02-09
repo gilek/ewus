@@ -13,11 +13,8 @@ class LoginRequestFactory
 {
     use WithCredentialItem;
 
-    private XmlWriterFactory $xmlWriterFactory;
-
-    public function __construct(XmlWriterFactory $xmlWriterFactory)
+    public function __construct(private readonly XmlWriterFactory $xmlWriterFactory)
     {
-        $this->xmlWriterFactory = $xmlWriterFactory;
     }
 
     public function create(Credentials $credentials): Request

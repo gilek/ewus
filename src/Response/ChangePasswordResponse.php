@@ -6,12 +6,8 @@ namespace Gilek\Ewus\Response;
 
 class ChangePasswordResponse
 {
-    /** @var string */
-    private string $returnMessage;
-
-    public function __construct(string $returnMessage)
+    public function __construct(private readonly string $returnMessage)
     {
-        $this->returnMessage = $returnMessage;
     }
 
     public function getReturnMessage(): string

@@ -10,24 +10,17 @@ class Credentials
     private const TYPE_LEK = 'LEK';
     private const TYPE_SWD = 'SWD';
 
-    private string $login;
-    private string $password;
-    private string $domain;
-    private ?string $type;
-    private ?string $idntLek;
-    private ?string $idntSwd;
+    private readonly ?string $type;
+    private readonly ?string $idntLek;
+    private readonly ?string $idntSwd;
 
     public function __construct(
-        string $login,
-        string $password,
-        string $domain,
+        private readonly string $login,
+        private readonly string $password,
+        private readonly string $domain,
         ?string $idntLek = null,
         ?string $idntSwd = null
     ) {
-        $this->login = $login;
-        $this->password = $password;
-        $this->domain = $domain;
-
         if ($idntLek !== null) {
             $this->idntLek = $idntLek;
             $this->type = self::TYPE_LEK;

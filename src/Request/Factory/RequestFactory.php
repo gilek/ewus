@@ -12,8 +12,8 @@ use Gilek\Ewus\Xml\Factory\XmlWriterFactory;
 
 class RequestFactory implements RequestFactoryInterface
 {
-    private XmlWriterFactory $xmlWriterFactory;
-    private DateTimeFactory $dateTimeFactory;
+    private readonly XmlWriterFactory $xmlWriterFactory;
+    private readonly DateTimeFactory $dateTimeFactory;
 
     public function __construct(?XmlWriterFactory $xmlWriterFactory = null, ?DateTimeFactory $dateTimeFactory = null)
     {

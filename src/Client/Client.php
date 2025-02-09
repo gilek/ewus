@@ -27,12 +27,12 @@ class Client
 {
     public const VERSION = '4';
 
-    private Credentials $credentials;
-    private ?Session $session;
-    private DriverInterface $driver;
-    private ServerBrokerInterface $serverBroker;
-    private RequestFactoryInterface $requestFactory;
-    private ResponseFactoryInterface $responseFactory;
+    private readonly Credentials $credentials;
+    private readonly ?Session $session;
+    private readonly DriverInterface $driver;
+    private readonly ServerBrokerInterface $serverBroker;
+    private readonly RequestFactoryInterface $requestFactory;
+    private readonly ResponseFactoryInterface $responseFactory;
 
     public function __construct(
         Credentials $credentials,
@@ -47,7 +47,6 @@ class Client
         $this->requestFactory = $requestFactory ?? new RequestFactory();
         $this->responseFactory = $responseFactory ?? new ResponseFactory();
     }
-
 
     private function isAuthenticated(): bool
     {

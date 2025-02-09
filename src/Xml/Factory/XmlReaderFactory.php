@@ -11,6 +11,8 @@ use Gilek\Ewus\Xml\XmlReader;
 class XmlReaderFactory
 {
     /**
+     * @param array<string, string> $namespaces
+     *
      * @throws EmptyResponseException
      * @throws InvalidResponseContentException
      */

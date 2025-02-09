@@ -15,11 +15,8 @@ class ChangePasswordRequestFactory
     use WithCredentialItem;
     use WithSessionHeader;
 
-    private XmlWriterFactory $xmlWriterFactory;
-
-    public function __construct(XmlWriterFactory $xmlWriterFactory)
+    public function __construct(private readonly XmlWriterFactory $xmlWriterFactory)
     {
-        $this->xmlWriterFactory = $xmlWriterFactory;
     }
 
     public function create(Session $session, Credentials $credentials, string $newPassword): Request

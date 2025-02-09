@@ -18,13 +18,10 @@ class LogoutResponseFactory
 {
     private const NS_AUTH_PREFIX = 'auth';
 
-    private XmlReaderFactory $xmlReaderFactory;
-    private ErrorParserService $errorParserService;
-
-    public function __construct(XmlReaderFactory $xmlReaderFactory, ErrorParserService $errorParserService)
-    {
-        $this->xmlReaderFactory = $xmlReaderFactory;
-        $this->errorParserService = $errorParserService;
+    public function __construct(
+        private readonly XmlReaderFactory $xmlReaderFactory,
+        private readonly ErrorParserService $errorParserService
+    ) {
     }
 
     /**

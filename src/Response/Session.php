@@ -6,13 +6,10 @@ namespace Gilek\Ewus\Response;
 
 class Session
 {
-    private string $sessionId;
-    private string $token;
-
-    public function __construct(string $sessionId, string $token)
-    {
-        $this->sessionId = $sessionId;
-        $this->token = $token;
+    public function __construct(
+        private readonly string $sessionId,
+        private readonly string $token
+    ) {
     }
 
     public function getSessionId(): string

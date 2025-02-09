@@ -6,21 +6,12 @@ namespace Gilek\Ewus\Response;
 
 class CheckCwuResponse
 {
-    private Operation $operation;
-    private int $statusCode;
-    private string $pesel;
-    private ?Patient $patient;
-
     public function __construct(
-        Operation $operation,
-        int $statusCode,
-        string $pesel,
-        ?Patient $patient
+        private readonly Operation $operation,
+        private readonly int $statusCode,
+        private readonly string $pesel,
+        private readonly ?Patient $patient
     ) {
-        $this->operation = $operation;
-        $this->statusCode = $statusCode;
-        $this->pesel = $pesel;
-        $this->patient = $patient;
     }
 
     public function getOperation(): Operation
