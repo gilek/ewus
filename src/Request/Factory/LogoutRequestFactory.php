@@ -6,6 +6,7 @@ namespace Gilek\Ewus\Request\Factory;
 
 use Gilek\Ewus\Ns;
 use Gilek\Ewus\Request\Request;
+use Gilek\Ewus\Request\RequestMethod;
 use Gilek\Ewus\Response\Session;
 use Gilek\Ewus\Xml\Factory\XmlWriterFactory;
 
@@ -19,7 +20,7 @@ class LogoutRequestFactory
 
     public function create(Session $session): Request
     {
-        return new Request(Request::METHOD_LOGOUT, $this->generateBody($session));
+        return new Request(RequestMethod::LOGOUT, $this->generateBody($session));
     }
 
     private function generateBody(Session $session): string

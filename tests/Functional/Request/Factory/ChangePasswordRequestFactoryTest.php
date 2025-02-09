@@ -6,6 +6,7 @@ namespace Gilek\Ewus\Test\Functional\Request\Factory;
 
 use Gilek\Ewus\Client\Credentials;
 use Gilek\Ewus\Request\Factory\ChangePasswordRequestFactory;
+use Gilek\Ewus\Request\RequestMethod;
 use Gilek\Ewus\Response\Session;
 use Gilek\Ewus\Xml\Factory\XmlWriterFactory;
 use Sabre\Xml\Service;
@@ -79,7 +80,7 @@ final class ChangePasswordRequestFactoryTest extends RequestFactoryTestCase
             self::NEW_PASSWORD
         );
 
-        self::assertSame('changePassword', $response->getMethodName());
+        self::assertSame(RequestMethod::CHANGE_PASSWORD, $response->getMethodName());
         self::assertEquals(
             $expectedResult,
             (new Service())->parse($response->getBody())

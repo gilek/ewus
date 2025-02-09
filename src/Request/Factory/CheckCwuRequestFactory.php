@@ -8,6 +8,7 @@ use Gilek\Ewus\Client\Client;
 use Gilek\Ewus\Misc\Factory\DateTimeFactory;
 use Gilek\Ewus\Ns;
 use Gilek\Ewus\Request\Request;
+use Gilek\Ewus\Request\RequestMethod;
 use Gilek\Ewus\Response\Session;
 use Gilek\Ewus\Xml\Factory\XmlWriterFactory;
 
@@ -23,7 +24,7 @@ class CheckCwuRequestFactory
 
     public function create(Session $session, string $pesel): Request
     {
-        return new Request(Request::METHOD_CHECK_CWU, $this->generateBody($session, $pesel));
+        return new Request(RequestMethod::CHECK_CWU, $this->generateBody($session, $pesel));
     }
 
     private function generateBody(Session $session, string $pesel): string

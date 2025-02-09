@@ -86,7 +86,7 @@ class ErrorParserService
     {
         try {
             return $xmlReader->getNamespacePrefix($namespace);
-        } catch (NamespaceNotRegisteredException $exception) {
+        } catch (NamespaceNotRegisteredException) {
             $xmlReader->registerNamespace($prefixCandidate, $namespace);
 
             return $prefixCandidate;
@@ -95,31 +95,15 @@ class ErrorParserService
 
     private function mapCodeToExceptionClass(string $code): string
     {
-        // TODO match
-        switch ($code) {
-            case 'Client.InputException':
-                return InputException::class;
-
-            case 'Client.AuthenticationException':
-                return AuthenticationException::class;
-
-            case 'Client.AuthorizationException':
-                return AuthorizationException::class;
-
-            case 'Client.AuthTokenException':
-                return AuthTokenException::class;
-
-            case 'Client.PassExpiredException':
-                return PassExpiredException::class;
-
-            case 'Client.ServerException':
-                return ServerException::class;
-
-            case 'Client.SessionException':
-                return SessionException::class;
-
-            default:
-                return ServerResponseException::class;
-        }
+        return match ($code) {
+            'Client.InputException' => InputException::class,
+            'Client.AuthenticationException' => AuthenticationException::class,
+            'Client.AuthorizationException' => AuthorizationException::class,
+            'Client.AuthTokenException' => AuthTokenException::class,
+            'Client.PassExpiredException' => PassExpiredException::class,
+            'Client.ServerException' => ServerException::class,
+            'Client.SessionException' => SessionException::class,
+            default => ServerResponseException::class,
+        };
     }
 }

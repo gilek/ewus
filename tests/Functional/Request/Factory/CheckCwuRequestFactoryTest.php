@@ -7,6 +7,7 @@ namespace Gilek\Ewus\Test\Functional\Request\Factory;
 use DateTimeImmutable;
 use Gilek\Ewus\Misc\Factory\DateTimeFactory;
 use Gilek\Ewus\Request\Factory\CheckCwuRequestFactory;
+use Gilek\Ewus\Request\RequestMethod;
 use Gilek\Ewus\Response\Session;
 use Gilek\Ewus\Xml\Factory\XmlWriterFactory;
 use PHPUnit\Framework\Attributes\Test;
@@ -72,7 +73,7 @@ final class CheckCwuRequestFactoryTest extends RequestFactoryTestCase
             self::PESEL
         );
 
-        self::assertSame('checkCwu', $response->getMethodName());
+        self::assertSame(RequestMethod::CHECK_CWU, $response->getMethodName());
         self::assertEquals(
             $expectedResult,
             (new Service())->parse($response->getBody())

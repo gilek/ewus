@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace Gilek\Ewus\Test\EndToEnd;
 
 use Gilek\Ewus\Request\Request;
+use Gilek\Ewus\Request\RequestMethod;
 use Gilek\Ewus\Server\ServerBrokerInterface;
 
 class TestServiceBroker implements ServerBrokerInterface
 {
-    public function resolve(string $name): string
+    public function resolve(RequestMethod $method): string
     {
-        if ($name === Request::METHOD_CHECK_CWU) {
+        if ($method === RequestMethod::CHECK_CWU) {
             return 'https://ewus.nfz.gov.pl/ws-broker-server-ewus-auth-test/services/ServiceBroker';
         }
 

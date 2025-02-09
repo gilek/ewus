@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Gilek\Ewus\Test\Functional\Request\Factory;
 
 use Gilek\Ewus\Request\Factory\LogoutRequestFactory;
+use Gilek\Ewus\Request\RequestMethod;
 use Gilek\Ewus\Response\Session;
 use Gilek\Ewus\Xml\Factory\XmlWriterFactory;
 use PHPUnit\Framework\Attributes\Test;
@@ -40,7 +41,7 @@ final class LogoutRequestFactoryTest extends RequestFactoryTestCase
             new Session(self::SESSION_ID, self::TOKEN)
         );
 
-        self::assertSame('logout', $response->getMethodName());
+        self::assertSame(RequestMethod::LOGOUT, $response->getMethodName());
         self::assertEquals(
             $expectedResult,
             (new Service())->parse($response->getBody())

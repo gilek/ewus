@@ -6,6 +6,7 @@ namespace Gilek\Ewus\Test\Functional\Request\Factory;
 
 use Gilek\Ewus\Client\Credentials;
 use Gilek\Ewus\Request\Factory\LoginRequestFactory;
+use Gilek\Ewus\Request\RequestMethod;
 use Gilek\Ewus\Xml\Factory\XmlWriterFactory;
 use PHPUnit\Framework\Attributes\Test;
 use Sabre\Xml\Service;
@@ -67,7 +68,7 @@ final class LoginRequestFactoryTest extends RequestFactoryTestCase
             ])
         ];
 
-        self::assertSame('login', $response->getMethodName());
+        self::assertSame(RequestMethod::LOGIN, $response->getMethodName());
         self::assertEquals(
             $expectedResult,
             (new Service())->parse($response->getBody())

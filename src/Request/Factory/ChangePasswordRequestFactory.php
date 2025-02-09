@@ -7,6 +7,7 @@ namespace Gilek\Ewus\Request\Factory;
 use Gilek\Ewus\Client\Credentials;
 use Gilek\Ewus\Ns;
 use Gilek\Ewus\Request\Request;
+use Gilek\Ewus\Request\RequestMethod;
 use Gilek\Ewus\Response\Session;
 use Gilek\Ewus\Xml\Factory\XmlWriterFactory;
 
@@ -22,7 +23,7 @@ class ChangePasswordRequestFactory
     public function create(Session $session, Credentials $credentials, string $newPassword): Request
     {
         return new Request(
-            Request::METHOD_CHANGE_PASSWORD,
+            RequestMethod::CHANGE_PASSWORD,
             $this->generateBody($session, $credentials, $newPassword)
         );
     }
