@@ -52,7 +52,7 @@ final class ClientTest extends TestCase
         $this->assertSame('NazwiskoTAK', $patient->getSurname());
         $this->assertCount(1, $additionalInfo);
         $this->assertSame('IZOLACJA DOMOWA', $additionalInfo[0]->getCode());
-        $this->assertSame(0, $additionalInfo[0]->getLevel());
+        $this->assertSame('O', $additionalInfo[0]->getLevel());
         $this->assertMatchesRegularExpression(
             '/^Pacjent podlega izolacji domowej do dnia [0-9]{2}-[0-9]{2}-[0-9]{4}$/',
             $additionalInfo[0]->getInformation()
