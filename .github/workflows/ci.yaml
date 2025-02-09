@@ -12,51 +12,30 @@ jobs:
         uses: ./.github/actions/ci
         env:
           PHP_VERSION: 8.1
-#  test-82:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v4
-#      - name: Setup PHP
-#        uses: shivammathur/setup-php@v2
-#        with:
-#          php-version: '8.2'
-#          extensions: dom
-#      - name: Composer install
-#        run: composer install
-#      - name: Lint
-#        run: composer run lint
-#      - name: Test
-#        run: composer run test
-#  test-83:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v4
-#      - name: Setup PHP
-#        uses: shivammathur/setup-php@v2
-#        with:
-#          php-version: '8.3'
-#          extensions: dom
-#      - name: Composer install
-#        run: composer install
-#      - name: Lint
-#        run: composer run lint
-#      - name: Test
-#        run: composer run test
-#  test-84:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v4
-#      - name: Setup PHP
-#        uses: shivammathur/setup-php@v2
-#        with:
-#          php-version: '8.4'
-#          extensions: dom
-#      - name: Composer install
-#        run: composer install
-#      - name: Lint
-#        run: composer run lint
-#      - name: Test
-#        run: composer run test
+  test-82:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Run
+        uses: ./.github/actions/ci
+        env:
+          PHP_VERSION: 8.2
+  test-83:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Run
+        uses: ./.github/actions/ci
+        env:
+          PHP_VERSION: 8.3
+  test-84:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Run
+        uses: ./.github/actions/ci
+        env:
+          PHP_VERSION: 8.4
