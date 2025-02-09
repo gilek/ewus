@@ -16,7 +16,7 @@ class Patient
         private readonly InsuranceStatus $insuranceStatus,
         private readonly string $name,
         private readonly string $surname,
-        private readonly array $additionalInformation = []
+        private readonly array $additionalInformation
     ) {
     }
 

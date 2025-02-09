@@ -8,7 +8,7 @@ class PatientInformation
 {
     public function __construct(
         private readonly string $code,
-        private readonly int $level,
+        private readonly string $level,
         private readonly string $information
     ) {
     }
@@ -18,7 +18,7 @@ class PatientInformation
         return $this->code;
     }
 
-    public function getLevel(): int
+    public function getLevel(): string
     {
         return $this->level;
     }

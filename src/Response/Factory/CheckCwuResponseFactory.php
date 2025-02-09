@@ -146,7 +146,7 @@ class CheckCwuResponseFactory
     {
         try {
             $infoElements = $xmlReader->getElements($this->q('pacjent[1]/informacje_dodatkowe/informacja'));
-        } catch (ElementNotFoundException $exception) {
+        } catch (ElementNotFoundException) {
             return [];
         }
 
@@ -155,7 +155,7 @@ class CheckCwuResponseFactory
         foreach ($infoElements as $infoElement) {
             $infos[] = new PatientInformation(
                 $infoElement->getAttribute('kod'),
-                (int)$infoElement->getAttribute('poziom'),
+                $infoElement->getAttribute('poziom'),
                 $infoElement->getAttribute('wartosc')
             );
         }

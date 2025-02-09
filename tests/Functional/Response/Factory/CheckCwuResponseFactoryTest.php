@@ -40,7 +40,10 @@ final class CheckCwuResponseFactoryTest extends TestCase
 
     #[Test]
     #[DataProvider('responseDataProvider')]
-    public function is_should_create_correct_response(string $xml, CheckCwuResponse $expectedResponse): void
+    public function is_should_create_correct_response(
+        string $xml,
+        CheckCwuResponse $expectedResponse
+    ): void
     {
         $this->assertEquals(
             $expectedResponse,
@@ -71,6 +74,16 @@ final class CheckCwuResponseFactoryTest extends TestCase
         yield [
             $this->loadXml('check_cwu_insured_patient_with_quarantine'),
             $this->createInsuredPatientWithQuarantineResponse(),
+        ];
+
+        yield [
+            $this->loadXml('check_cwu_insured_patient_from_ukraine'),
+            $this->createInsuredPatientFromUkraineResponse(),
+        ];
+
+        yield [
+            $this->loadXml('check_cwu_insured_patient_from_ukraine_with_home_isolation'),
+            $this->createInsuredPatientFromUkraineWithHomeIsolationResponse(),
         ];
 
         yield [
@@ -124,7 +137,7 @@ final class CheckCwuResponseFactoryTest extends TestCase
                 [
                     new PatientInformation(
                         'IZOLACJA DOMOWA',
-                        0,
+                        'O',
                         'Pacjent podlega izolacji domowej do dnia 06-12-2020'
                     )
                 ]
@@ -143,7 +156,50 @@ final class CheckCwuResponseFactoryTest extends TestCase
                 [
                     new PatientInformation(
                         'KWARANTANNA-COVID19',
-                        0,
+                        'O',
+                        'Pacjent objęty kwarantanną do dnia 06-12-2020'
+                    )
+                ]
+            )
+        );
+    }
+
+    private function createInsuredPatientFromUkraineResponse(): CheckCwuResponse
+    {
+        return new CheckCwuResponse(
+            $this->createOperation(),
+            1,
+            '00032948271',
+            $this->createPatient(
+                new InsuranceStatus(1, false),
+                [
+                    new PatientInformation(
+                        'URK',
+                        'I',
+                        'Pacjent posiada uprawnienie do świadczeń opieki zdrowotnej na mocy Ustawy z dnia 12 marca 2022 r. o pomocy obywatelom Ukrainy w związku z konfliktem zbrojnym na terytorium tego państwa',
+                    )
+                ]
+            )
+        );
+    }
+
+    private function createInsuredPatientFromUkraineWithHomeIsolationResponse(): CheckCwuResponse
+    {
+        return new CheckCwuResponse(
+            $this->createOperation(),
+            1,
+            '00032948271',
+            $this->createPatient(
+                new InsuranceStatus(1, false),
+                [
+                    new PatientInformation(
+                        'URK',
+                        'I',
+                        'Pacjent posiada uprawnienie do świadczeń opieki zdrowotnej na mocy Ustawy z dnia 12 marca 2022 r. o pomocy obywatelom Ukrainy w związku z konfliktem zbrojnym na terytorium tego państwa',
+                    ),
+                    new PatientInformation(
+                        'KWARANTANNA-COVID19',
+                        'O',
                         'Pacjent objęty kwarantanną do dnia 06-12-2020'
                     )
                 ]
