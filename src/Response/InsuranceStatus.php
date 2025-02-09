@@ -6,33 +6,17 @@ namespace Gilek\Ewus\Response;
 
 class InsuranceStatus
 {
-    /** @var int */
-    private $code;
-
-    /** @var bool */
-    private $dn;
-
-    /**
-     * @param int $code
-     * @param bool $dn
-     */
-    public function __construct(int $code, bool $dn)
-    {
-        $this->code = $code;
-        $this->dn = $dn;
+    public function __construct(
+        private readonly int $code,
+        private readonly bool $dn
+    ) {
     }
 
-    /**
-     * @return int
-     */
     public function getCode(): int
     {
         return $this->code;
     }
 
-    /**
-     * @return bool
-     */
     public function isDn(): bool
     {
         return $this->dn;

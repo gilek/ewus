@@ -12,32 +12,24 @@ use Gilek\Ewus\Response\Exception\SessionException;
 use Gilek\Ewus\Response\Service\ErrorParserService;
 use Gilek\Ewus\Test\Functional\WithXmlLoad;
 use Gilek\Ewus\Xml\XmlReader;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 final class ErrorParserServiceTest extends TestCase
 {
     use WithXmlLoad;
 
-    /** @var ErrorParserService */
-    private $sut;
+    private ErrorParserService $sut;
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function setUp(): void
     {
-        parent::setUp();
         $this->sut = new ErrorParserService();
     }
 
-    /**
-     * @test
-     * @dataProvider exceptionDataProvider
-     *
-     * @param string $filename
-     * @param string $exceptionClass
-     * @param string $message
-     */
+    #[Test]
+    #[DataProvider('exceptionDataProvider')]
     public function it_should_throw_proper_exception(string $filename, string $exceptionClass, string $message): void
     {
         $xml = $this->loadXml($filename);
@@ -50,7 +42,7 @@ final class ErrorParserServiceTest extends TestCase
     }
 
     /**
-     * @return Generator<array>
+     * @return Generator<array<int, string>>
      */
     public function exceptionDataProvider(): Generator
     {

@@ -8,33 +8,17 @@ use DateTimeInterface;
 
 class Operation
 {
-    /** @var string */
-    private $id;
-
-    /** @var DateTimeInterface */
-    private $date;
-
-    /**
-     * @param string            $id
-     * @param DateTimeInterface $date
-     */
-    public function __construct(string $id, DateTimeInterface $date)
-    {
-        $this->id = $id;
-        $this->date = $date;
+    public function __construct(
+        private readonly string $id,
+        private readonly DateTimeInterface $date
+    ) {
     }
 
-    /**
-     * @return string
-     */
     public function getId(): string
     {
         return $this->id;
     }
 
-    /**
-     * @return DateTimeInterface
-     */
     public function getDate(): DateTimeInterface
     {
         return $this->date;

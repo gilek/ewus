@@ -7,19 +7,16 @@ namespace Gilek\Ewus\Test\EndToEnd;
 use Gilek\Ewus\Client\Client;
 use Gilek\Ewus\Client\Credentials;
 use Gilek\Ewus\Driver\NusoapDriver;
-use PHPStan\Testing\TestCase;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\TestCase;
 
 final class ClientTest extends TestCase
 {
-    /** @var Client */
-    private $sut;
+    private Client $sut;
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function setUp(): void
     {
-        parent::setUp();
         $this->sut = new Client(
             new Credentials('TEST', 'qwerty!@#', '01', null, '123456789'),
             new NusoapDriver(),
@@ -27,21 +24,17 @@ final class ClientTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_should_authenticate(): void
     {
         $loginResponse = $this->sut->login();
         $logoutResponse = $this->sut->logout();
 
-        $this->assertSame('[000] Użytkownik został prawidłowo zalogowany.', $loginResponse->getReturnMessage());
-        $this->assertSame('Wylogowany', $logoutResponse->getReturnMessage());
+        self::assertSame('[000] Użytkownik został prawidłowo zalogowany.', $loginResponse->getReturnMessage());
+        self::assertSame('Wylogowany', $logoutResponse->getReturnMessage());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_should_fetch_patient_info(): void
     {
         $pesel = '00081617627';
@@ -51,16 +44,16 @@ final class ClientTest extends TestCase
         $insuranceStatus = $patient->getInsuranceStatus();
         $additionalInfo = $patient->getAdditionalInformation();
 
-        $this->assertSame('L1712M01200000001', $response->getOperation()->getId());
-        $this->assertSame(1, $response->getStatusCode());
-        $this->assertSame(1, $insuranceStatus->getCode());
-        $this->assertSame(true, $insuranceStatus->isDn());
-        $this->assertSame('ImięTAK', $patient->getName());
-        $this->assertSame('NazwiskoTAK', $patient->getSurname());
-        $this->assertCount(1, $additionalInfo);
-        $this->assertSame('IZOLACJA DOMOWA', $additionalInfo[0]->getCode());
-        $this->assertSame(0, $additionalInfo[0]->getLevel());
-        $this->assertRegExp(
+        self::assertSame('L1712M01200000001', $response->getOperation()->getId());
+        self::assertSame(1, $response->getStatusCode());
+        self::assertSame(1, $insuranceStatus->getCode());
+        self::assertSame(true, $insuranceStatus->isDn());
+        self::assertSame('ImięTAK', $patient->getName());
+        self::assertSame('NazwiskoTAK', $patient->getSurname());
+        self::assertCount(1, $additionalInfo);
+        self::assertSame('IZOLACJA DOMOWA', $additionalInfo[0]->getCode());
+        self::assertSame('O', $additionalInfo[0]->getLevel());
+        self::assertMatchesRegularExpression(
             '/^Pacjent podlega izolacji domowej do dnia [0-9]{2}-[0-9]{2}-[0-9]{4}$/',
             $additionalInfo[0]->getInformation()
         );
@@ -73,7 +66,7 @@ final class ClientTest extends TestCase
     {
         $response = $this->sut->changePassword('newPa$$word');
 
-        $this->assertSame(
+        self::assertSame(
             'Hasło zostało zmienione. Zmiana zostanie zatwierdzona po powtórnym zalogowaniu operatora.',
             $response->getReturnMessage()
         );

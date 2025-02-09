@@ -20,27 +20,13 @@ class LoginResponseFactory
     private const NS_AUTH_PREFIX = 'auth';
     private const NS_COMMON_PREFIX = 'com';
 
-    /** @var XmlReaderFactory */
-    private $xmlReaderFactory;
-
-    /** @var ErrorParserService */
-    private $errorParserService;
-
-    /**
-     * @param XmlReaderFactory $xmlReaderFactory
-     * @param ErrorParserService $errorParserService
-     */
-    public function __construct(XmlReaderFactory $xmlReaderFactory, ErrorParserService $errorParserService)
-    {
-        $this->xmlReaderFactory = $xmlReaderFactory;
-        $this->errorParserService = $errorParserService;
+    public function __construct(
+        private readonly XmlReaderFactory $xmlReaderFactory,
+        private readonly ErrorParserService $errorParserService
+    ) {
     }
 
     /**
-     * @param string $responseBody
-     *
-     * @return LoginResponse
-     *
      * @throws InvalidResponseException
      * @throws ServerResponseException
      */
@@ -65,10 +51,6 @@ class LoginResponseFactory
     }
 
     /**
-     * @param XmlReader $xmrReader
-     *
-     * @return string
-     *
      * @throws ElementNotFoundException
      */
     private function extractReturnMessage(XmlReader $xmrReader): string

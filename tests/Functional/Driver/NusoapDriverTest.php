@@ -6,25 +6,20 @@ namespace Gilek\Ewus\Test\Functional\Driver;
 
 use Gilek\Ewus\Driver\Exception\SoapOperationFailedException;
 use Gilek\Ewus\Driver\NusoapDriver;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 final class NusoapDriverTest extends TestCase
 {
-    /** @var NusoapDriver */
-    private $sut;
+    private NusoapDriver $sut;
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function setUp(): void
     {
-        parent::setUp();
         $this->sut = new NusoapDriver();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_should_make_request_without_exception(): void
     {
         $this->sut->doRequest(
@@ -35,9 +30,7 @@ final class NusoapDriverTest extends TestCase
         $this->addToAssertionCount(1);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_throws_exception_on_missing_wsdl(): void
     {
         $this->expectException(SoapOperationFailedException::class);

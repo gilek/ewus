@@ -7,38 +7,22 @@ namespace Gilek\Ewus\Request\Factory;
 use Gilek\Ewus\Client\Credentials;
 use Gilek\Ewus\Ns;
 use Gilek\Ewus\Request\Request;
+use Gilek\Ewus\Request\RequestMethod;
 use Gilek\Ewus\Xml\Factory\XmlWriterFactory;
 
 class LoginRequestFactory
 {
     use WithCredentialItem;
 
-    /** @var XmlWriterFactory */
-    private $xmlWriterFactory;
-
-    /**
-     * @param XmlWriterFactory $xmlWriterFactory
-     */
-    public function __construct(XmlWriterFactory $xmlWriterFactory)
+    public function __construct(private readonly XmlWriterFactory $xmlWriterFactory)
     {
-        $this->xmlWriterFactory = $xmlWriterFactory;
     }
 
-    /**
-     * @param Credentials $credentials
-     *
-     * @return Request
-     */
     public function create(Credentials $credentials): Request
     {
-        return new Request(Request::METHOD_LOGIN, $this->generateBody($credentials));
+        return new Request(RequestMethod::LOGIN, $this->generateBody($credentials));
     }
 
-    /**
-     * @param Credentials $credentials
-     *
-     * @return string
-     */
     private function generateBody(Credentials $credentials): string
     {
         $xmlService = $this->xmlWriterFactory->create([

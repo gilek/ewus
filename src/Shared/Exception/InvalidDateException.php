@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Gilek\Ewus\Misc\Exception;
+namespace Gilek\Ewus\Shared\Exception;
 
 use Gilek\Ewus\EwusExceptionInterface;
 use RuntimeException;

@@ -6,7 +6,9 @@ namespace Gilek\Ewus\Test\Functional\Request\Factory;
 
 use Gilek\Ewus\Client\Credentials;
 use Gilek\Ewus\Request\Factory\LoginRequestFactory;
+use Gilek\Ewus\Request\RequestMethod;
 use Gilek\Ewus\Xml\Factory\XmlWriterFactory;
+use PHPUnit\Framework\Attributes\Test;
 use Sabre\Xml\Service;
 
 final class LoginRequestFactoryTest extends RequestFactoryTestCase
@@ -16,21 +18,15 @@ final class LoginRequestFactoryTest extends RequestFactoryTestCase
     private const DOMAIN = '15';
     private const ID_SWD = '456';
 
-    /** @var LoginRequestFactory */
-    private $sut;
+    private LoginRequestFactory $sut;
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function setUp(): void
     {
-        parent::setUp();
         $this->sut = new LoginRequestFactory(new XmlWriterFactory());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_should_create_request(): void
     {
         $response = $this->sut->create(
@@ -72,33 +68,29 @@ final class LoginRequestFactoryTest extends RequestFactoryTestCase
             ])
         ];
 
-        $this->assertSame('login', $response->getMethodName());
-        $this->assertEquals(
+        self::assertSame(RequestMethod::LOGIN, $response->getMethodName());
+        self::assertEquals(
             $expectedResult,
             (new Service())->parse($response->getBody())
         );
     }
 
     /**
-     * @param string $name
      * @param array<string, string> $attributes
-     * @param mixed $value
      *
      * @return array<string, mixed>
      */
-    private function soapNode(string $name, array $attributes = [], $value = null): array
+    private function soapNode(string $name, array $attributes = [], mixed $value = null): array
     {
         return $this->node('http://schemas.xmlsoap.org/soap/envelope/', $name, $attributes, $value);
     }
 
     /**
-     * @param string $name
      * @param array<string, string> $attributes
-     * @param mixed $value
      *
      * @return array<string, mixed>
      */
-    private function authNode(string $name, array $attributes = [], $value = null): array
+    private function authNode(string $name, array $attributes = [], mixed $value = null): array
     {
         return $this->node('http://xml.kamsoft.pl/ws/kaas/login_types', $name, $attributes, $value);
     }

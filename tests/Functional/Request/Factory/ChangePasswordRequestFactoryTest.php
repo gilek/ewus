@@ -6,6 +6,7 @@ namespace Gilek\Ewus\Test\Functional\Request\Factory;
 
 use Gilek\Ewus\Client\Credentials;
 use Gilek\Ewus\Request\Factory\ChangePasswordRequestFactory;
+use Gilek\Ewus\Request\RequestMethod;
 use Gilek\Ewus\Response\Session;
 use Gilek\Ewus\Xml\Factory\XmlWriterFactory;
 use Sabre\Xml\Service;
@@ -20,15 +21,11 @@ final class ChangePasswordRequestFactoryTest extends RequestFactoryTestCase
     private const SESSION_ID = 'sessionId';
     private const TOKEN = 'token';
 
-    /** @var ChangePasswordRequestFactory */
-    private $sut;
+    private ChangePasswordRequestFactory $sut;
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function setUp(): void
     {
-        parent::setUp();
         $this->sut = new ChangePasswordRequestFactory(new XmlWriterFactory());
     }
 
@@ -83,8 +80,8 @@ final class ChangePasswordRequestFactoryTest extends RequestFactoryTestCase
             self::NEW_PASSWORD
         );
 
-        $this->assertSame('changePassword', $response->getMethodName());
-        $this->assertEquals(
+        self::assertSame(RequestMethod::CHANGE_PASSWORD, $response->getMethodName());
+        self::assertEquals(
             $expectedResult,
             (new Service())->parse($response->getBody())
         );

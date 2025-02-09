@@ -5,40 +5,33 @@ declare(strict_types=1);
 namespace Gilek\Ewus\Test\Unit\Misc\Factory;
 
 use Generator;
-use Gilek\Ewus\Misc\Exception\InvalidDateException;
-use Gilek\Ewus\Misc\Factory\DateTimeFactory;
+use Gilek\Ewus\Shared\Exception\InvalidDateException;
+use Gilek\Ewus\Shared\Factory\DateTimeFactory;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 final class DateTimeFactoryTest extends TestCase
 {
-    /** @var DateTimeFactory */
-    private $sut;
+    private DateTimeFactory $sut;
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function setUp(): void
     {
-        parent::setUp();
         $this->sut = new DateTimeFactory();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_should_create_date_time(): void
     {
         $dateTime = $this->sut->createDateTime('2020-11-20T13:44:59.406+01:00');
 
-        $this->assertSame('2020-11-20 13:44:59.406000 GMT+0100', $dateTime->format('Y-m-d H:i:s.u T'));
+        self::assertSame('2020-11-20 13:44:59.406000 GMT+0100', $dateTime->format('Y-m-d H:i:s.u T'));
     }
 
-    /**
-     * @test
-     * @dataProvider invalidDateTimeDataProvider()
-     *
-     * @param string $invalidDateTime
-     */
+
+    #[Test]
+    #[DataProvider('invalidDateTimeDataProvider')]
     public function is_should_throw_exception_on_invalid_date_time(string $invalidDateTime): void
     {
         $this->expectException(InvalidDateException::class);
@@ -47,9 +40,9 @@ final class DateTimeFactoryTest extends TestCase
     }
 
     /**
-     * @return Generator<array>
+     * @return Generator<array<int, string>>
      */
-    public function invalidDateTimeDataProvider(): Generator
+    public static function invalidDateTimeDataProvider(): Generator
     {
         yield ['2020-02-30T13:44:59.406+01:00'];
         yield ['2020-02-28T13:61:59.406+01:00'];
@@ -57,22 +50,16 @@ final class DateTimeFactoryTest extends TestCase
         yield [''];
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_should_create_date(): void
     {
         $dateTime = $this->sut->createDate('2020-11-20+01:00');
 
-        $this->assertSame('2020-11-20 00:00:00.000000 GMT+0100', $dateTime->format('Y-m-d H:i:s.u T'));
+        self::assertSame('2020-11-20 00:00:00.000000 GMT+0100', $dateTime->format('Y-m-d H:i:s.u T'));
     }
 
-    /**
-     * @test
-     * @dataProvider invalidDateTimeDataProvider()
-     *
-     * @param string $invalidDate
-     */
+    #[Test]
+    #[DataProvider('invalidDateTimeDataProvider')]
     public function is_should_throw_exception_on_invalid_date(string $invalidDate): void
     {
         $this->expectException(InvalidDateException::class);
@@ -81,9 +68,9 @@ final class DateTimeFactoryTest extends TestCase
     }
 
     /**
-     * @return Generator<array>
+     * @return Generator<array<int, string>>
      */
-    public function invalidDateDataProvider(): Generator
+    public static function invalidDateDataProvider(): Generator
     {
         yield ['2020-02-30+01:00'];
         yield ['2020-01-30'];

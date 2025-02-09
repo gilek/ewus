@@ -1,0 +1,52 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Body>
+        <ns3:executeServiceReturn xsi:type="ns3:ServiceResponse" xmlns:ns3="http://xml.kamsoft.pl/ws/broker" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <location xmlns="http://xml.kamsoft.pl/ws/common">
+                <namespace>nfz.gov.pl/ws/broker/cwu</namespace>
+                <localname>checkCWU</localname>
+                <version>5.0</version>
+            </location>
+            <ns3:date>2025-02-09T13:52:44.987+01:00</ns3:date>
+            <ns3:payload>
+                <ns3:textload>
+                    <ns2:status_cwu_odp data_czas_operacji="2025-02-09T13:52:44.979+01:00" id_operacji="L1712M01200000001" xmlns:ns2="https://ewus.nfz.gov.pl/ws/broker/ewus/status_cwu/v5">
+                        <ns2:status_cwu>1</ns2:status_cwu>
+                        <ns2:numer_pesel>02082642235</ns2:numer_pesel>
+                        <ns2:system_nfz nazwa="eWUS" wersja="test"/>
+                        <ns2:swiad>
+                            <ns2:id_swiad>TEST3</ns2:id_swiad>
+                            <ns2:id_ow>01</ns2:id_ow>
+                            <ns2:id_operatora>3</ns2:id_operatora>
+                        </ns2:swiad>
+                        <ns2:pacjent>
+                            <ns2:data_waznosci_potwierdzenia>2025-02-09+01:00</ns2:data_waznosci_potwierdzenia>
+                            <ns2:status_ubezp>1</ns2:status_ubezp>
+                            <ns2:imie>ImięUKR</ns2:imie>
+                            <ns2:nazwisko>NazwiskoUKR</ns2:nazwisko>
+                            <ns2:informacje_dodatkowe>
+                                <ns2:informacja kod="UKR" poziom="I" wartosc="Pacjent posiada uprawnienie do świadczeń opieki zdrowotnej na mocy Ustawy z dnia 12 marca 2022 r. o pomocy obywatelom Ukrainy w związku z konfliktem zbrojnym na terytorium tego państwa"/>
+                                <ns2:informacja kod="IZOLACJA DOMOWA" poziom="O" wartosc="Pacjent podlega izolacji domowej do dnia 23-02-2025"/>
+                            </ns2:informacje_dodatkowe>
+                        </ns2:pacjent>
+                        <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+                            <SignedInfo>
+                                <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+                                <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+                                <Reference URI="">
+                                    <Transforms>
+                                        <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+                                    </Transforms>
+                                    <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+                                    <DigestValue>ZsqZoD2E6339Dc9ex+CYqvmrAE4=</DigestValue>
+                                </Reference>
+                            </SignedInfo>
+                            <SignatureValue>JaKFp24l8K7mVQwR5quknGN5hYXDNGnVnVyoCDmO7OXI/1JGb17tTkwOLjiPO66wy6DvOHX1Sa4j
+                                0N8ic1C+QTC8tqghBjKhtAAcJ66cwIjJDFl54IP/As6RlHk//n2vJDT5A7FnE9Ici1J9Vw2bDajG
+                                hSL0yUAtr1ddIZjp18s=</SignatureValue>
+                        </Signature>
+                    </ns2:status_cwu_odp>
+                </ns3:textload>
+            </ns3:payload>
+        </ns3:executeServiceReturn>
+    </soapenv:Body>
+</soapenv:Envelope>

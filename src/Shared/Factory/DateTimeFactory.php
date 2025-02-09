@@ -2,18 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Gilek\Ewus\Misc\Factory;
+namespace Gilek\Ewus\Shared\Factory;
 
 use DateTimeImmutable;
-use Gilek\Ewus\Misc\Exception\InvalidDateException;
+use Gilek\Ewus\Shared\Exception\InvalidDateException;
 
 class DateTimeFactory
 {
     /**
-     * @param string $dateTime
-     *
-     * @return DateTimeImmutable
-     *
      * @throws InvalidDateException
      */
     public function createDateTime(string $dateTime): DateTimeImmutable
@@ -31,10 +27,6 @@ class DateTimeFactory
     }
 
     /**
-     * @param string $date
-     *
-     * @return DateTimeImmutable
-     *
      * @throws InvalidDateException
      */
     public function createDate(string $date): DateTimeImmutable
@@ -47,9 +39,6 @@ class DateTimeFactory
         return $dateObject;
     }
 
-    /**
-     * @return bool
-     */
     private function hasDateTimeReportedErrors(): bool
     {
         $errors = DateTimeImmutable::getLastErrors();

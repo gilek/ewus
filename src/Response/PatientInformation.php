@@ -6,46 +6,23 @@ namespace Gilek\Ewus\Response;
 
 class PatientInformation
 {
-    /** @var string */
-    private $code;
-
-    /** @var int */
-    private $level;
-
-    /** @var string */
-    private $information;
-
-    /**
-     * @param string $code
-     * @param int    $level
-     * @param string $information
-     */
-    public function __construct(string $code, int $level, string $information)
-    {
-        $this->code = $code;
-        $this->level = $level;
-        $this->information = $information;
+    public function __construct(
+        private readonly string $code,
+        private readonly string $level,
+        private readonly string $information
+    ) {
     }
 
-    /**
-     * @return string
-     */
     public function getCode(): string
     {
         return $this->code;
     }
 
-    /**
-     * @return int
-     */
-    public function getLevel(): int
+    public function getLevel(): string
     {
         return $this->level;
     }
 
-    /**
-     * @return string
-     */
     public function getInformation(): string
     {
         return $this->information;

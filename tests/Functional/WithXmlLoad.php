@@ -9,13 +9,6 @@ use ReflectionException;
 
 trait WithXmlLoad
 {
-    /**
-     * @param string $filename
-     *
-     * @return string
-     *
-     * @throws ReflectionException
-     */
     private function loadXml(string $filename): string
     {
         $reflection = new ReflectionClass(get_class($this));

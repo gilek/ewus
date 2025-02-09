@@ -9,30 +9,25 @@ use Gilek\Ewus\Response\LogoutResponse;
 use Gilek\Ewus\Response\Service\ErrorParserService;
 use Gilek\Ewus\Test\Functional\WithXmlLoad;
 use Gilek\Ewus\Xml\Factory\XmlReaderFactory;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class LogoutResponseFactoryTest extends TestCase
 {
     use WithXmlLoad;
 
-    /** @var LogoutResponseFactory */
-    private $sut;
+    private LogoutResponseFactory $sut;
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function setUp(): void
     {
-        parent::setUp();
         $this->sut = new LogoutResponseFactory(new XmlReaderFactory(), new ErrorParserService());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function is_should_create_correct_response(): void
     {
-        $this->assertEquals(
+        self::assertEquals(
             new LogoutResponse('Wylogowany'),
             $this->sut->build(
                 $this->loadXml('logout')

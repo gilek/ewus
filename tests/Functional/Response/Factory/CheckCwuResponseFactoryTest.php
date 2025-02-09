@@ -7,7 +7,7 @@ namespace Gilek\Ewus\Test\Functional\Response\Factory;
 use DateTimeImmutable;
 use DateTimeZone;
 use Generator;
-use Gilek\Ewus\Misc\Factory\DateTimeFactory;
+use Gilek\Ewus\Shared\Factory\DateTimeFactory;
 use Gilek\Ewus\Response\CheckCwuResponse;
 use Gilek\Ewus\Response\Factory\CheckCwuResponseFactory;
 use Gilek\Ewus\Response\InsuranceStatus;
@@ -17,18 +17,17 @@ use Gilek\Ewus\Response\PatientInformation;
 use Gilek\Ewus\Response\Service\ErrorParserService;
 use Gilek\Ewus\Test\Functional\WithXmlLoad;
 use Gilek\Ewus\Xml\Factory\XmlReaderFactory;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 final class CheckCwuResponseFactoryTest extends TestCase
 {
     use WithXmlLoad;
 
-    /** @var CheckCwuResponseFactory */
-    private $sut;
+    private CheckCwuResponseFactory $sut;
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();
@@ -39,107 +38,116 @@ final class CheckCwuResponseFactoryTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     * @dataProvider responseDataProvider
-     *
-     * @param string $xml
-     * @param CheckCwuResponse $expectedResponse
-     */
-    public function is_should_create_correct_response(string $xml, CheckCwuResponse $expectedResponse): void
-    {
-        $this->assertEquals(
+    #[Test]
+    #[DataProvider('responseDataProvider')]
+    public function is_should_create_correct_response(
+        string $xml,
+        CheckCwuResponse $expectedResponse
+    ): void {
+        self::assertEquals(
             $expectedResponse,
             $this->sut->build($xml)
         );
     }
 
     /**
-     * @return Generator<array>
+     * @return Generator<array<int, string|CheckCwuResponse>>
      */
     public function responseDataProvider(): Generator
     {
-        yield [
+        yield 'insured patient' => [
             $this->loadXml('check_cwu_insured_patient'),
             $this->createInsuredPatientResponse(),
         ];
 
-        yield [
+        yield 'insured patient with dn' => [
             $this->loadXml('check_cwu_insured_patient_with_dn'),
             $this->createInsuredPatientWithDnResponse(),
         ];
 
-        yield [
+        yield 'insured patient_with home isolation' => [
             $this->loadXml('check_cwu_insured_patient_with_home_isolation'),
             $this->createInsuredPatientWithHomeIsolationResponse(),
         ];
 
-        yield [
+        yield 'insured patient with quarantine' => [
             $this->loadXml('check_cwu_insured_patient_with_quarantine'),
             $this->createInsuredPatientWithQuarantineResponse(),
         ];
 
-        yield [
+        yield 'insured patient from ukraine' => [
+            $this->loadXml('check_cwu_insured_patient_from_ukraine'),
+            $this->createInsuredPatientFromUkraineResponse(),
+        ];
+
+        yield 'insured patient from ukraine with home isolation' => [
+            $this->loadXml('check_cwu_insured_patient_from_ukraine_with_home_isolation'),
+            $this->createInsuredPatientFromUkraineWithHomeIsolationResponse(),
+        ];
+
+        yield 'patient not exist' => [
             $this->loadXml('check_cwu_patient_not_exist'),
-            $this->createPatientNotExistResponse()
+            $this->createPatientNotExistResponse(),
         ];
 
-        yield [
+        yield 'patient with annulled pesel' => [
             $this->loadXml('check_cwu_patient_with_annulled_pesel'),
-            $this->createPatientWithAnnulledPeselResponse()
+            $this->createPatientWithAnnulledPeselResponse(),
         ];
 
-        yield [
+        yield 'uninsured patient' => [
             $this->loadXml('check_cwu_uninsured_patient'),
             $this->createUninsuredPatientResponse(),
         ];
     }
 
-    /**
-     * @return CheckCwuResponse
-     */
     private function createInsuredPatientResponse(): CheckCwuResponse
     {
         return new CheckCwuResponse(
-            $this->createOperation(),
+            $this->createOperation('2020-11-22 10:31:06.756'),
             1,
             '79060804378',
-            $this->createPatient(
-                new InsuranceStatus(1, false)
+            new Patient(
+                $this->createDateTime('2020-11-22'),
+                new InsuranceStatus(1, false),
+                'ImięTAK',
+                'NazwiskoTAK',
+                []
             )
         );
     }
 
-    /**
-     * @return CheckCwuResponse
-     */
     private function createInsuredPatientWithDnResponse(): CheckCwuResponse
     {
         return new CheckCwuResponse(
-            $this->createOperation(),
+            $this->createOperation('2020-11-22 10:31:06.756'),
             1,
             '19323197971',
-            $this->createPatient(
-                new InsuranceStatus(1, true)
+            new Patient(
+                $this->createDateTime('2020-11-22'),
+                new InsuranceStatus(1, true),
+                'ImięTAK',
+                'NazwiskoTAK',
+                []
             )
         );
     }
 
-    /**
-     * @return CheckCwuResponse
-     */
     private function createInsuredPatientWithHomeIsolationResponse(): CheckCwuResponse
     {
         return new CheckCwuResponse(
-            $this->createOperation(),
+            $this->createOperation('2020-11-22 10:31:06.756'),
             1,
             '00102721595',
-            $this->createPatient(
+            new Patient(
+                $this->createDateTime('2020-11-22'),
                 new InsuranceStatus(1, false),
+                'ImięTAK',
+                'NazwiskoTAK',
                 [
                     new PatientInformation(
                         'IZOLACJA DOMOWA',
-                        0,
+                        'O',
                         'Pacjent podlega izolacji domowej do dnia 06-12-2020'
                     )
                 ]
@@ -147,21 +155,21 @@ final class CheckCwuResponseFactoryTest extends TestCase
         );
     }
 
-    /**
-     * @return CheckCwuResponse
-     */
     private function createInsuredPatientWithQuarantineResponse(): CheckCwuResponse
     {
         return new CheckCwuResponse(
-            $this->createOperation(),
+            $this->createOperation('2020-11-22 10:31:06.756'),
             1,
             '00032948271',
-            $this->createPatient(
+            new Patient(
+                $this->createDateTime('2020-11-22'),
                 new InsuranceStatus(1, false),
+                'ImięTAK',
+                'NazwiskoTAK',
                 [
                     new PatientInformation(
                         'KWARANTANNA-COVID19',
-                        0,
+                        'O',
                         'Pacjent objęty kwarantanną do dnia 06-12-2020'
                     )
                 ]
@@ -169,84 +177,105 @@ final class CheckCwuResponseFactoryTest extends TestCase
         );
     }
 
-    /**
-     * @return CheckCwuResponse
-     */
+    private function createInsuredPatientFromUkraineResponse(): CheckCwuResponse
+    {
+        return new CheckCwuResponse(
+            $this->createOperation('2025-02-09 13:50:10.271'),
+            1,
+            '03070665355',
+            new Patient(
+                $this->createDateTime('2025-02-09'),
+                new InsuranceStatus(1, false),
+                'ImięUKR',
+                'NazwiskoUKR',
+                [
+                    new PatientInformation(
+                        'UKR',
+                        'I',
+                        'Pacjent posiada uprawnienie do świadczeń opieki zdrowotnej na mocy '
+                        . 'Ustawy z dnia 12 marca 2022 r. o pomocy obywatelom Ukrainy w związku z konfliktem '
+                        . 'zbrojnym na terytorium tego państwa',
+                    ),
+                ]
+            )
+        );
+    }
+
+    private function createInsuredPatientFromUkraineWithHomeIsolationResponse(): CheckCwuResponse
+    {
+        return new CheckCwuResponse(
+            $this->createOperation('2025-02-09 13:52:44.979'),
+            1,
+            '02082642235',
+            new Patient(
+                $this->createDateTime('2025-02-09'),
+                new InsuranceStatus(1, false),
+                'ImięUKR',
+                'NazwiskoUKR',
+                [
+                    new PatientInformation(
+                        'UKR',
+                        'I',
+                        'Pacjent posiada uprawnienie do świadczeń opieki zdrowotnej na mocy '
+                        . 'Ustawy z dnia 12 marca 2022 r. o pomocy obywatelom Ukrainy w związku z konfliktem '
+                        . 'zbrojnym na terytorium tego państwa',
+                    ),
+                    new PatientInformation(
+                        'IZOLACJA DOMOWA',
+                        'O',
+                        'Pacjent podlega izolacji domowej do dnia 23-02-2025'
+                    )
+                ]
+            )
+        );
+    }
+
     private function createPatientNotExistResponse(): CheckCwuResponse
     {
         return new CheckCwuResponse(
-            $this->createOperation(),
+            $this->createOperation('2020-11-22 10:31:06.756'),
             0,
             '01010153201',
             null
         );
     }
 
-    /**
-     * @return CheckCwuResponse
-     */
     private function createPatientWithAnnulledPeselResponse(): CheckCwuResponse
     {
         return new CheckCwuResponse(
-            $this->createOperation(),
+            $this->createOperation('2020-11-22 10:31:06.756'),
             -1,
             '00060958187',
             null
         );
     }
 
-    /**
-     * @return CheckCwuResponse
-     */
     private function createUninsuredPatientResponse(): CheckCwuResponse
     {
         return new CheckCwuResponse(
-            $this->createOperation(),
+            $this->createOperation('2020-11-22 10:31:06.756'),
             1,
             '55021562501',
-            $this->createPatient(
-                new InsuranceStatus(0, false)
+            new Patient(
+                $this->createDateTime('2020-11-22'),
+                new InsuranceStatus(0, false),
+                'ImięNIE',
+                'NazwiskoNIE',
+                []
             )
         );
     }
 
-    /**
-     * @return Operation
-     */
-    private function createOperation(): Operation
+    private function createOperation(string $date): Operation
     {
         return new Operation(
             'L1712M01200000001',
-            $this->createDateTime('2020-11-22 10:31:06.756')
+            $this->createDateTime($date)
         );
     }
 
-    /**
-     * @param string $dateTime
-     *
-     * @return DateTimeImmutable
-     */
     private function createDateTime(string $dateTime): DateTimeImmutable
     {
         return new DateTimeImmutable($dateTime, new DateTimeZone('Europe/Warsaw'));
-    }
-
-    /**
-     * @param InsuranceStatus $insuranceStatus
-     * @param array<PatientInformation> $info
-     *
-     * @return Patient
-     */
-    private function createPatient(InsuranceStatus $insuranceStatus, array $info = []): Patient
-    {
-        $insured = $insuranceStatus->getCode() === 1;
-
-        return new Patient(
-            $this->createDateTime('2020-11-22'),
-            $insuranceStatus,
-            $insured ? 'ImięTAK' : 'ImięNIE',
-            $insured ? 'NazwiskoTAK' : 'NazwiskoNIE',
-            $info
-        );
     }
 }

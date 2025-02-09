@@ -23,9 +23,8 @@ class ErrorParserService
     private const NS_SOAP_PREFIX = 'soap';
 
     /**
-     * @param XmlReader $xmlReader
-     *
      * @throws ServerResponseException
+     * @throws ElementNotFoundException
      */
     public function throwErrorIfExist(XmlReader $xmlReader): void
     {
@@ -37,11 +36,6 @@ class ErrorParserService
         $this->handleSoapError($xmlReader);
     }
 
-    /**
-     * @param XmlReader $xmlReader
-     *
-     * @return bool
-     */
     private function hasError(XmlReader $xmlReader): bool
     {
         $nsPrefix = $this->registerNsPrefix($xmlReader, Ns::SOAP, self::NS_SOAP_PREFIX);
@@ -49,11 +43,6 @@ class ErrorParserService
         return $xmlReader->hasElement('//' . $nsPrefix . ':Fault');
     }
 
-    /**
-     * @param XmlReader $xmlReader
-     *
-     * @throws ServerResponseException
-     */
     private function handleEwusError(XmlReader $xmlReader): void
     {
         $nsPrefix = $this->registerNsPrefix($xmlReader, Ns::COMMON, self::NS_COMMON_PREFIX);
@@ -77,9 +66,8 @@ class ErrorParserService
     }
 
     /**
-     * @param XmlReader $xmlReader
-     *
      * @throws ServerResponseException
+     * @throws ElementNotFoundException
      */
     private function handleSoapError(XmlReader $xmlReader): void
     {
@@ -94,55 +82,28 @@ class ErrorParserService
         throw new ServerResponseException($message);
     }
 
-    /**
-     * @param XmlReader $xmlReader
-     * @param string $namespace
-     * @param string $prefixCandidate
-     *
-     * @return string
-     */
     private function registerNsPrefix(XmlReader $xmlReader, string $namespace, string $prefixCandidate): string
     {
         try {
             return $xmlReader->getNamespacePrefix($namespace);
-        } catch (NamespaceNotRegisteredException $exception) {
+        } catch (NamespaceNotRegisteredException) {
             $xmlReader->registerNamespace($prefixCandidate, $namespace);
 
             return $prefixCandidate;
         }
     }
 
-    /**
-     * @param string $code
-     *
-     * @return string
-     */
     private function mapCodeToExceptionClass(string $code): string
     {
-        switch ($code) {
-            case 'Client.InputException':
-                return InputException::class;
-
-            case 'Client.AuthenticationException':
-                return AuthenticationException::class;
-
-            case 'Client.AuthorizationException':
-                return AuthorizationException::class;
-
-            case 'Client.AuthTokenException':
-                return AuthTokenException::class;
-
-            case 'Client.PassExpiredException':
-                return PassExpiredException::class;
-
-            case 'Client.ServerException':
-                return ServerException::class;
-
-            case 'Client.SessionException':
-                return SessionException::class;
-
-            default:
-                return ServerResponseException::class;
-        }
+        return match ($code) {
+            'Client.InputException' => InputException::class,
+            'Client.AuthenticationException' => AuthenticationException::class,
+            'Client.AuthorizationException' => AuthorizationException::class,
+            'Client.AuthTokenException' => AuthTokenException::class,
+            'Client.PassExpiredException' => PassExpiredException::class,
+            'Client.ServerException' => ServerException::class,
+            'Client.SessionException' => SessionException::class,
+            default => ServerResponseException::class,
+        };
     }
 }

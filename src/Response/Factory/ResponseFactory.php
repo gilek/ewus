@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Gilek\Ewus\Response\Factory;
 
-use Gilek\Ewus\Misc\Factory\DateTimeFactory;
+use Gilek\Ewus\Shared\Factory\DateTimeFactory;
 use Gilek\Ewus\Response\ChangePasswordResponse;
 use Gilek\Ewus\Response\CheckCwuResponse;
 use Gilek\Ewus\Response\LoginResponse;
@@ -14,23 +14,11 @@ use Gilek\Ewus\Xml\Factory\XmlReaderFactory;
 
 class ResponseFactory implements ResponseFactoryInterface
 {
-    /** @var XmlReaderFactory */
-    private $xmlReaderFactory;
+    private readonly XmlReaderFactory $xmlReaderFactory;
+    private readonly ErrorParserServiceFactory $errorParserServiceFactory;
+    private readonly DateTimeFactory $dateTimeFactory;
+    private ?ErrorParserService $errorParserService = null;
 
-    /** @var ErrorParserService */
-    private $errorParserService;
-
-    /** @var ErrorParserServiceFactory */
-    private $errorParserServiceFactory;
-
-    /** @var DateTimeFactory */
-    private $dateTimeFactory;
-
-    /**
-     * @param XmlReaderFactory|null $xmlReaderFactory
-     * @param ErrorParserServiceFactory|null $errorParserServiceFactory
-     * @param DateTimeFactory|null $dateTimeFactory
-     */
     public function __construct(
         ?XmlReaderFactory $xmlReaderFactory = null,
         ?ErrorParserServiceFactory $errorParserServiceFactory = null,
@@ -41,9 +29,7 @@ class ResponseFactory implements ResponseFactoryInterface
         $this->errorParserServiceFactory = $errorParserServiceFactory ?? new ErrorParserServiceFactory();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function createLogin(string $responseBody): LoginResponse
     {
         $factory = new LoginResponseFactory(
@@ -54,9 +40,7 @@ class ResponseFactory implements ResponseFactoryInterface
         return $factory->build($responseBody);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function createLogout(string $responseBody): LogoutResponse
     {
         $factory = new LogoutResponseFactory($this->xmlReaderFactory, $this->getErrorParserService());
@@ -64,9 +48,7 @@ class ResponseFactory implements ResponseFactoryInterface
         return $factory->build($responseBody);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function createCheckCwu(string $responseBody): CheckCwuResponse
     {
         $factory = new CheckCwuResponseFactory(
@@ -78,9 +60,7 @@ class ResponseFactory implements ResponseFactoryInterface
         return $factory->build($responseBody);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function createChangePassword(string $responseBody): ChangePasswordResponse
     {
         $factory = new ChangePasswordResponseFactory($this->xmlReaderFactory, $this->getErrorParserService());
@@ -88,9 +68,6 @@ class ResponseFactory implements ResponseFactoryInterface
         return $factory->build($responseBody);
     }
 
-    /**
-     * @return ErrorParserService
-     */
     private function getErrorParserService(): ErrorParserService
     {
         if ($this->errorParserService === null) {

@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace Gilek\Ewus\Server;
 
+use Gilek\Ewus\Request\RequestMethod;
+
 interface ServerBrokerInterface
 {
-    /**
-     * @param string $name
-     *
-     * @return string
-     */
-    public function resolve(string $name): string;
+    public function resolve(RequestMethod $method): string;
 }

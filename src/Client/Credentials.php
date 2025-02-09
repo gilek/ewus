@@ -4,103 +4,63 @@ declare(strict_types=1);
 
 namespace Gilek\Ewus\Client;
 
+use Gilek\Ewus\Client\Exception\MissingCredentialsException;
+
 class Credentials
 {
-    private const TYPE_LEK = 'LEK';
-    private const TYPE_SWD = 'SWD';
-
-    /** @var string */
-    private $login;
-
-    /** @var string */
-    private $password;
-
-    /** @var string */
-    private $domain;
-
-    /** @var string|null */
-    private $type;
-
-    /** @var string|null */
-    private $idntLek;
-
-    /** @var string|null */
-    private $idntSwd;
+    private readonly CredentialType $type;
+    private readonly ?string $doctorId;
+    private readonly ?string $providerId;
 
     /**
-     * @param string $login
-     * @param string $password
-     * @param string $domain
-     * @param string|null $idntLek
-     * @param string|null $idntSwd
+     * @throws MissingCredentialsException
      */
     public function __construct(
-        string $login,
-        string $password,
-        string $domain,
-        ?string $idntLek = null,
-        ?string $idntSwd = null
+        private readonly string $login,
+        private readonly string $password,
+        private readonly string $domain,
+        ?string $doctorId = null,
+        ?string $providerId = null
     ) {
-        $this->login = $login;
-        $this->password = $password;
-        $this->domain = $domain;
-
-        if ($idntLek !== null) {
-            $this->idntLek = $idntLek;
-            $this->type = self::TYPE_LEK;
+        if ($doctorId === null && $providerId === null) {
+            throw new MissingCredentialsException('Missing one of: doctor ID, healthcare provider ID.');
         }
 
-        if ($idntSwd !== null) {
-            $this->idntSwd = $idntSwd;
-            $this->type = self::TYPE_SWD;
-        }
+        $this->type = ($doctorId !== null)
+            ? CredentialType::DOCTOR
+            : CredentialType::SERVICE;
+
+        $this->doctorId = $doctorId;
+        $this->providerId = $providerId;
     }
 
-    /**
-     * @return string
-     */
     public function getLogin(): string
     {
         return $this->login;
     }
 
-    /**
-     * @return string
-     */
     public function getPassword(): string
     {
         return $this->password;
     }
 
-    /**
-     * @return string
-     */
     public function getDomain(): string
     {
         return $this->domain;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getType(): ?string
+    public function getType(): CredentialType
     {
         return $this->type;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getIdntLek(): ?string
+    public function getDoctorId(): ?string
     {
-        return $this->idntLek;
+        return $this->doctorId;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getIdntSwd(): ?string
+    public function getProviderId(): ?string
     {
-        return $this->idntSwd;
+        return $this->providerId;
     }
 }

@@ -9,30 +9,25 @@ use Gilek\Ewus\Response\Factory\ChangePasswordResponseFactory;
 use Gilek\Ewus\Response\Service\ErrorParserService;
 use Gilek\Ewus\Test\Functional\WithXmlLoad;
 use Gilek\Ewus\Xml\Factory\XmlReaderFactory;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 final class ChangePasswordResponseFactoryTest extends TestCase
 {
     use WithXmlLoad;
 
-    /** @var ChangePasswordResponseFactory */
-    private $sut;
+    private ChangePasswordResponseFactory $sut;
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function setUp(): void
     {
-        parent::setUp();
         $this->sut = new ChangePasswordResponseFactory(new XmlReaderFactory(), new ErrorParserService());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function is_should_create_correct_response(): void
     {
-        $this->assertEquals(
+        self::assertEquals(
             new ChangePasswordResponse(
                 'Hasło zostało zmienione. Zmiana zostanie zatwierdzona po powtórnym zalogowaniu operatora.'
             ),

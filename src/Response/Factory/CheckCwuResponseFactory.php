@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Gilek\Ewus\Response\Factory;
 
 use DOMElement;
-use Gilek\Ewus\Misc\Exception\InvalidDateException;
-use Gilek\Ewus\Misc\Factory\DateTimeFactory;
+use Gilek\Ewus\Shared\Exception\InvalidDateException;
+use Gilek\Ewus\Shared\Factory\DateTimeFactory;
 use Gilek\Ewus\Ns;
 use Gilek\Ewus\Response\CheckCwuResponse;
 use Gilek\Ewus\Response\Exception\EmptyResponseException;
@@ -26,35 +26,14 @@ class CheckCwuResponseFactory
 {
     private const NS_EWUS_PREFIX = 'ewus';
 
-    /** @var XmlReaderFactory */
-    private $xmlReaderFactory;
-
-    /** @var ErrorParserService */
-    private $errorParserService;
-
-    /** @var DateTimeFactory */
-    private $dateTimeFactory;
-
-    /**
-     * @param XmlReaderFactory $xmlReaderFactory
-     * @param ErrorParserService $errorParserService
-     * @param DateTimeFactory $dateTimeFactory
-     */
     public function __construct(
-        XmlReaderFactory $xmlReaderFactory,
-        ErrorParserService $errorParserService,
-        DateTimeFactory $dateTimeFactory
+        private readonly XmlReaderFactory $xmlReaderFactory,
+        private readonly ErrorParserService $errorParserService,
+        private readonly DateTimeFactory $dateTimeFactory
     ) {
-        $this->xmlReaderFactory = $xmlReaderFactory;
-        $this->dateTimeFactory = $dateTimeFactory;
-        $this->errorParserService = $errorParserService;
     }
 
     /**
-     * @param string $responseBody
-     *
-     * @return CheckCwuResponse
-     *
      * @throws InvalidResponseException
      * @throws ServerResponseException
      */
@@ -81,10 +60,6 @@ class CheckCwuResponseFactory
     }
 
     /**
-     * @param XmlReader $xmrReader
-     *
-     * @return Operation
-     *
      * @throws ElementNotFoundException
      * @throws InvalidDateException
      */
@@ -100,10 +75,6 @@ class CheckCwuResponseFactory
     }
 
     /**
-     * @param XmlReader $xmlReader
-     *
-     * @return int
-     *
      * @throws ElementNotFoundException
      */
     private function extractStatusCode(XmlReader $xmlReader): int
@@ -112,10 +83,6 @@ class CheckCwuResponseFactory
     }
 
     /**
-     * @param XmlReader $xmlReader
-     *
-     * @return string
-     *
      * @throws ElementNotFoundException
      */
     private function extractPesel(XmlReader $xmlReader): string
@@ -124,10 +91,6 @@ class CheckCwuResponseFactory
     }
 
     /**
-     * @param XmlReader $xmlReader
-     *
-     * @return Patient|null
-     *
      * @throws ElementNotFoundException
      * @throws InvalidDateException
      */
@@ -151,9 +114,6 @@ class CheckCwuResponseFactory
     }
 
     /**
-     * @param XmlReader $xmlReader
-     *
-     * @return InsuranceStatus
      * @throws ElementNotFoundException
      */
     private function extractInsuranceStatus(XmlReader $xmlReader): InsuranceStatus
@@ -167,11 +127,6 @@ class CheckCwuResponseFactory
         );
     }
 
-    /**
-     * @param string $queryPart
-     *
-     * @return string
-     */
     private function q(string $queryPart): string
     {
         $parts = explode('/', $queryPart);
@@ -185,15 +140,13 @@ class CheckCwuResponseFactory
     }
 
     /**
-     * @param XmlReader $xmlReader
-     *
      * @return PatientInformation[]
      */
     private function extractInformation(XmlReader $xmlReader): array
     {
         try {
             $infoElements = $xmlReader->getElements($this->q('pacjent[1]/informacje_dodatkowe/informacja'));
-        } catch (ElementNotFoundException $exception) {
+        } catch (ElementNotFoundException) {
             return [];
         }
 
@@ -202,7 +155,7 @@ class CheckCwuResponseFactory
         foreach ($infoElements as $infoElement) {
             $infos[] = new PatientInformation(
                 $infoElement->getAttribute('kod'),
-                (int)$infoElement->getAttribute('poziom'),
+                $infoElement->getAttribute('poziom'),
                 $infoElement->getAttribute('wartosc')
             );
         }

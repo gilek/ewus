@@ -8,9 +8,6 @@ use Gilek\Ewus\Response\Service\ErrorParserService;
 
 class ErrorParserServiceFactory
 {
-    /**
-     * @return ErrorParserService
-     */
     public function create(): ErrorParserService
     {
         return new ErrorParserService();

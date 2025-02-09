@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Gilek\Ewus\Request\Factory;
 
 use Gilek\Ewus\Client\Client;
-use Gilek\Ewus\Misc\Factory\DateTimeFactory;
+use Gilek\Ewus\Shared\Factory\DateTimeFactory;
 use Gilek\Ewus\Ns;
 use Gilek\Ewus\Request\Request;
+use Gilek\Ewus\Request\RequestMethod;
 use Gilek\Ewus\Response\Session;
 use Gilek\Ewus\Xml\Factory\XmlWriterFactory;
 
@@ -15,39 +16,17 @@ class CheckCwuRequestFactory
 {
     use WithSessionHeader;
 
-    /** @var XmlWriterFactory */
-    private $xmlWriterFactory;
-
-    /** @var DateTimeFactory */
-    private $dateTimeFactory;
-
-    /**
-     * @param XmlWriterFactory $xmlWriterFactory
-     * @param DateTimeFactory $dateTimeFactory
-     */
-    public function __construct(XmlWriterFactory $xmlWriterFactory, DateTimeFactory $dateTimeFactory)
-    {
-        $this->xmlWriterFactory = $xmlWriterFactory;
-        $this->dateTimeFactory = $dateTimeFactory;
+    public function __construct(
+        private readonly XmlWriterFactory $xmlWriterFactory,
+        private readonly DateTimeFactory $dateTimeFactory
+    ) {
     }
 
-    /**
-     * @param string $pesel
-     * @param Session $session
-     *
-     * @return Request
-     */
     public function create(Session $session, string $pesel): Request
     {
-        return new Request(Request::METHOD_CHECK_CWU, $this->generateBody($session, $pesel));
+        return new Request(RequestMethod::CHECK_CWU, $this->generateBody($session, $pesel));
     }
 
-    /**
-     * @param Session $session
-     * @param string $pesel
-     *
-     * @return string
-     */
     private function generateBody(Session $session, string $pesel): string
     {
         $xmlService = $this->xmlWriterFactory->create([

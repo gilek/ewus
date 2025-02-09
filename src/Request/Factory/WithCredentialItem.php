@@ -9,10 +9,7 @@ use Gilek\Ewus\Client\Credentials;
 trait WithCredentialItem
 {
     /**
-     * @param Credentials $credentials
-     * @param string      $ns
-     *
-     * @return array[]
+     * @return array<array<string, mixed>>
      */
     private function generateCredentialItems(Credentials $credentials, string $ns): array
     {
@@ -23,29 +20,22 @@ trait WithCredentialItem
                 'domain',
                 sprintf('%02d', $credentials->getDomain())
             ),
+            $this->createCredentialItem($ns, 'type', $credentials->getType()->value)
         ];
 
-        if (null !== $type = $credentials->getType()) {
-            $items[] = $this->createCredentialItem($ns, 'type', $type);
+        if (null !== $doctorId = $credentials->getDoctorId()) {
+            $items[] = $this->createCredentialItem($ns, 'idntLek', $doctorId);
         }
 
-        if (null !== $idntLek = $credentials->getIdntLek()) {
-            $items[] = $this->createCredentialItem($ns, 'idntLek', (string) $idntLek);
-        }
-
-        if (null !== $idntSwd = $credentials->getIdntSwd()) {
-            $items[] = $this->createCredentialItem($ns, 'idntSwd', (string) $idntSwd);
+        if (null !== $providerId = $credentials->getProviderId()) {
+            $items[] = $this->createCredentialItem($ns, 'idntSwd', $providerId);
         }
 
         return $items;
     }
 
     /**
-     * @param string $ns
-     * @param string $name
-     * @param string $value
-     *
-     * @return array<string, array<string, array<string, string>|string>>
+     * @return array<array<string, mixed>>
      */
     private function createCredentialItem(string $ns, string $name, string $value): array
     {

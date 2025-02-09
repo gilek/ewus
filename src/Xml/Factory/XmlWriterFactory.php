@@ -9,11 +9,9 @@ use Sabre\Xml\Service;
 class XmlWriterFactory
 {
     /**
-     * @param array<string, mixed> $namespaceMap
-     *
-     * @return Service
+     * @param array<string, string> $namespaceMap
      */
-    public function create($namespaceMap = [])
+    public function create(array $namespaceMap = []): Service
     {
         $service = new Service();
         $service->namespaceMap = $namespaceMap;

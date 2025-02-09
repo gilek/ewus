@@ -3,11 +3,9 @@
          xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/8.4/phpunit.xsd"
          executionOrder="depends,defects"
          colors="true"
-         forceCoversAnnotation="true"
-         beStrictAboutCoversAnnotation="false"
          beStrictAboutOutputDuringTests="true"
-         beStrictAboutTodoAnnotatedTests="true"
-         verbose="true">
+         displayDetailsOnTestsThatTriggerDeprecations="true"
+>
 
     <testsuites>
         <testsuite name="Unit">
