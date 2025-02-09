@@ -25,7 +25,7 @@ use Gilek\Ewus\Server\ServerBrokerInterface;
 
 class Client
 {
-    public const VERSION = '4';
+    public const VERSION = '5';
 
     private readonly Credentials $credentials;
     private readonly DriverInterface $driver;
