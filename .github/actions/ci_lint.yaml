@@ -1,0 +1,3 @@
+steps:
+  - name: Lint
+    run: composer run lint
