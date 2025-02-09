@@ -9,7 +9,7 @@ use Gilek\Ewus\Response\Session;
 trait WithSessionHeader
 {
     /**
-     * @return array[]
+     * @return array<array<mixed>>
      */
     private function generateSessionHeaders(Session $session, string $ns): array
     {

@@ -9,7 +9,7 @@ use Gilek\Ewus\Client\Credentials;
 trait WithCredentialItem
 {
     /**
-     * @return array[]
+     * @return array<array<string, mixed>>
      */
     private function generateCredentialItems(Credentials $credentials, string $ns): array
     {
@@ -35,7 +35,7 @@ trait WithCredentialItem
     }
 
     /**
-     * @return array<string, array<string, array<string, string>|string>>
+     * @return array<array<string, mixed>>
      */
     private function createCredentialItem(string $ns, string $name, string $value): array
     {

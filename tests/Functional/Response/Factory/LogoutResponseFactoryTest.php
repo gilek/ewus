@@ -27,7 +27,7 @@ class LogoutResponseFactoryTest extends TestCase
     #[Test]
     public function is_should_create_correct_response(): void
     {
-        $this->assertEquals(
+        self::assertEquals(
             new LogoutResponse('Wylogowany'),
             $this->sut->build(
                 $this->loadXml('logout')

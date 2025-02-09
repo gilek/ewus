@@ -44,14 +44,14 @@ final class CheckCwuResponseFactoryTest extends TestCase
         string $xml,
         CheckCwuResponse $expectedResponse
     ): void {
-        $this->assertEquals(
+        self::assertEquals(
             $expectedResponse,
             $this->sut->build($xml)
         );
     }
 
     /**
-     * @return Generator<array>
+     * @return Generator<array<int, string|CheckCwuResponse>>
      */
     public function responseDataProvider(): Generator
     {

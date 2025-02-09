@@ -82,13 +82,15 @@ class XmlReader
      */
     private function createDomDocument(string $xml): DOMDocument
     {
-        set_error_handler(function (int $number, string $error, string $file, int $line, array $context): bool {
-            if (preg_match('/^DOMDocument::loadXML\(\): (.+)$/', $error, $m) === 1) {
-                throw new InvalidResponseContentException($m[1]);
-            }
+        set_error_handler(
+            function (int $number, string $error, string $file, int $line): bool {
+                if (preg_match('/^DOMDocument::loadXML\(\): (.+)$/', $error, $m) === 1) {
+                    throw new InvalidResponseContentException($m[1]);
+                }
 
-            return false;
-        });
+                return false;
+            }
+        );
         $document = new DOMDocument();
         $document->loadXML($xml);
         restore_error_handler();

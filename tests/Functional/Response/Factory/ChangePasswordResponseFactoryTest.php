@@ -27,7 +27,7 @@ final class ChangePasswordResponseFactoryTest extends TestCase
     #[Test]
     public function is_should_create_correct_response(): void
     {
-        $this->assertEquals(
+        self::assertEquals(
             new ChangePasswordResponse(
                 'Hasło zostało zmienione. Zmiana zostanie zatwierdzona po powtórnym zalogowaniu operatora.'
             ),

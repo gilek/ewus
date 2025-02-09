@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Gilek\Ewus\Test\Functional\Request\Factory;
 
-use PHPStan\Testing\TestCase;
+use PHPUnit\Framework\TestCase;
 
 abstract class RequestFactoryTestCase extends TestCase
 {

@@ -42,7 +42,7 @@ final class ErrorParserServiceTest extends TestCase
     }
 
     /**
-     * @return Generator<array>
+     * @return Generator<array<int, string>>
      */
     public function exceptionDataProvider(): Generator
     {

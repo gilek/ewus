@@ -40,8 +40,8 @@ final class LogoutRequestFactoryTest extends RequestFactoryTestCase
             new Session(self::SESSION_ID, self::TOKEN)
         );
 
-        $this->assertSame('logout', $response->getMethodName());
-        $this->assertEquals(
+        self::assertSame('logout', $response->getMethodName());
+        self::assertEquals(
             $expectedResult,
             (new Service())->parse($response->getBody())
         );

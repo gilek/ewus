@@ -72,8 +72,8 @@ final class CheckCwuRequestFactoryTest extends RequestFactoryTestCase
             self::PESEL
         );
 
-        $this->assertSame('checkCwu', $response->getMethodName());
-        $this->assertEquals(
+        self::assertSame('checkCwu', $response->getMethodName());
+        self::assertEquals(
             $expectedResult,
             (new Service())->parse($response->getBody())
         );

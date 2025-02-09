@@ -79,8 +79,8 @@ final class ChangePasswordRequestFactoryTest extends RequestFactoryTestCase
             self::NEW_PASSWORD
         );
 
-        $this->assertSame('changePassword', $response->getMethodName());
-        $this->assertEquals(
+        self::assertSame('changePassword', $response->getMethodName());
+        self::assertEquals(
             $expectedResult,
             (new Service())->parse($response->getBody())
         );

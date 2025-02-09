@@ -67,8 +67,8 @@ final class LoginRequestFactoryTest extends RequestFactoryTestCase
             ])
         ];
 
-        $this->assertSame('login', $response->getMethodName());
-        $this->assertEquals(
+        self::assertSame('login', $response->getMethodName());
+        self::assertEquals(
             $expectedResult,
             (new Service())->parse($response->getBody())
         );

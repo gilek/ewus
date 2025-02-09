@@ -27,7 +27,7 @@ final class LoginResponseFactoryTest extends TestCase
     #[Test]
     public function is_should_create_correct_response(): void
     {
-        $this->assertEquals(
+        self::assertEquals(
             new LoginResponse(
                 'D372BC7DA73178BB3D9CB50E54F0187D',
                 'BSWhq2W9mzXO_OZHX7qfuB',

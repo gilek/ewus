@@ -26,7 +26,7 @@ final class DateTimeFactoryTest extends TestCase
     {
         $dateTime = $this->sut->createDateTime('2020-11-20T13:44:59.406+01:00');
 
-        $this->assertSame('2020-11-20 13:44:59.406000 GMT+0100', $dateTime->format('Y-m-d H:i:s.u T'));
+        self::assertSame('2020-11-20 13:44:59.406000 GMT+0100', $dateTime->format('Y-m-d H:i:s.u T'));
     }
 
 
@@ -40,7 +40,7 @@ final class DateTimeFactoryTest extends TestCase
     }
 
     /**
-     * @return Generator<array>
+     * @return Generator<array<int, string>>
      */
     public static function invalidDateTimeDataProvider(): Generator
     {
@@ -55,7 +55,7 @@ final class DateTimeFactoryTest extends TestCase
     {
         $dateTime = $this->sut->createDate('2020-11-20+01:00');
 
-        $this->assertSame('2020-11-20 00:00:00.000000 GMT+0100', $dateTime->format('Y-m-d H:i:s.u T'));
+        self::assertSame('2020-11-20 00:00:00.000000 GMT+0100', $dateTime->format('Y-m-d H:i:s.u T'));
     }
 
     #[Test]
@@ -68,7 +68,7 @@ final class DateTimeFactoryTest extends TestCase
     }
 
     /**
-     * @return Generator<array>
+     * @return Generator<array<int, string>>
      */
     public static function invalidDateDataProvider(): Generator
     {
