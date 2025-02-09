@@ -59,7 +59,7 @@ final class CheckCwuRequestFactoryTest extends RequestFactoryTestCase
                                 $this->ewusNode('numer_pesel', [], self::PESEL),
                                 $this->ewusNode('system_swiad', [
                                     'nazwa' => 'gilek/ewus',
-                                    'wersja' => '4',
+                                    'wersja' => '5',
                                 ]),
                             ])
                         ])
