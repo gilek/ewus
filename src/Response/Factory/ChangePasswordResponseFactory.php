@@ -18,11 +18,8 @@ class ChangePasswordResponseFactory
 {
     private const NS_AUTH_PREFIX = 'auth';
 
-    /** @var XmlReaderFactory */
-    private $xmlReaderFactory;
-
-    /** @var ErrorParserService */
-    private $errorParserService;
+    private XmlReaderFactory $xmlReaderFactory;
+    private ErrorParserService $errorParserService;
 
     /**
      * @param XmlReaderFactory $xmlReaderFactory

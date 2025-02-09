@@ -6,34 +6,17 @@ namespace Gilek\Ewus\Client;
 
 class Credentials
 {
+    // TODO to enum
     private const TYPE_LEK = 'LEK';
     private const TYPE_SWD = 'SWD';
 
-    /** @var string */
-    private $login;
+    private string $login;
+    private string $password;
+    private string $domain;
+    private ?string $type;
+    private ?string $idntLek;
+    private ?string $idntSwd;
 
-    /** @var string */
-    private $password;
-
-    /** @var string */
-    private $domain;
-
-    /** @var string|null */
-    private $type;
-
-    /** @var string|null */
-    private $idntLek;
-
-    /** @var string|null */
-    private $idntSwd;
-
-    /**
-     * @param string $login
-     * @param string $password
-     * @param string $domain
-     * @param string|null $idntLek
-     * @param string|null $idntSwd
-     */
     public function __construct(
         string $login,
         string $password,
@@ -56,49 +39,31 @@ class Credentials
         }
     }
 
-    /**
-     * @return string
-     */
     public function getLogin(): string
     {
         return $this->login;
     }
 
-    /**
-     * @return string
-     */
     public function getPassword(): string
     {
         return $this->password;
     }
 
-    /**
-     * @return string
-     */
     public function getDomain(): string
     {
         return $this->domain;
     }
 
-    /**
-     * @return string|null
-     */
     public function getType(): ?string
     {
         return $this->type;
     }
 
-    /**
-     * @return string|null
-     */
     public function getIdntLek(): ?string
     {
         return $this->idntLek;
     }
 
-    /**
-     * @return string|null
-     */
     public function getIdntSwd(): ?string
     {
         return $this->idntSwd;

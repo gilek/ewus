@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Gilek\Ewus;
 
+// TODO to enum
 final class Ns
 {
     public const AUTH = 'http://xml.kamsoft.pl/ws/kaas/login_types';

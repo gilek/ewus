@@ -6,6 +6,7 @@ namespace Gilek\Ewus\Request;
 
 class Request
 {
+    // TODO to enum
     public const METHOD_CHECK_CWU = 'checkCwu';
     public const METHOD_LOGIN = 'login';
     public const METHOD_LOGOUT = 'logout';

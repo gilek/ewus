@@ -10,10 +10,6 @@ use Gilek\Ewus\Misc\Exception\InvalidDateException;
 class DateTimeFactory
 {
     /**
-     * @param string $dateTime
-     *
-     * @return DateTimeImmutable
-     *
      * @throws InvalidDateException
      */
     public function createDateTime(string $dateTime): DateTimeImmutable
@@ -31,10 +27,6 @@ class DateTimeFactory
     }
 
     /**
-     * @param string $date
-     *
-     * @return DateTimeImmutable
-     *
      * @throws InvalidDateException
      */
     public function createDate(string $date): DateTimeImmutable
@@ -47,9 +39,6 @@ class DateTimeFactory
         return $dateObject;
     }
 
-    /**
-     * @return bool
-     */
     private function hasDateTimeReportedErrors(): bool
     {
         $errors = DateTimeImmutable::getLastErrors();

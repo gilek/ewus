@@ -8,16 +8,9 @@ use DateTimeInterface;
 
 class Operation
 {
-    /** @var string */
-    private $id;
+    private string $id;
+    private DateTimeInterface $date;
 
-    /** @var DateTimeInterface */
-    private $date;
-
-    /**
-     * @param string            $id
-     * @param DateTimeInterface $date
-     */
     public function __construct(string $id, DateTimeInterface $date)
     {
         $this->id = $id;

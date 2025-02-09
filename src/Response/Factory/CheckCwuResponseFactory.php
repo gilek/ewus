@@ -26,20 +26,10 @@ class CheckCwuResponseFactory
 {
     private const NS_EWUS_PREFIX = 'ewus';
 
-    /** @var XmlReaderFactory */
-    private $xmlReaderFactory;
+    private XmlReaderFactory $xmlReaderFactory;
+    private ErrorParserService $errorParserService;
+    private DateTimeFactory $dateTimeFactory;
 
-    /** @var ErrorParserService */
-    private $errorParserService;
-
-    /** @var DateTimeFactory */
-    private $dateTimeFactory;
-
-    /**
-     * @param XmlReaderFactory $xmlReaderFactory
-     * @param ErrorParserService $errorParserService
-     * @param DateTimeFactory $dateTimeFactory
-     */
     public function __construct(
         XmlReaderFactory $xmlReaderFactory,
         ErrorParserService $errorParserService,
@@ -51,10 +41,6 @@ class CheckCwuResponseFactory
     }
 
     /**
-     * @param string $responseBody
-     *
-     * @return CheckCwuResponse
-     *
      * @throws InvalidResponseException
      * @throws ServerResponseException
      */
@@ -81,10 +67,6 @@ class CheckCwuResponseFactory
     }
 
     /**
-     * @param XmlReader $xmrReader
-     *
-     * @return Operation
-     *
      * @throws ElementNotFoundException
      * @throws InvalidDateException
      */
@@ -100,10 +82,6 @@ class CheckCwuResponseFactory
     }
 
     /**
-     * @param XmlReader $xmlReader
-     *
-     * @return int
-     *
      * @throws ElementNotFoundException
      */
     private function extractStatusCode(XmlReader $xmlReader): int
@@ -112,10 +90,6 @@ class CheckCwuResponseFactory
     }
 
     /**
-     * @param XmlReader $xmlReader
-     *
-     * @return string
-     *
      * @throws ElementNotFoundException
      */
     private function extractPesel(XmlReader $xmlReader): string
@@ -124,10 +98,6 @@ class CheckCwuResponseFactory
     }
 
     /**
-     * @param XmlReader $xmlReader
-     *
-     * @return Patient|null
-     *
      * @throws ElementNotFoundException
      * @throws InvalidDateException
      */
@@ -151,9 +121,6 @@ class CheckCwuResponseFactory
     }
 
     /**
-     * @param XmlReader $xmlReader
-     *
-     * @return InsuranceStatus
      * @throws ElementNotFoundException
      */
     private function extractInsuranceStatus(XmlReader $xmlReader): InsuranceStatus
@@ -167,11 +134,6 @@ class CheckCwuResponseFactory
         );
     }
 
-    /**
-     * @param string $queryPart
-     *
-     * @return string
-     */
     private function q(string $queryPart): string
     {
         $parts = explode('/', $queryPart);
@@ -185,8 +147,6 @@ class CheckCwuResponseFactory
     }
 
     /**
-     * @param XmlReader $xmlReader
-     *
      * @return PatientInformation[]
      */
     private function extractInformation(XmlReader $xmlReader): array

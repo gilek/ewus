@@ -15,24 +15,13 @@ class ChangePasswordRequestFactory
     use WithCredentialItem;
     use WithSessionHeader;
 
-    /** @var XmlWriterFactory */
-    private $xmlWriterFactory;
+    private XmlWriterFactory $xmlWriterFactory;
 
-    /**
-     * @param XmlWriterFactory $xmlWriterFactory
-     */
     public function __construct(XmlWriterFactory $xmlWriterFactory)
     {
         $this->xmlWriterFactory = $xmlWriterFactory;
     }
 
-    /**
-     * @param Session     $session
-     * @param Credentials $credentials
-     * @param string      $newPassword
-     *
-     * @return Request
-     */
     public function create(Session $session, Credentials $credentials, string $newPassword): Request
     {
         return new Request(
@@ -41,13 +30,6 @@ class ChangePasswordRequestFactory
         );
     }
 
-    /**
-     * @param Session     $session
-     * @param Credentials $credentials
-     * @param string      $newPassword
-     *
-     * @return string
-     */
     private function generateBody(Session $session, Credentials $credentials, string $newPassword): string
     {
         $xmlService = $this->xmlWriterFactory->create([

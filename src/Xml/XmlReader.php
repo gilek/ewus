@@ -16,14 +16,11 @@ use Gilek\Ewus\Xml\Exception\NamespaceNotRegisteredException;
 
 class XmlReader
 {
-    /** @var DOMXPath */
-    private $xpath;
-
+    private DOMXPath $xpath;
     /** @var array<string, string> */
-    private $namespacePrefixes = [];
+    private array $namespacePrefixes = [];
 
     /**
-     * @param string $xml
      * @param array<string, string> $namespaces
      *
      * @throws EmptyResponseException
@@ -36,10 +33,6 @@ class XmlReader
     }
 
     /**
-     * @param string $xml
-     *
-     * @return DOMXPath
-     *
      * @throws EmptyResponseException
      * @throws InvalidResponseContentException
      */
@@ -64,10 +57,6 @@ class XmlReader
         }
     }
 
-    /**
-     * @param string $prefix
-     * @param string $namespace
-     */
     public function registerNamespace(string $prefix, string $namespace): void
     {
         $this->xpath->registerNamespace($prefix, $namespace);
@@ -75,10 +64,6 @@ class XmlReader
     }
 
     /**
-     * @param string $namespace
-     *
-     * @return string
-     *
      * @throws NamespaceNotRegisteredException
      */
     public function getNamespacePrefix(string $namespace): string
@@ -93,9 +78,6 @@ class XmlReader
     }
 
     /**
-     * @param string $xml
-     * @return DOMDocument
-     *
      * @throws InvalidResponseContentException
      */
     private function createDomDocument(string $xml): DOMDocument
@@ -115,11 +97,9 @@ class XmlReader
     }
 
     /**
-     * @param string $query
-     *
-     * @return DOMNodeList<DOMElement>
-     *
      * @throws ElementNotFoundException
+     *
+     * @return DOMNodeList<DOMNode>
      */
     public function getElements(string $query): DOMNodeList
     {
@@ -132,11 +112,6 @@ class XmlReader
     }
 
     /**
-     * @param string $query
-     * @param int $index
-     *
-     * @return DOMNode
-     *
      * @throws ElementNotFoundException
      */
     public function getElement(string $query, int $index = 0): DOMNode
@@ -154,28 +129,18 @@ class XmlReader
         return $element;
     }
 
-    /**
-     * @param string $query
-     *
-     * @return bool
-     */
     public function hasElement(string $query): bool
     {
         try {
             $this->getElement($query);
 
             return true;
-        } catch (ElementNotFoundException $exception) {
+        } catch (ElementNotFoundException) {
             return false;
         }
     }
 
     /**
-     * @param string $query
-     * @param int $index
-     *
-     * @return string
-     *
      * @throws ElementNotFoundException
      */
     public function getElementValue(string $query, int $index = 0): string
@@ -184,12 +149,6 @@ class XmlReader
     }
 
     /**
-     * @param string $query
-     * @param string $attribute
-     * @param int $index
-     *
-     * @return string
-     *
      * @throws ElementNotFoundException
      */
     public function getElementAttribute(string $query, string $attribute, int $index = 0): string

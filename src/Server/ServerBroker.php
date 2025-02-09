@@ -8,9 +8,7 @@ use Gilek\Ewus\Request\Request;
 
 class ServerBroker implements ServerBrokerInterface
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function resolve(string $name): string
     {
         if ($name === Request::METHOD_CHECK_CWU) {

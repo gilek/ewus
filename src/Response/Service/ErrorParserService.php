@@ -23,8 +23,6 @@ class ErrorParserService
     private const NS_SOAP_PREFIX = 'soap';
 
     /**
-     * @param XmlReader $xmlReader
-     *
      * @throws ServerResponseException
      */
     public function throwErrorIfExist(XmlReader $xmlReader): void
@@ -37,11 +35,6 @@ class ErrorParserService
         $this->handleSoapError($xmlReader);
     }
 
-    /**
-     * @param XmlReader $xmlReader
-     *
-     * @return bool
-     */
     private function hasError(XmlReader $xmlReader): bool
     {
         $nsPrefix = $this->registerNsPrefix($xmlReader, Ns::SOAP, self::NS_SOAP_PREFIX);
@@ -49,11 +42,6 @@ class ErrorParserService
         return $xmlReader->hasElement('//' . $nsPrefix . ':Fault');
     }
 
-    /**
-     * @param XmlReader $xmlReader
-     *
-     * @throws ServerResponseException
-     */
     private function handleEwusError(XmlReader $xmlReader): void
     {
         $nsPrefix = $this->registerNsPrefix($xmlReader, Ns::COMMON, self::NS_COMMON_PREFIX);
@@ -77,9 +65,8 @@ class ErrorParserService
     }
 
     /**
-     * @param XmlReader $xmlReader
-     *
      * @throws ServerResponseException
+     * @throws ElementNotFoundException
      */
     private function handleSoapError(XmlReader $xmlReader): void
     {
@@ -94,13 +81,6 @@ class ErrorParserService
         throw new ServerResponseException($message);
     }
 
-    /**
-     * @param XmlReader $xmlReader
-     * @param string $namespace
-     * @param string $prefixCandidate
-     *
-     * @return string
-     */
     private function registerNsPrefix(XmlReader $xmlReader, string $namespace, string $prefixCandidate): string
     {
         try {
@@ -112,13 +92,9 @@ class ErrorParserService
         }
     }
 
-    /**
-     * @param string $code
-     *
-     * @return string
-     */
     private function mapCodeToExceptionClass(string $code): string
     {
+        // TODO match
         switch ($code) {
             case 'Client.InputException':
                 return InputException::class;

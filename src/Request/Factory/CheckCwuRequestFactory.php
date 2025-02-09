@@ -15,39 +15,20 @@ class CheckCwuRequestFactory
 {
     use WithSessionHeader;
 
-    /** @var XmlWriterFactory */
-    private $xmlWriterFactory;
+    private XmlWriterFactory $xmlWriterFactory;
+    private DateTimeFactory $dateTimeFactory;
 
-    /** @var DateTimeFactory */
-    private $dateTimeFactory;
-
-    /**
-     * @param XmlWriterFactory $xmlWriterFactory
-     * @param DateTimeFactory $dateTimeFactory
-     */
     public function __construct(XmlWriterFactory $xmlWriterFactory, DateTimeFactory $dateTimeFactory)
     {
         $this->xmlWriterFactory = $xmlWriterFactory;
         $this->dateTimeFactory = $dateTimeFactory;
     }
 
-    /**
-     * @param string $pesel
-     * @param Session $session
-     *
-     * @return Request
-     */
     public function create(Session $session, string $pesel): Request
     {
         return new Request(Request::METHOD_CHECK_CWU, $this->generateBody($session, $pesel));
     }
 
-    /**
-     * @param Session $session
-     * @param string $pesel
-     *
-     * @return string
-     */
     private function generateBody(Session $session, string $pesel): string
     {
         $xmlService = $this->xmlWriterFactory->create([

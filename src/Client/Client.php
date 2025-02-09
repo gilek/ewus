@@ -25,33 +25,15 @@ use Gilek\Ewus\Server\ServerBrokerInterface;
 
 class Client
 {
-    public const VERSION = '3';
+    public const VERSION = '4';
 
-    /** @var Credentials */
-    private $credentials;
+    private Credentials $credentials;
+    private ?Session $session;
+    private DriverInterface $driver;
+    private ServerBrokerInterface $serverBroker;
+    private RequestFactoryInterface $requestFactory;
+    private ResponseFactoryInterface $responseFactory;
 
-    /** @var Session */
-    private $session;
-
-    /** @var DriverInterface */
-    private $driver;
-
-    /** @var ServerBrokerInterface */
-    private $serverBroker;
-
-    /** @var RequestFactoryInterface */
-    private $requestFactory;
-
-    /** @var ResponseFactoryInterface */
-    private $responseFactory;
-
-    /**
-     * @param Credentials $credentials
-     * @param DriverInterface|null $driver
-     * @param ServerBrokerInterface|null $serverBroker
-     * @param RequestFactoryInterface|null $requestFactory
-     * @param ResponseFactoryInterface|null $responseFactory
-     */
     public function __construct(
         Credentials $credentials,
         ?DriverInterface $driver = null,
@@ -66,17 +48,13 @@ class Client
         $this->responseFactory = $responseFactory ?? new ResponseFactory();
     }
 
-    /**
-     * @return bool
-     */
+
     private function isAuthenticated(): bool
     {
         return $this->session !== null;
     }
 
     /**
-     * @return LoginResponse
-     *
      * @throws InvalidResponseException
      * @throws SoapOperationFailedException
      * @throws ServerResponseException
@@ -93,8 +71,6 @@ class Client
     }
 
     /**
-     * @return LogoutResponse
-     *
      * @throws ClientNotAuthenticatedException
      * @throws InvalidResponseException
      * @throws SoapOperationFailedException
@@ -113,10 +89,6 @@ class Client
     }
 
     /**
-     * @param string $newPassword
-     *
-     * @return ChangePasswordResponse
-     *
      * @throws InvalidResponseException
      * @throws SoapOperationFailedException
      * @throws ServerResponseException
@@ -135,10 +107,6 @@ class Client
     }
 
     /**
-     * @param string $pesel
-     *
-     * @return CheckCwuResponse
-     *
      * @throws InvalidResponseException
      * @throws SoapOperationFailedException
      * @throws ServerResponseException
@@ -157,10 +125,6 @@ class Client
     }
 
     /**
-     * @param Request $request
-     *
-     * @return string
-     *
      * @throws SoapOperationFailedException
      */
     private function doRequest(Request $request): string

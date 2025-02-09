@@ -20,16 +20,9 @@ class LoginResponseFactory
     private const NS_AUTH_PREFIX = 'auth';
     private const NS_COMMON_PREFIX = 'com';
 
-    /** @var XmlReaderFactory */
-    private $xmlReaderFactory;
+    private XmlReaderFactory $xmlReaderFactory;
+    private ErrorParserService $errorParserService;
 
-    /** @var ErrorParserService */
-    private $errorParserService;
-
-    /**
-     * @param XmlReaderFactory $xmlReaderFactory
-     * @param ErrorParserService $errorParserService
-     */
     public function __construct(XmlReaderFactory $xmlReaderFactory, ErrorParserService $errorParserService)
     {
         $this->xmlReaderFactory = $xmlReaderFactory;

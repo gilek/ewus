@@ -13,33 +13,19 @@ class LogoutRequestFactory
 {
     use WithSessionHeader;
 
-    /** @var XmlWriterFactory */
-    private $xmlWriterFactory;
+    private XmlWriterFactory $xmlWriterFactory;
 
-    /**
-     * @param XmlWriterFactory $xmlWriterFactory
-     */
     public function __construct(XmlWriterFactory $xmlWriterFactory)
     {
         $this->xmlWriterFactory = $xmlWriterFactory;
     }
 
-    /**
-     * @param Session $session
-     *
-     * @return Request
-     */
     public function create(Session $session): Request
     {
         return new Request(Request::METHOD_LOGOUT, $this->generateBody($session));
     }
 
-    /**
-     * @param Session $session
-     *
-     * @return string
-     */
-    private function generateBody(Session $session)
+    private function generateBody(Session $session): string
     {
         $xmlService = $this->xmlWriterFactory->create([
             Ns::SOAP => 'soapenv',

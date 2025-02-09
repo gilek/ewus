@@ -10,10 +10,8 @@ class XmlWriterFactory
 {
     /**
      * @param array<string, mixed> $namespaceMap
-     *
-     * @return Service
      */
-    public function create($namespaceMap = [])
+    public function create($namespaceMap = []): Service
     {
         $service = new Service();
         $service->namespaceMap = $namespaceMap;
