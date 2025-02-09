@@ -4,12 +4,17 @@ declare(strict_types=1);
 
 namespace Gilek\Ewus\Client;
 
+use Gilek\Ewus\Client\Exception\MissingCredentialsException;
+
 class Credentials
 {
     private readonly CredentialType $type;
     private readonly ?string $doctorId;
     private readonly ?string $providerId;
 
+    /**
+     * @throws MissingCredentialsException
+     */
     public function __construct(
         private readonly string $login,
         private readonly string $password,
@@ -17,7 +22,9 @@ class Credentials
         ?string $doctorId = null,
         ?string $providerId = null
     ) {
-        // TODO assertion identLek or $identSwd not empty
+        if ($doctorId === null && $providerId === null) {
+            throw new MissingCredentialsException('Missing one of: doctor ID, healthcare provider ID.');
+        }
 
         $this->type = ($doctorId !== null)
             ? CredentialType::DOCTOR
