@@ -6,30 +6,25 @@ namespace Gilek\Ewus\Client;
 
 class Credentials
 {
-    // TODO to enum
-    private const TYPE_LEK = 'LEK';
-    private const TYPE_SWD = 'SWD';
-
-    private readonly ?string $type;
-    private readonly ?string $idntLek;
-    private readonly ?string $idntSwd;
+    private readonly CredentialType $type;
+    private readonly ?string $doctorId;
+    private readonly ?string $providerId;
 
     public function __construct(
         private readonly string $login,
         private readonly string $password,
         private readonly string $domain,
-        ?string $idntLek = null,
-        ?string $idntSwd = null
+        ?string $doctorId = null,
+        ?string $providerId = null
     ) {
-        if ($idntLek !== null) {
-            $this->idntLek = $idntLek;
-            $this->type = self::TYPE_LEK;
-        }
+        // TODO assertion identLek or $identSwd not empty
 
-        if ($idntSwd !== null) {
-            $this->idntSwd = $idntSwd;
-            $this->type = self::TYPE_SWD;
-        }
+        $this->type = ($doctorId !== null)
+            ? CredentialType::DOCTOR
+            : CredentialType::SERVICE;
+
+        $this->doctorId = $doctorId;
+        $this->providerId = $providerId;
     }
 
     public function getLogin(): string
@@ -47,18 +42,18 @@ class Credentials
         return $this->domain;
     }
 
-    public function getType(): ?string
+    public function getType(): CredentialType
     {
         return $this->type;
     }
 
-    public function getIdntLek(): ?string
+    public function getDoctorId(): ?string
     {
-        return $this->idntLek;
+        return $this->doctorId;
     }
 
-    public function getIdntSwd(): ?string
+    public function getProviderId(): ?string
     {
-        return $this->idntSwd;
+        return $this->providerId;
     }
 }

@@ -20,18 +20,15 @@ trait WithCredentialItem
                 'domain',
                 sprintf('%02d', $credentials->getDomain())
             ),
+            $this->createCredentialItem($ns, 'type', $credentials->getType()->value)
         ];
 
-        if (null !== $type = $credentials->getType()) {
-            $items[] = $this->createCredentialItem($ns, 'type', $type);
+        if (null !== $doctorId = $credentials->getDoctorId()) {
+            $items[] = $this->createCredentialItem($ns, 'idntLek', $doctorId);
         }
 
-        if (null !== $idntLek = $credentials->getIdntLek()) {
-            $items[] = $this->createCredentialItem($ns, 'idntLek', (string) $idntLek);
-        }
-
-        if (null !== $idntSwd = $credentials->getIdntSwd()) {
-            $items[] = $this->createCredentialItem($ns, 'idntSwd', (string) $idntSwd);
+        if (null !== $providerId = $credentials->getProviderId()) {
+            $items[] = $this->createCredentialItem($ns, 'idntSwd', $providerId);
         }
 
         return $items;

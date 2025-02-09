@@ -18,7 +18,7 @@ class XmlReader
 {
     private readonly DOMXPath $xpath;
     /** @var array<string, string> */
-    private readonly array $namespacePrefixes;
+    private array $namespacePrefixes = [];
 
     /**
      * @param array<string, string> $namespaces

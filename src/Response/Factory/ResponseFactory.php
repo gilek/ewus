@@ -17,7 +17,7 @@ class ResponseFactory implements ResponseFactoryInterface
     private readonly XmlReaderFactory $xmlReaderFactory;
     private readonly ErrorParserServiceFactory $errorParserServiceFactory;
     private readonly DateTimeFactory $dateTimeFactory;
-    private ?ErrorParserService $errorParserService;
+    private ?ErrorParserService $errorParserService = null;
 
     public function __construct(
         ?XmlReaderFactory $xmlReaderFactory = null,

@@ -8,18 +8,15 @@ use Gilek\Ewus\Client\Client;
 use Gilek\Ewus\Client\Credentials;
 use Gilek\Ewus\Driver\NusoapDriver;
 use PHPStan\Testing\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 final class ClientTest extends TestCase
 {
-    /** @var Client */
-    private $sut;
+    private Client $sut;
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function setUp(): void
     {
-        parent::setUp();
         $this->sut = new Client(
             new Credentials('TEST', 'qwerty!@#', '01', null, '123456789'),
             new NusoapDriver(),
@@ -27,9 +24,7 @@ final class ClientTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_should_authenticate(): void
     {
         $loginResponse = $this->sut->login();
@@ -39,9 +34,7 @@ final class ClientTest extends TestCase
         $this->assertSame('Wylogowany', $logoutResponse->getReturnMessage());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_should_fetch_patient_info(): void
     {
         $pesel = '00081617627';
@@ -60,7 +53,7 @@ final class ClientTest extends TestCase
         $this->assertCount(1, $additionalInfo);
         $this->assertSame('IZOLACJA DOMOWA', $additionalInfo[0]->getCode());
         $this->assertSame(0, $additionalInfo[0]->getLevel());
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/^Pacjent podlega izolacji domowej do dnia [0-9]{2}-[0-9]{2}-[0-9]{4}$/',
             $additionalInfo[0]->getInformation()
         );

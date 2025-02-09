@@ -20,15 +20,11 @@ final class ChangePasswordRequestFactoryTest extends RequestFactoryTestCase
     private const SESSION_ID = 'sessionId';
     private const TOKEN = 'token';
 
-    /** @var ChangePasswordRequestFactory */
-    private $sut;
+    private ChangePasswordRequestFactory $sut;
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function setUp(): void
     {
-        parent::setUp();
         $this->sut = new ChangePasswordRequestFactory(new XmlWriterFactory());
     }
 

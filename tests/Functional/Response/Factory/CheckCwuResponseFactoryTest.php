@@ -17,18 +17,17 @@ use Gilek\Ewus\Response\PatientInformation;
 use Gilek\Ewus\Response\Service\ErrorParserService;
 use Gilek\Ewus\Test\Functional\WithXmlLoad;
 use Gilek\Ewus\Xml\Factory\XmlReaderFactory;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 final class CheckCwuResponseFactoryTest extends TestCase
 {
     use WithXmlLoad;
 
-    /** @var CheckCwuResponseFactory */
-    private $sut;
+    private CheckCwuResponseFactory $sut;
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();
@@ -39,13 +38,8 @@ final class CheckCwuResponseFactoryTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     * @dataProvider responseDataProvider
-     *
-     * @param string $xml
-     * @param CheckCwuResponse $expectedResponse
-     */
+    #[Test]
+    #[DataProvider('responseDataProvider')]
     public function is_should_create_correct_response(string $xml, CheckCwuResponse $expectedResponse): void
     {
         $this->assertEquals(
@@ -95,9 +89,6 @@ final class CheckCwuResponseFactoryTest extends TestCase
         ];
     }
 
-    /**
-     * @return CheckCwuResponse
-     */
     private function createInsuredPatientResponse(): CheckCwuResponse
     {
         return new CheckCwuResponse(
@@ -110,9 +101,6 @@ final class CheckCwuResponseFactoryTest extends TestCase
         );
     }
 
-    /**
-     * @return CheckCwuResponse
-     */
     private function createInsuredPatientWithDnResponse(): CheckCwuResponse
     {
         return new CheckCwuResponse(
@@ -125,9 +113,6 @@ final class CheckCwuResponseFactoryTest extends TestCase
         );
     }
 
-    /**
-     * @return CheckCwuResponse
-     */
     private function createInsuredPatientWithHomeIsolationResponse(): CheckCwuResponse
     {
         return new CheckCwuResponse(
@@ -147,9 +132,6 @@ final class CheckCwuResponseFactoryTest extends TestCase
         );
     }
 
-    /**
-     * @return CheckCwuResponse
-     */
     private function createInsuredPatientWithQuarantineResponse(): CheckCwuResponse
     {
         return new CheckCwuResponse(
@@ -169,9 +151,6 @@ final class CheckCwuResponseFactoryTest extends TestCase
         );
     }
 
-    /**
-     * @return CheckCwuResponse
-     */
     private function createPatientNotExistResponse(): CheckCwuResponse
     {
         return new CheckCwuResponse(
@@ -182,9 +161,6 @@ final class CheckCwuResponseFactoryTest extends TestCase
         );
     }
 
-    /**
-     * @return CheckCwuResponse
-     */
     private function createPatientWithAnnulledPeselResponse(): CheckCwuResponse
     {
         return new CheckCwuResponse(
@@ -195,9 +171,6 @@ final class CheckCwuResponseFactoryTest extends TestCase
         );
     }
 
-    /**
-     * @return CheckCwuResponse
-     */
     private function createUninsuredPatientResponse(): CheckCwuResponse
     {
         return new CheckCwuResponse(
@@ -210,9 +183,6 @@ final class CheckCwuResponseFactoryTest extends TestCase
         );
     }
 
-    /**
-     * @return Operation
-     */
     private function createOperation(): Operation
     {
         return new Operation(
@@ -221,21 +191,13 @@ final class CheckCwuResponseFactoryTest extends TestCase
         );
     }
 
-    /**
-     * @param string $dateTime
-     *
-     * @return DateTimeImmutable
-     */
     private function createDateTime(string $dateTime): DateTimeImmutable
     {
         return new DateTimeImmutable($dateTime, new DateTimeZone('Europe/Warsaw'));
     }
 
     /**
-     * @param InsuranceStatus $insuranceStatus
      * @param array<PatientInformation> $info
-     *
-     * @return Patient
      */
     private function createPatient(InsuranceStatus $insuranceStatus, array $info = []): Patient
     {

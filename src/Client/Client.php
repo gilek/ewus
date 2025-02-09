@@ -28,11 +28,11 @@ class Client
     public const VERSION = '4';
 
     private readonly Credentials $credentials;
-    private readonly ?Session $session;
     private readonly DriverInterface $driver;
     private readonly ServerBrokerInterface $serverBroker;
     private readonly RequestFactoryInterface $requestFactory;
     private readonly ResponseFactoryInterface $responseFactory;
+    private ?Session $session = null;
 
     public function __construct(
         Credentials $credentials,
