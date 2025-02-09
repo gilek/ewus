@@ -28,3 +28,4 @@ The code above is intended to:
 1. Fetch information about the person with PESEL number NNNNNNNNNNN.
 1. Return the response as `\Gilek\Ewus\Response\CheckCwuResponse` object.
 1. Logout of the eWUŚ system.
+
