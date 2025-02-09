@@ -2,4 +2,5 @@ runs:
   using: "composite"
   steps:
     - name: Composer
+      shell: bash
       run: composer install
