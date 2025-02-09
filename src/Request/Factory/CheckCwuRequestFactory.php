@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Gilek\Ewus\Request\Factory;
 
 use Gilek\Ewus\Client\Client;
-use Gilek\Ewus\Misc\Factory\DateTimeFactory;
+use Gilek\Ewus\Shared\Factory\DateTimeFactory;
 use Gilek\Ewus\Ns;
 use Gilek\Ewus\Request\Request;
 use Gilek\Ewus\Request\RequestMethod;

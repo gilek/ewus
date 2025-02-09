@@ -7,7 +7,7 @@ namespace Gilek\Ewus\Test\Functional\Response\Factory;
 use DateTimeImmutable;
 use DateTimeZone;
 use Generator;
-use Gilek\Ewus\Misc\Factory\DateTimeFactory;
+use Gilek\Ewus\Shared\Factory\DateTimeFactory;
 use Gilek\Ewus\Response\CheckCwuResponse;
 use Gilek\Ewus\Response\Factory\CheckCwuResponseFactory;
 use Gilek\Ewus\Response\InsuranceStatus;

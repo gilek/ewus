@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Gilek\Ewus\Test\Unit\Misc\Factory;
 
 use Generator;
-use Gilek\Ewus\Misc\Exception\InvalidDateException;
-use Gilek\Ewus\Misc\Factory\DateTimeFactory;
+use Gilek\Ewus\Shared\Exception\InvalidDateException;
+use Gilek\Ewus\Shared\Factory\DateTimeFactory;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;

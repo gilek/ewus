@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Gilek\Ewus\Response\Factory;
 
 use DOMElement;
-use Gilek\Ewus\Misc\Exception\InvalidDateException;
-use Gilek\Ewus\Misc\Factory\DateTimeFactory;
+use Gilek\Ewus\Shared\Exception\InvalidDateException;
+use Gilek\Ewus\Shared\Factory\DateTimeFactory;
 use Gilek\Ewus\Ns;
 use Gilek\Ewus\Response\CheckCwuResponse;
 use Gilek\Ewus\Response\Exception\EmptyResponseException;

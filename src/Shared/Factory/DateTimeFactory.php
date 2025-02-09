@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Gilek\Ewus\Misc\Factory;
+namespace Gilek\Ewus\Shared\Factory;
 
 use DateTimeImmutable;
-use Gilek\Ewus\Misc\Exception\InvalidDateException;
+use Gilek\Ewus\Shared\Exception\InvalidDateException;
 
 class DateTimeFactory
 {
