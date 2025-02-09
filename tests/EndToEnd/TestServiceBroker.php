@@ -9,7 +9,6 @@ use Gilek\Ewus\Server\ServerBrokerInterface;
 
 class TestServiceBroker implements ServerBrokerInterface
 {
-
     public function resolve(string $name): string
     {
         if ($name === Request::METHOD_CHECK_CWU) {
